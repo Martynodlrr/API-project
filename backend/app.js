@@ -6,47 +6,60 @@ const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { environment } = require('./config');
-const app = express();
+const { ValidationError } = require('sequelize');
 const routes = require('./routes');
 
-// Middleware
-app.use(morgan('dev'));
-app.use(cookieParser());
-app.use(express.json());
+const app = express();
 
-// Security Middleware
-if (environment === 'development') {
-  // Only allow CORS in development
-  app.use(cors());
-}
+const setupMiddleware = (app) => {
+  app.use(morgan('dev'));
+  app.use(cookieParser());
+  app.use(express.json());
 
-app.use(
-  helmet({
-    crossOriginResourcePolicy: { policy: 'cross-origin' },
-  })
-);
-
-app.use(
-  csurf({
-    cookie: {
-      secure: environment === 'production',
-      sameSite: environment === 'production' ? 'Lax' : false,
-      httpOnly: true,
-    },
-  })
-);
-
-app.use(routes);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  // Handle CSRF token errors
-  if (err.code === 'EBADCSRFTOKEN') {
-    res.status(403).json({ message: 'Invalid CSRF token' });
-  } else {
-    // Handle other errors
-    res.status(500).json({ message: 'Internal server error' });
+  if (environment === 'development') {
+    app.use(cors());
   }
-});
+
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    })
+  );
+
+  app.use(
+    csurf({
+      cookie: {
+        secure: environment === 'production',
+        sameSite: environment === 'production' ? 'Lax' : false,
+        httpOnly: true,
+      },
+    })
+  );
+
+  app.use(routes);
+};
+
+const handleNotFoundError = (_req, _res, next) => {
+  const err = new Error("The requested resource couldn't be found.");
+  err.title = "Resource Not Found";
+  err.errors = { message: "The requested resource couldn't be found." };
+  err.status = 404;
+  next(err);
+};
+
+const handleError = (err, _req, res, _next) => {
+  res.status(err.status || 500);
+  console.error(err);
+  res.json({
+    title: err.title || 'Server Error',
+    message: err.message,
+    errors: err.errors,
+    stack: environment === 'production' ? null : err.stack,
+  });
+};
+
+setupMiddleware(app);
+app.use(handleNotFoundError);
+app.use(handleError);
 
 module.exports = app;

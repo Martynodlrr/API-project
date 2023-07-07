@@ -19,10 +19,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    options = {
-      tableName: 'Users',
-    };
-
+    options.tableName = 'Users'
     await queryInterface.removeColumn('Users', 'firstName', options);
     await queryInterface.removeColumn('Users', 'lastName', options);
   }

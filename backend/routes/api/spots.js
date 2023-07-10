@@ -15,7 +15,11 @@ router.get('/current', async (req, res) => {
         const safeUser = {
             id: user.id,
         };
-        const Spots = await Spot.findByPk(user.id);
+        const Spots = await Spot.findAll({
+            where: {
+                ownerId: user.id
+            }
+        });
         return res.json({ Spots });
     }
     res.json();
@@ -69,7 +73,7 @@ router.post('/', async (req, res) => {
     }
 
     const length = Object.keys(errors).length;
-console.log(user.id)
+
     if (user) {
         try {
             spot = await Spot.create({ ownerId: user.id, address, city, state, country, lat, lng, name, description, price });
@@ -81,6 +85,7 @@ console.log(user.id)
             return res.status(400).json({ "message": "Bad Request", errors });
           }
     }
+    res.json()
 });
 
 module.exports = router;

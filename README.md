@@ -4,7 +4,7 @@
 
 ![db-schema]
 
-[db-schema]: ./images/example.png
+[db-schema]: ./images/airbnb-db-schema.png
 
 ## API Documentation
 

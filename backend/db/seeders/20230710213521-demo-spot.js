@@ -44,7 +44,7 @@ const data = [
     price: 200.00
   },
   {
-    ownerId: 1,
+    ownerId: 4,
     address: "1011 Fourth St",
     city: "Chicago",
     state: "Illinois",
@@ -56,7 +56,7 @@ const data = [
     price: 80.00
   },
   {
-    ownerId: 2,
+    ownerId: 5,
     address: "1213 Fifth St",
     city: "Houston",
     state: "Texas",

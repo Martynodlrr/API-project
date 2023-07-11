@@ -15,19 +15,19 @@ module.exports = {
         url: "https://example.com/image1.jpg"
       },
       {
-        reviewId: 1,
+        reviewId: 2,
         url: "https://example.com/image2.jpg"
       },
       {
-        reviewId: 2,
+        reviewId: 3,
         url: "https://example.com/image3.jpg"
       },
       {
-        reviewId: 2,
+        reviewId: 4,
         url: "https://example.com/image4.jpg"
       },
       {
-        reviewId: 3,
+        reviewId: 5,
         url: "https://example.com/image5.jpg"
       }
     ];

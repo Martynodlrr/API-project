@@ -31,14 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    reviewId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      references: {
-        model: 'Reviews',
-        key: 'id'
-      }
-    }
   }, {
     sequelize,
     modelName: 'ReviewImage',

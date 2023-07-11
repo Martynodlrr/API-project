@@ -30,13 +30,13 @@ module.exports = {
       },
       {
         spotId: 4,
-        userId: 2,
+        userId: 4,
         startDate: '2023-10-05',
         endDate: '2023-10-10'
       },
       {
         spotId: 5,
-        userId: 1,
+        userId: 5,
         startDate: '2023-11-15',
         endDate: '2023-11-20'
       },

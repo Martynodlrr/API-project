@@ -225,4 +225,70 @@ router.post('/', async (req, res) => {
   return res.status(401).json({ message: 'Invalid credentials' });
 });
 
+router.post('/:spotId/images', async (req, res) => {
+    const { user } = req;
+    const spotId = req.params.spotId;
+    const { url, preview } = req.body;
+
+    const spot = await Spot.findOne({ where: { id: spotId, ownerId: user.id } });
+
+    if (spot) {
+        const image = await SpotImage.create({ spotId, url, preview });
+        const { createdAt, updatedAt, spotId: excludedSpotId, ...imageData } = image.dataValues;
+
+        return res.json(imageData);
+      }
+
+    return res.status(404).json({ message: "Spot couldn't be found" });
+});
+
+router.put('/:spotId', async (req, res) => {
+    const { user } = req;
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+
+    if (user.id === parseInt(spotId)) {
+        if (spot) {
+            const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+            try {
+                await spot.update({ address, city, state, country, lat, lng, name, description, price });
+                const updatedSpot = await Spot.findByPk(spotId);
+
+                return res.json(updatedSpot);
+            } catch (err) {
+                const errors = [];
+
+                for (const key in err.errors) {
+                    errors.push(err.errors[key].message.slice(5));
+                }
+
+                return res.status(400).json({ message: 'Bad Request', errors });
+            }
+        }
+
+        return res.status(404).json({ message: "Spot couldn't be found" });
+    } else {
+
+        res.status(401).json({ message: 'Invalid credentials' });
+    }
+});
+
+router.delete('/:spotId', async (req, res) => {
+    const { user } = req;
+    const spotId = req.params.spotId;
+    const spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+
+    if (user.id === spot.ownerId) {
+        await spot.destroy();
+        return res.json({ message: 'Successfully deleted' });
+    }
+
+    res.status(401).json({ message: 'Invalid credentials' });
+});
+
 module.exports = router;

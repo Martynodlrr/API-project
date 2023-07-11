@@ -72,12 +72,7 @@ const data = [
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    try {
       await queryInterface.bulkInsert(options, data, { validate: true });
-    } catch(err) {
-      console.error(err);
-      throw err;
-    }
   },
 
   down: async (queryInterface, Sequelize) => {

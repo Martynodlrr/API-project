@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const { Sequelize } = require('sequelize');
+const { formatDate } = require('../../utils/helperFunc.js')
 
 const transformSpotData = async (spots) => {
   const spotData = [];
@@ -90,30 +91,62 @@ router.get('/', async (req, res) => {
 
 router.get('/current', async (req, res) => {
   const { user } = req;
-  if (user) {
-    const spot = await Spot.findByPk(user.id, {
-      include: [
-        {
-          model: SpotImage,
-          attributes: ['url'],
-        },
-        {
-          model: Review,
-          attributes: [
-            [Sequelize.fn('AVG', Sequelize.col('stars')), 'avgStars'],
-          ],
-        },
-      ],
-      group: ['Spot.id', 'SpotImages.id'],
-    });
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+  const spot = await Spot.findByPk(user.id, {
+    include: [
+      {
+        model: SpotImage,
+        attributes: ['url'],
+      },
+      {
+        model: Review,
+        attributes: [
+          [Sequelize.fn('AVG', Sequelize.col('stars')), 'avgStars'],
+        ],
+      },
+    ],
+    group: ['Spot.id', 'SpotImages.id'],
+  });
 
-    if (spot) {
-      const spotData = await transformSpotData([spot]);
-      return res.json({ Spots: spotData });
-    }
+  if (spot) {
+    const spotData = await transformSpotData([spot]);
+    return res.json({ Spots: spotData });
   }
 
-  return res.status(401).json({ message: 'Invalid credentials' });
+  res.json({ message: "no spots created for current user"});
+});
+
+router.get('/:id/reviews', async (req, res) => {
+  const { id } = req.params;
+
+  let reviews = await Review.findAll({
+    where: { spotId: id },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName'],
+      },
+      {
+        model: ReviewImage,
+        attributes: ['id', 'url'],
+      }
+    ],
+  });
+
+  if (!reviews.length) {
+    return res.status(404).json({ message: "Spot couldn't be found" });
+  }
+
+  reviews = reviews.map(review => review.toJSON());
+  reviews = reviews.map(review => {
+    review.createdAt = formatDate(review.createdAt);
+    review.updatedAt = formatDate(review.updatedAt);
+    return review;
+  });
+
+  res.json({ Reviews: reviews });
 });
 
 router.get('/:spotId', async (req, res) => {
@@ -245,6 +278,55 @@ router.post('/:spotId/images', async (req, res) => {
 
   }
   return res.status(404).json({ message: "Spot couldn't be found" });
+});
+
+router.post('/:spotId/reviews', async (req, res) => {
+  const spotId = parseInt(req.params.spotId, 10);
+  const { user } = req;
+  const { review, stars } = req.body;
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found"
+    });
+  }
+
+  if (!user) {
+    return res.status(401).json({
+      "message": "Authentication required"
+    });
+  }
+
+  const existingReview = await Review.findOne({ where: { userId: user.id, spotId } });
+
+  if (existingReview) {
+    res.status(500).json({ message: "User already has a review for this spot" });
+    return;
+  }
+
+  try {
+    const newReview = await Review.create({
+      userId: user.id,
+      spotId,
+      review,
+      stars
+    });
+    return res.status(201).json(newReview);
+  } catch (err) {
+    const errors = [];
+    
+    for (const key in err.errors) {
+      if (err.errors[key].message.startsWith('Review')) {
+        errors.push(err.errors[key].message.slice(7));
+      } else {
+        errors.push(err.errors[key].message);
+      }
+    }
+
+    return res.status(400).json({ errors });
+  }
 });
 
 router.put('/:spotId', async (req, res) => {

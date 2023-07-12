@@ -51,8 +51,8 @@ Returns the information about the current user that is logged in.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: `/session`
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -92,16 +92,16 @@ information.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: `/session`
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "credential": "john.smith@gmail.com",
-      "password": "secret password"
+    "credential": "demo@user.io",
+    "password": "password"
     }
     ```
 
@@ -115,10 +115,10 @@ information.
     {
       "user": {
         "id": 1,
-        "firstName": "John",
-        "lastName": "Smith",
-        "email": "john.smith@gmail.com",
-        "username": "JohnSmith"
+        "firstName": "Demo",
+        "lastName": "User",
+        "email": "demo@user.io",
+        "username": "Demo-lition"
       }
     }
     ```
@@ -158,19 +158,19 @@ user's information.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: `/users`
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith@gmail.com",
-      "username": "JohnSmith",
-      "password": "secret password"
+      "firstName": "Demo",
+      "lastName": "User",
+      "email": "demo@user.io",
+      "username": "Demo-lition",
+      "password": "password"
     }
     ```
 
@@ -184,10 +184,10 @@ user's information.
     {
       "user": {
         "id": 1,
-        "firstName": "John",
-        "lastName": "Smith",
-        "email": "john.smith@gmail.com",
-        "username": "JohnSmith"
+        "firstName": "Demo",
+        "lastName": "User",
+        "email": "demo@user.io",
+        "username": "Demo-lition"
       }
     }
     ```
@@ -248,8 +248,8 @@ Returns all the spots.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: `/spots`
   * Body: none
 
 * Successful Response
@@ -260,23 +260,23 @@ Returns all the spots.
 
     ```json
     {
-      "Spots": [
+    "Spots": [
         {
-          "id": 1,
-          "ownerId": 1,
-          "address": "123 Disney Lane",
-          "city": "San Francisco",
-          "state": "California",
-          "country": "United States of America",
-          "lat": 37.7645358,
-          "lng": -122.4730327,
-          "name": "App Academy",
-          "description": "Place where web developers are created",
-          "price": 123,
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "avgRating": 4.5,
-          "previewImage": "image url"
+            "id": 1,
+            "ownerId": 1,
+            "address": "123 First St",
+            "city": "San Francisco",
+            "state": "California",
+            "country": "United States",
+            "lat": 37.7749295,
+            "lng": -122.4194183,
+            "name": "First Spot",
+            "description": "This is the first spot",
+            "price": 100,
+            "createdAt": "2023-07-12 01:59:13",
+            "updatedAt": "2023-07-12 01:59:13",
+            "avgRating": 5,
+            "previewImage": "https://example.com/image1.jpg"
         }
       ]
     }
@@ -288,8 +288,8 @@ Returns all the spots owned (created) by the current user.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: `/spots/current`
   * Body: none
 
 * Successful Response
@@ -300,25 +300,25 @@ Returns all the spots owned (created) by the current user.
 
     ```json
     {
-      "Spots": [
+    "Spots": [
         {
-          "id": 1,
-          "ownerId": 1,
-          "address": "123 Disney Lane",
-          "city": "San Francisco",
-          "state": "California",
-          "country": "United States of America",
-          "lat": 37.7645358,
-          "lng": -122.4730327,
-          "name": "App Academy",
-          "description": "Place where web developers are created",
-          "price": 123,
-          "createdAt": "2021-11-19 20:39:36",
-          "updatedAt": "2021-11-19 20:39:36",
-          "avgRating": 4.5,
-          "previewImage": "image url"
+            "id": 1,
+            "ownerId": 1,
+            "address": "123 First St",
+            "city": "San Francisco",
+            "state": "California",
+            "country": "United States",
+            "lat": 37.7749295,
+            "lng": -122.4194183,
+            "name": "First Spot",
+            "description": "This is the first spot",
+            "price": 100,
+            "createdAt": "2023-07-12 01:59:13",
+            "updatedAt": "2023-07-12 01:59:13",
+            "avgRating": 5,
+            "previewImage": "https://example.com/image1.jpg"
         }
-      ]
+    ]
     }
     ```
 
@@ -328,8 +328,8 @@ Returns the details of a spot specified by its id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: `/spots/:spotId`
   * Body: none
 
 * Successful Response
@@ -340,38 +340,33 @@ Returns the details of a spot specified by its id.
 
     ```json
     {
-      "id": 1,
-      "ownerId": 1,
-      "address": "123 Disney Lane",
-      "city": "San Francisco",
-      "state": "California",
-      "country": "United States of America",
-      "lat": 37.7645358,
-      "lng": -122.4730327,
-      "name": "App Academy",
-      "description": "Place where web developers are created",
-      "price": 123,
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36" ,
-      "numReviews": 5,
-      "avgStarRating": 4.5,
-      "SpotImages": [
-        {
-          "id": 1,
-          "url": "image url",
-          "preview": true
-        },
-        {
-          "id": 2,
-          "url": "image url",
-          "preview": false
-        }
-      ],
-      "Owner": {
+    "Spots": {
         "id": 1,
-        "firstName": "John",
-        "lastName": "Smith"
-      }
+        "ownerId": 1,
+        "address": "123 First St",
+        "city": "San Francisco",
+        "state": "California",
+        "country": "United States",
+        "lat": 37.7749295,
+        "lng": -122.4194183,
+        "name": "First Spot",
+        "description": "This is the first spot",
+        "price": 100,
+        "numReviews": 1,
+        "avgStarRating": 5,
+        "SpotImages": [
+            {
+                "id": 1,
+                "url": "https://example.com/image1.jpg",
+                "preview": true
+            }
+        ],
+        "Owner": {
+            "id": 1,
+            "firstName": "Demo",
+            "lastName": "User"
+        }
+    }
     }
     ```
 
@@ -393,8 +388,8 @@ Creates and returns a new spot.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: `/spots`
   * Headers:
     * Content-Type: application/json
   * Body:

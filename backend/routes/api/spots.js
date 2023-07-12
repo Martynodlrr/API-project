@@ -92,7 +92,7 @@ router.get('/', async (req, res) => {
 router.get('/current', async (req, res) => {
   const { user } = req;
   if (!user) {
-    return res.status(401).json({ message: 'Invalid credentials' });
+    return res.status(401).json({ "message": 'Invalid credentials' });
   }
   const spot = await Spot.findByPk(user.id, {
     include: [
@@ -115,7 +115,7 @@ router.get('/current', async (req, res) => {
     return res.json({ Spots: spotData });
   }
 
-  res.json({ message: "no spots created for current user"});
+  res.json({ "message": "no spots created for current user"});
 });
 
 router.get('/:id/reviews', async (req, res) => {
@@ -136,7 +136,7 @@ router.get('/:id/reviews', async (req, res) => {
   });
 
   if (!reviews.length) {
-    return res.status(404).json({ message: "Spot couldn't be found" });
+    return res.status(404).json({ "message": "Spot couldn't be found" });
   }
 
   reviews = reviews.map(review => review.toJSON());
@@ -201,7 +201,7 @@ console.log(spot)
     return res.json(spotData);
   } catch {
     res.status(404).json({
-      message: "Spot couldn't be found",
+      "message": "Spot couldn't be found",
     });
   }
 });
@@ -241,7 +241,7 @@ router.post('/', async (req, res) => {
     }
   }
 
-  return res.status(401).json({ message: 'Invalid credentials' });
+  return res.status(401).json({ "message": 'Invalid credentials' });
 });
 
 router.post('/:spotId/images', async (req, res) => {
@@ -253,7 +253,7 @@ router.post('/:spotId/images', async (req, res) => {
   const spot = await Spot.findOne({ where: { id: spotId } });
 
   if (spot && spot.ownerId !== user.id) {
-    return res.status(401).json({ message: 'Invalid credentials' });
+    return res.status(401).json({ "message": 'Invalid credentials' });
   }
 
   if (spot) {
@@ -277,7 +277,7 @@ router.post('/:spotId/images', async (req, res) => {
     }
 
   }
-  return res.status(404).json({ message: "Spot couldn't be found" });
+  return res.status(404).json({ "message": "Spot couldn't be found" });
 });
 
 router.post('/:spotId/reviews', async (req, res) => {
@@ -289,7 +289,7 @@ router.post('/:spotId/reviews', async (req, res) => {
 
   if (!spot) {
     return res.status(404).json({
-      message: "Spot couldn't be found"
+      "message": "Spot couldn't be found"
     });
   }
 
@@ -302,7 +302,7 @@ router.post('/:spotId/reviews', async (req, res) => {
   const existingReview = await Review.findOne({ where: { userId: user.id, spotId } });
 
   if (existingReview) {
-    res.status(500).json({ message: "User already has a review for this spot" });
+    res.status(500).json({ "message": "User already has a review for this spot" });
     return;
   }
 
@@ -316,7 +316,7 @@ router.post('/:spotId/reviews', async (req, res) => {
     return res.status(201).json(newReview);
   } catch (err) {
     const errors = [];
-    
+
     for (const key in err.errors) {
       if (err.errors[key].message.startsWith('Review')) {
         errors.push(err.errors[key].message.slice(7));
@@ -354,10 +354,10 @@ router.put('/:spotId', async (req, res) => {
       }
     }
 
-    res.status(401).json({ message: 'Invalid credentials' });
+    res.status(401).json({ "message": 'Invalid credentials' });
   } else {
 
-    return res.status(404).json({ message: "Spot couldn't be found" });
+    return res.status(404).json({ "message": "Spot couldn't be found" });
   }
 });
 
@@ -367,15 +367,15 @@ router.delete('/:spotId', async (req, res) => {
     const spot = await Spot.findByPk(spotId);
 
     if (!spot) {
-      return res.status(404).json({ message: "Spot couldn't be found" });
+      return res.status(404).json({ "message": "Spot couldn't be found" });
     }
 
     if (user.id === spot.ownerId) {
         await spot.destroy();
-        return res.json({ message: 'Successfully deleted' });
+        return res.json({ "message": 'Successfully deleted' });
     }
 
-    res.status(401).json({ message: 'Invalid credentials' });
+    res.status(401).json({ "message": 'Invalid credentials' });
 });
 
 module.exports = router;

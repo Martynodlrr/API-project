@@ -2,8 +2,20 @@
 const {
   Model
 } = require('sequelize');
+
+const { formatDate } = require('../../utils/helperFunc.js');
+
 module.exports = (sequelize, DataTypes) => {
   class ReviewImage extends Model {
+    toJSON() {
+      let obj = { ...this.get() };
+
+      obj.createdAt = formatDate(this.createdAt);
+      obj.updatedAt = formatDate(this.updatedAt);
+
+      return obj;
+    }
+
     static associate(models) {
       ReviewImage.belongsTo(models.Review, {
         foreignKey: 'reviewId'

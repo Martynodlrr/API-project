@@ -2,8 +2,36 @@
 const {
   Model
 } = require('sequelize');
+
+function formatDate(date) {
+  let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear(),
+      hour = d.getHours(),
+      minute = d.getMinutes(),
+      second = d.getSeconds();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+  if (hour.length < 2) hour = '0' + hour;
+  if (minute.length < 2) minute = '0' + minute;
+  if (second.length < 2) second = '0' + second;
+
+  return [year, month, day].join('-') + ' ' + [hour, minute, second].join(':');
+}
+
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
+    toJSON() {
+      let obj = { ...this.get() };
+
+      obj.createdAt = formatDate(this.createdAt);
+      obj.updatedAt = formatDate(this.updatedAt);
+
+      return obj;
+    }
+
     static associate(models) {
       Spot.belongsTo(models.User, {
         foreignKey: 'ownerId'
@@ -65,8 +93,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      validate: {
+        len: {
+          args: [1, 50],
+          msg: "Name must be between 1 and 50 characters long."
+        }
+      }
     },
     description: {
       type: DataTypes.STRING
@@ -77,7 +111,10 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'Spot'
+    modelName: 'Spot',
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
   });
 
   return Spot;

@@ -69,7 +69,27 @@ const transformSpotData = async (spots) => {
 };
 
 router.get('/', async (req, res) => {
-  const Spots = await Spot.findAll({
+  const page = Number(req.query.page) || 1;
+  const size = Number(req.query.size) || 20;
+  const minLat = Number(req.query.minLat) || null;
+  const maxLat = Number(req.query.maxLat) || null;
+  const minLng = Number(req.query.minLng) || null;
+  const maxLng = Number(req.query.maxLng) || null;
+  const minPrice = Number(req.query.minPrice) || null;
+  const maxPrice = Number(req.query.maxPrice) || null;
+
+  if (page < 1 || page > 10) {
+    return res.status(400).json({ "page": "Page must be greater than or equal to 1 and less than or equal to 10" });
+  }
+
+  if (size < 1 || size > 20) {
+    return res.status(400).json({ "size": "Size must be greater than or equal to 1 and less than or equal to 20" });
+  }
+
+  const options = {
+    offset: (page - 1) * size,
+    limit: size,
+    where: {},
     include: [
       {
         model: SpotImage,
@@ -83,11 +103,19 @@ router.get('/', async (req, res) => {
       },
     ],
     group: ['Spot.id', 'SpotImages.id'],
-  });
+  };
 
+  if (minLat) options.where.lat = { [Op.gte]: minLat };
+  if (maxLat) options.where.lat = { ...options.where.lat, [Op.lte]: maxLat };
+  if (minLng) options.where.lng = { [Op.gte]: minLng };
+  if (maxLng) options.where.lng = { ...options.where.lng, [Op.lte]: maxLng };
+  if (minPrice) options.where.price = { [Op.gte]: minPrice };
+  if (maxPrice) options.where.price = { ...options.where.price, [Op.lte]: maxPrice };
+
+  const Spots = await Spot.findAll(options);
   const spotData = await transformSpotData(Spots);
 
-  res.json({ Spots: spotData });
+  res.json({ Spots: spotData, page, size });
 });
 
 router.get('/current', async (req, res) => {

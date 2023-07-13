@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { Booking, Spot, SpotImage } = require('../../db/models');
-const { Sequelize } = require('sequelize');
 const { formatDate } = require('../../utils/helperFunc.js');
 const { Op } = require('sequelize');
 
@@ -141,28 +140,28 @@ router.delete('/:bookingId', async (req, res) => {
     const { user } = req;
 
     if (!user) {
-      return res.status(401).json({ "message": "Authentication required" });
+        return res.status(401).json({ "message": "Authentication required" });
     }
 
     const booking = await Booking.findByPk(bookingId);
 
     if (!booking) {
-      return res.status(404).json({ "message": "Booking couldn't be found" });
+        return res.status(404).json({ "message": "Booking couldn't be found" });
     }
 
     const spot = await Spot.findByPk(booking.spotId);
 
     if (booking.userId !== user.id && spot.ownerId !== user.id) {
-      return res.status(403).json({ "message": "Booking doesn't belong to current user or spot owner" });
+        return res.status(403).json({ "message": "Booking doesn't belong to current user or spot owner" });
     }
 
     if (new Date() > new Date(booking.startDate)) {
-      return res.status(403).json({ "message": "Bookings that have been started can't be deleted" });
+        return res.status(403).json({ "message": "Bookings that have been started can't be deleted" });
     }
 
     await booking.destroy();
 
     return res.status(200).json({ "message": "Successfully deleted" });
-  });
+});
 
 module.exports = router;

@@ -6,6 +6,9 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 };
 
+let startDate = new Date(Date.UTC(2021, 10, 19));
+let endDate = new Date(Date.UTC(2023, 10, 20));
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -13,32 +16,33 @@ module.exports = {
       {
         spotId: 1,
         userId: 1,
-        startDate: '2023-07-01',
-        endDate: '2023-07-05'
+        startDate,
+        endDate
+
       },
       {
         spotId: 2,
         userId: 2,
-        startDate: '2023-08-10',
-        endDate: '2023-08-15'
+        startDate,
+        endDate
       },
       {
         spotId: 3,
         userId: 3,
-        startDate: '2023-09-20',
-        endDate: '2023-09-25'
+        startDate,
+        endDate
       },
       {
         spotId: 4,
         userId: 4,
-        startDate: '2023-10-05',
-        endDate: '2023-10-10'
+        startDate,
+        endDate
       },
       {
         spotId: 5,
         userId: 5,
-        startDate: '2023-11-15',
-        endDate: '2023-11-20'
+        startDate,
+        endDate
       },
     ], { validate: true });
   },

@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const { Sequelize } = require('sequelize');
-const { formatDate } = require('../../utils/helperFunc.js')
+const { formatDate } = require('../../utils/helperFunc.js');
+const { Op } = require('sequelize');
 
 const transformSpotData = async (spots) => {
   const spotData = [];
@@ -118,6 +119,54 @@ router.get('/current', async (req, res) => {
   res.json({ "message": "no spots created for current user"});
 });
 
+router.get('/:spotId/bookings', async (req, res) => {
+  const { spotId } = req.params;
+  const { user } = req;
+
+  if (!user) {
+    return res.status(401).json({ "message": 'Authentication required' });
+  }
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    return res.status(404).json({ "message": "Spot couldn't be found" });
+  }
+
+    const bookings = await Booking.findAll({
+      where: { spotId },
+      include: spot.ownerId === user.id ? { model: User, attributes: ['id', 'firstName', 'lastName'] } : [],
+    });
+
+    const formattedBookings = bookings.map(booking => {
+      if (booking.userId === user.id) {
+        let bookingData = {
+          id: booking.id,
+          spotId: booking.spotId,
+          userId: booking.userId,
+          startDate: formatDate(booking.startDate).slice(0, 10),
+          endDate: formatDate(booking.endDate).slice(0, 10),
+          createdAt: formatDate(booking.createdAt),
+          updatedAt: formatDate(booking.updatedAt),
+        };
+
+        if (booking.User) {
+          bookingData = { User: booking.User, ...bookingData };
+        }
+
+        return bookingData;
+      } else {
+        return {
+          spotId: booking.spotId,
+          startDate: formatDate(booking.startDate).slice(0, 10),
+          endDate: formatDate(booking.endDate).slice(0, 10),
+        };
+      }
+    });
+
+    return res.status(200).json({ Bookings: formattedBookings });
+});
+
 router.get('/:id/reviews', async (req, res) => {
   const { id } = req.params;
 
@@ -163,7 +212,6 @@ router.get('/:spotId', async (req, res) => {
       }
     ],
   });
-console.log(spot)
   try {
     const reviews = await Review.findAll({
       where: { spotId: spot.id }
@@ -225,7 +273,9 @@ router.post('/', async (req, res) => {
         description,
         price,
       });
+
       return res.status(201).json(spot);
+
     } catch (err) {
       const errors = [];
 
@@ -327,6 +377,71 @@ router.post('/:spotId/reviews', async (req, res) => {
 
     return res.status(400).json({ errors });
   }
+});
+
+router.post('/:spotId/bookings', async (req, res) => {
+  const { spotId } = req.params;
+  const { user, body } = req;
+  const { startDate, endDate } = body;
+
+  if (!user) {
+    return res.status(401).json({
+      "message": 'Authentication required'
+    });
+  }
+
+  const spot = await Spot.findByPk(spotId);
+
+  if (!spot) {
+    return res.status(404).json({
+      "message": "Spot couldn't be found"
+    });
+  }
+
+  if (spot.ownerId === user.id) {
+    return res.status(403).json({
+      "message": "Cannot book own spot"
+    });
+  }
+
+  if (new Date(startDate) >= new Date(endDate)) {
+    return res.status(400).json({ "endDate": "endDate cannot be on or before startDate" });
+  }
+
+  const existingBooking = await Booking.findOne({
+    where: {
+      spotId,
+      startDate: {
+        [Op.lte]: endDate
+      },
+      endDate: {
+        [Op.gte]: startDate
+      }
+    }
+  });
+
+  if (existingBooking) {
+    return res.status(403).json({
+      "message": "Sorry, this spot is already booked for the specified dates"
+    });
+  }
+
+  const newBooking = await Booking.create({
+    spotId,
+    userId: user.id,
+    startDate,
+    endDate,
+  });
+
+  return res.json({
+    id: newBooking.id,
+    spotId: newBooking.spotId,
+    userId: newBooking.userId,
+    startDate: formatDate(newBooking.startDate).slice(0, 10),
+    endDate: formatDate(newBooking.endDate).slice(0, 10),
+    createdAt: formatDate(newBooking.createdAt),
+    updatedAt: formatDate(newBooking.updatedAt)
+  });
 });
 
 router.put('/:spotId', async (req, res) => {

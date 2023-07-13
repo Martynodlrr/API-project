@@ -1,20 +1,14 @@
 function formatDate(date) {
-    let d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear(),
-        hour = '' + d.getHours(),
-        minute = '' + d.getMinutes(),
-        second = '' + d.getSeconds();
+  let d = new Date(date);
+  let year = d.getUTCFullYear();
+  let month = ("0" + (d.getUTCMonth() + 1)).slice(-2);
+  let day = ("0" + d.getUTCDate()).slice(-2);
+  let hour = ("0" + d.getUTCHours()).slice(-2);
+  let minute = ("0" + d.getUTCMinutes()).slice(-2);
+  let second = ("0" + d.getUTCSeconds()).slice(-2);
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    if (hour.length < 2) hour = '0' + hour;
-    if (minute.length < 2) minute = '0' + minute;
-    if (second.length < 2) second = '0' + second;
-
-    return [year, month, day].join('-') + ' ' + [hour, minute, second].join(':');
-};
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+}
 
 module.exports = {
   formatDate

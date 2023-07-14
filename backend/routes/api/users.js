@@ -8,8 +8,12 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     const { email, password, username, firstName, lastName } = req.body;
-    const hashedPassword = bcrypt.hashSync(password);
 
+    if (!password) {
+        res.status(400).json({"errors":"please provide a password"})
+    }
+
+    const hashedPassword = bcrypt.hashSync(password);
     try {
         const user = await User.create({ email, username, hashedPassword, firstName, lastName });
 
@@ -29,7 +33,7 @@ router.post('/', async (req, res) => {
 
     } catch (err) {
         const errors = [];
-        
+        console.log(err)
         for (const key in err.errors) {
             if (err.errors[key].message.startsWith('User')) {
                 errors.push(err.errors[key].message.slice(5));

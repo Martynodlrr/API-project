@@ -130,7 +130,7 @@ router.get('/current', async (req, res) => {
         model: Review,
       },
     ],
-    group: ['Spot.id'],
+    group: ['Spot.id', 'SpotImages.id', 'Reviews.id']
   });
 
   if (spot) {

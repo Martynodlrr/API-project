@@ -97,12 +97,9 @@ router.get('/', async (req, res) => {
       },
       {
         model: Review,
-        attributes: [
-          [Sequelize.fn('AVG', Sequelize.col('stars')), 'avgStars'],
-        ],
       },
     ],
-    group: ['Spot.id', 'SpotImages.id'],
+    group: ['Spot.id'],
   };
 
   if (minLat) options.where.lat = { [Op.gte]: minLat };
@@ -131,12 +128,9 @@ router.get('/current', async (req, res) => {
       },
       {
         model: Review,
-        attributes: [
-          [Sequelize.fn('AVG', Sequelize.col('stars')), 'avgStars'],
-        ],
       },
     ],
-    group: ['Spot.id', 'SpotImages.id'],
+    group: ['Spot.id'],
   });
 
   if (spot) {
@@ -144,7 +138,7 @@ router.get('/current', async (req, res) => {
     return res.json({ Spots: spotData });
   }
 
-  res.json({ "message": "no spots created for current user"});
+  res.json({ "message": "no spots created for current user" });
 });
 
 router.get('/:spotId/bookings', async (req, res) => {
@@ -195,11 +189,11 @@ router.get('/:spotId/bookings', async (req, res) => {
     return res.status(200).json({ Bookings: formattedBookings });
 });
 
-router.get('/:id/reviews', async (req, res) => {
-  const { id } = req.params;
+router.get('/:spotId/reviews', async (req, res) => {
+  const { spotId } = req.params;
 
   let reviews = await Review.findAll({
-    where: { spotId: id },
+    where: { spotId },
     include: [
       {
         model: User,
@@ -216,14 +210,34 @@ router.get('/:id/reviews', async (req, res) => {
     return res.status(404).json({ "message": "Spot couldn't be found" });
   }
 
-  reviews = reviews.map(review => review.toJSON());
-  reviews = reviews.map(review => {
-    review.createdAt = formatDate(review.createdAt);
-    review.updatedAt = formatDate(review.updatedAt);
-    return review;
+  let Reviews = reviews.map(review => {
+    let user = {
+      id: review.User.id,
+      firstName: review.User.firstName,
+      lastName: review.User.lastName
+    };
+
+    let reviewImages = review.ReviewImages.map(image => {
+      return {
+        id: image.id,
+        url: image.url
+      };
+    });
+
+    return {
+      id: review.id,
+      userId: review.userId,
+      spotId: review.spotId,
+      review: review.review,
+      stars: review.stars,
+      createdAt: formatDate(review.createdAt),
+      updatedAt: formatDate(review.updatedAt),
+      User: user,
+      ReviewImages: reviewImages
+    };
   });
 
-  res.json({ Reviews: reviews });
+  res.json({ Reviews });
 });
 
 router.get('/:spotId', async (req, res) => {
@@ -254,7 +268,7 @@ router.get('/:spotId', async (req, res) => {
       avgRating = totalStars / reviews.length;
     }
 
-    const spotData = {
+    const Spots = {
       id: spot.id,
       ownerId: spot.ownerId,
       address: spot.address,
@@ -266,15 +280,13 @@ router.get('/:spotId', async (req, res) => {
       name: spot.name,
       description: spot.description,
       price: spot.price,
-      createdAt: new Date(spot.createdAt).toISOString().slice(0, 19).replace('T', ' '),
-      updatedAt: new Date(spot.updatedAt).toISOString().slice(0, 19).replace('T', ' '),
       numReviews: reviews.length,
       avgStarRating: avgRating,
       SpotImages: spot.SpotImages,
       Owner: spot.User,
     };
 
-    return res.json(spotData);
+    return res.json({ Spots });
   } catch {
     res.status(404).json({
       "message": "Spot couldn't be found",

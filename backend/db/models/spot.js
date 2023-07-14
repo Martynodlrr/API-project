@@ -70,11 +70,31 @@ module.exports = (sequelize, DataTypes) => {
     },
     lat: {
       type: DataTypes.DECIMAL(10, 7),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        min: {
+          args: [-90],
+          msg: 'Latitude must be between -90 and 90 degrees.',
+        },
+        max: {
+          args: [90],
+          msg: 'Latitude must be between -90 and 90 degrees.',
+        }
+      }
     },
     lng: {
       type: DataTypes.DECIMAL(10, 7),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        min: {
+          args: [-180],
+          msg: 'Longitude must be between -180 and 180 degrees.',
+        },
+        max: {
+          args: [180],
+          msg: 'Longitude must be between -180 and 180 degrees.',
+        }
+      }
     },
     name: {
       type: DataTypes.STRING(50),

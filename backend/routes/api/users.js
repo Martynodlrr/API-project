@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-
+const { Op } = require('sequelize');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
@@ -11,6 +11,19 @@ router.post('/', async (req, res) => {
 
     if (!password) {
         res.status(400).json({"errors":"please provide a password"})
+    }
+
+    const existingUser = await User.findOne({
+        where: {
+            [Op.or]: [
+                { email: email },
+                { username: username }
+            ]
+        }
+    });
+
+    if (existingUser) {
+        return res.status(500).json({ "message": "user already exists" });
     }
 
     const hashedPassword = bcrypt.hashSync(password);
@@ -33,7 +46,7 @@ router.post('/', async (req, res) => {
 
     } catch (err) {
         const errors = [];
-        console.log(err)
+
         for (const key in err.errors) {
             if (err.errors[key].message.startsWith('User')) {
                 errors.push(err.errors[key].message.slice(5));

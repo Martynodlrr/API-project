@@ -140,7 +140,7 @@ router.get('/', async (req, res) => {
     offset: (page - 1) * size,
     limit: size,
     where: {},
-    order: ['id'],
+    order: [['id', 'ASC']], // Order by id in ascending order
     include: [
       {
         model: SpotImage,
@@ -160,10 +160,10 @@ router.get('/', async (req, res) => {
   if (minPrice) options.where.price = { [Op.gte]: minPrice };
   if (maxPrice) options.where.price = { ...options.where.price, [Op.lte]: maxPrice };
 
-  const Spots = await Spot.findAll(options);
-  const spotData = await transformSpotData(Spots);
+  const spots = await Spot.findAll(options);
+  const spotData = await transformSpotData(spots);
 
-  res.json({ Spots: spotData, page, size });
+  res.json({ spots: spotData, page, size });
 });
 
 router.get('/current', async (req, res) => {

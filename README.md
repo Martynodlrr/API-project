@@ -462,8 +462,8 @@ Create and return a new image for a spot specified by id.
 * Require Authentication: true
 * Require proper authorization: Spot must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: `/spots/:spotId/images`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -508,8 +508,8 @@ Updates and returns an existing spot.
 * Require Authentication: true
 * Require proper authorization: Spot must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: PUT
+  * URL: `/spots/spotId`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -594,8 +594,8 @@ Deletes an existing spot.
 * Require Authentication: true
 * Require proper authorization: Spot must belong to the current user
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: DELETE
+  * URL: `spots/:spotId`
   * Body: none
 
 * Successful Response
@@ -630,8 +630,8 @@ Returns all the reviews written by the current user.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: `/reviews/current`
   * Body: none
 
 * Successful Response
@@ -686,8 +686,8 @@ Returns all the reviews that belong to a spot specified by id.
 
 * Require Authentication: false
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: GET
+  * URL: `/spots/:spotId/reviews`
   * Body: none
 
 * Successful Response
@@ -741,8 +741,8 @@ Create and return a new review for a spot specified by id.
 
 * Require Authentication: true
 * Request
-  * Method: ?
-  * URL: ?
+  * Method: POST
+  * URL: `/spots/spotId/reviews`
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -750,7 +750,7 @@ Create and return a new review for a spot specified by id.
     ```json
     {
       "review": "This was an awesome spot!",
-      "stars": 5,
+      "stars": 5
     }
     ```
 
@@ -885,7 +885,7 @@ Update and return an existing review.
     ```json
     {
       "review": "This was an awesome spot!",
-      "stars": 5,
+      "stars": 5
     }
     ```
 

@@ -120,7 +120,10 @@ router.get('/current', async (req, res) => {
   if (!user) {
     return res.status(401).json({ "message": 'Invalid credentials' });
   }
-  const spot = await Spot.findByPk(user.id, {
+  const spot = await Spot.findAll({
+    where: {
+      ownerId: user.id
+    },
     include: [
       {
         model: SpotImage,

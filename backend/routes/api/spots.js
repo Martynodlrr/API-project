@@ -543,14 +543,12 @@ router.post('/:spotId/bookings', async (req, res) => {
 router.put('/:spotId', async (req, res) => {
   const { user } = req;
   const spotId = req.params.spotId;
-  const spot = await Spot.findByPk(parseInt(spotId));
-  console.log(spotId)
-  console.log(typeof spotId)
+  const spot = await Spot.findByPk(spotId);
 
   if (spot) {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    if (user.id === parseInt(spotId)) {
+    if (parseInt(user.id) === parseInt(spotId)) {
       try {
         await spot.update({ address, city, state, country, lat, lng, name, description, price });
         const updatedSpot = await Spot.findByPk(spotId);

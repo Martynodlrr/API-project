@@ -140,6 +140,7 @@ router.get('/', async (req, res) => {
     offset: (page - 1) * size,
     limit: size,
     where: {},
+    order: ['id'],
     include: [
       {
         model: SpotImage,

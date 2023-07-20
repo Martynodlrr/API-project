@@ -5,6 +5,56 @@ const { Sequelize } = require('sequelize');
 const { formatDate } = require('../../utils/helperFunc.js');
 const { Op } = require('sequelize');
 
+const transformSpotDataWithoutSpotId = (spots) => {
+  const spotData = spots.map(spot => {
+    const {
+      id,
+      ownerId,
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+      createdAt,
+      updatedAt,
+      SpotImages,
+      Reviews
+    } = spot;
+
+    let avgRating = null;
+    if (Reviews.length > 0) {
+      const totalStars = Reviews.reduce((acc, review) => acc + review.stars, 0);
+      avgRating = totalStars / Reviews.length;
+    }
+
+    const previewImage = SpotImages.length > 0 ? SpotImages[0].url : null;
+
+    return {
+      id,
+      ownerId,
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+      createdAt: new Date(createdAt).toISOString().slice(0, 19).replace('T', ' '),
+      updatedAt: new Date(updatedAt).toISOString().slice(0, 19).replace('T', ' '),
+      avgRating,
+      previewImage
+    };
+  });
+
+  return { Spots: spotData };
+};
+
 const transformSpotData = async (spots) => {
   const spotData = [];
 
@@ -120,7 +170,7 @@ router.get('/current', async (req, res) => {
   if (!user) {
     return res.status(401).json({ "message": 'Invalid credentials' });
   }
-  const spot = await Spot.findAll({
+  const spots = await Spot.findAll({
     where: {
       ownerId: user.id
     },
@@ -128,17 +178,19 @@ router.get('/current', async (req, res) => {
       {
         model: SpotImage,
         attributes: ['url'],
+        order: ['createdAt'],
       },
       {
         model: Review,
+        order: ['createdAt'],
       },
     ],
     group: ['Spot.id', 'SpotImages.id', 'Reviews.id']
   });
 
-  if (spot) {
-    const spotData = await transformSpotData([spot]);
-    return res.json({ Spots: spotData });
+  if (spots) {
+    const Spots = transformSpotDataWithoutSpotId(spots)
+    return res.json(Spots);
   }
 
   res.json({ "message": "no spots created for current user" });

@@ -72,8 +72,7 @@ const LoginFormPage = () => {
             </form>
             {errors.length > 0 && (
                 <div>
-                    <p>Errors:</p>
-                    <ul>
+                    <ul style={{ listStyle: 'none' }}>
                         {errors.map((error, index) => error ? (
                             <li key={index}>{error}</li>
                         ) : null)}

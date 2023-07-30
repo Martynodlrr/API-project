@@ -1,17 +1,24 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-
-import LoginFormPage from "./components/LoginFormPage/LoginFormPage";
+import LoginFormPage from "./components/LoginFormPage/LoginFormPage.js";
+import * as sessionActions from "./redux/session";
 
 function App() {
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+  }, [dispatch]);
+
   return (
-    <>
-      <h1>Hello from App</h1>
+    isLoaded && (
       <Switch>
-        <Route exact path='/login'>
-      <LoginFormPage />
+        <Route exact path="/login">
+          <LoginFormPage />
         </Route>
       </Switch>
-    </>
+    )
   );
 }
 

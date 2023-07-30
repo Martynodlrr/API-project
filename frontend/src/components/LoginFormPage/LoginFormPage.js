@@ -1,8 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { login } from '../../redux/session.js';
+import { login, restoreUser } from '../../redux/session.js';
+
+import "./loginForm.css";
 
 const LoginFormPage = () => {
     const dispatch = useDispatch();
@@ -28,6 +30,7 @@ const LoginFormPage = () => {
 
         try {
             await dispatch(login(formData));
+            await dispatch(restoreUser());
             setErrors([]);
             history.push('/');
 
@@ -43,6 +46,12 @@ const LoginFormPage = () => {
             setErrors(errorMessages);
         };
     };
+
+    useEffect(() => {
+        if (currentUser) {
+          history.push('/');
+        }
+      }, [currentUser, history]);
 
     return (
         <div>

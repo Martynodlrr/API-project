@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, Redirect } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { login, restoreUser } from '../../redux/session.js';
 
@@ -17,6 +17,12 @@ const LoginFormPage = () => {
     });
 
     const [errors, setErrors] = useState([]);
+
+    useEffect(() => {
+        return () => {
+            setErrors([]);
+        }
+    }, []);
 
     if (currentUser) return <Redirect to="/" />;
 

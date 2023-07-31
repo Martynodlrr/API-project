@@ -4,16 +4,16 @@ const SET_USER = "session/setUser";
 const REMOVE_USER = "session/removeUser";
 
 const setUser = (user) => {
-  return {
-    type: SET_USER,
-    payload: user,
-  };
+    return {
+        type: SET_USER,
+        payload: user,
+    };
 };
 
 const removeUser = () => {
-  return {
-    type: REMOVE_USER,
-  };
+    return {
+        type: REMOVE_USER,
+    };
 };
 
 export const login = user => async dispatch => {
@@ -26,8 +26,7 @@ export const login = user => async dispatch => {
     })
   });
   const data = await response.json();
-
-  if (data.ok) dispatch(setUser(data.user));
+  if (data.user) dispatch(setUser(data.user));
   return data;
 };
 
@@ -44,17 +43,12 @@ export const signup = user => async dispatch => {
       lastName,
       email,
       password,
-    }),
+    })
   });
 
-  if (response.ok) {
-    const payload = await response.json();
-    dispatch(setUser(payload.user));
-    return payload;
-  } else {
-    const data = await response.json();
-    return data;
-  }
+  const payload = await response.json();
+  if (response.ok) dispatch(setUser(payload.user));
+  return payload;
 };
 
 export const restoreUser = () => async dispatch => {
@@ -75,20 +69,20 @@ export const resetUser = () => async dispatch => {
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_USER:
-      return {
-        ...state,
-        user: action.payload,
-      };
-    case REMOVE_USER:
-      return {
-        ...state,
-        user: null,
-      };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case SET_USER:
+            return {
+                ...state,
+                user: action.payload,
+            };
+        case REMOVE_USER:
+            return {
+                ...state,
+                user: null,
+            };
+        default:
+            return state;
+    }
 };
 
 export default sessionReducer;

@@ -15,7 +15,7 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     if (password === confirmPassword) {
       setErrors({});
@@ -29,13 +29,23 @@ function SignupFormModal() {
         })
       )
         .then(res => {
-          console.log('what is res yo: ', res)
-          
+          if (res.errors) {
+            for (const error of res.errors) {
+              if (error.startsWith('Validation isEmail')) setErrors({ ...errors, emailValid: 'Invalid email' });
+              if (error.startsWith('email must be unique')) setErrors({ ...errors, uniqueEmail: 'Email is already in use' });
+              if (error.startsWith('Validation len on email failed')) setErrors({ ...errors, uniqueEmail: 'Email must be 3 - 256 characters long' });
+              if (error.startsWith('Validation len on username')) setErrors({ ...errors, userName: 'Username must be 4 - 30 characters long' });
+              if (error.startsWith('username must be unique')) setErrors({ ...errors, uniqueUsername: 'Username is already in use' });
+            }
+          } else {
+            closeModal();
+          }
         });
-    };
-    return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-    });
+    } else {
+      return setErrors({
+        confirmPassword: "Confirm Password field must be the same as the Password field"
+      });
+    }
   };
 
   return (
@@ -51,7 +61,8 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.emailValid && <p>{errors.emailValid}</p>}
+        {errors.uniqueEmail && <p>{errors.uniqueEmail}</p>}
         <label>
           Username
           <input
@@ -62,6 +73,7 @@ function SignupFormModal() {
           />
         </label>
         {errors.username && <p>{errors.username}</p>}
+        {errors.uniqueUsername && <p>{errors.uniqueUsername}</p>}
         <label>
           First Name
           <input
@@ -108,6 +120,6 @@ function SignupFormModal() {
       </form>
     </>
   );
-}
+};
 
 export default SignupFormModal;

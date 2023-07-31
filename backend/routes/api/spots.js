@@ -97,12 +97,11 @@ router.get('/', async (req, res) => {
       },
       {
         model: Review,
-        attributes: [
-          [Sequelize.fn('AVG', Sequelize.col('stars')), 'avgStars'],
-        ],
+        attributes: [],
+        group: ['Review.spotId'],
       },
     ],
-    group: ['Spot.id', 'SpotImages.id'],
+    group: ['Spot.id'],
   };
 
   if (minLat) options.where.lat = { [Op.gte]: minLat };

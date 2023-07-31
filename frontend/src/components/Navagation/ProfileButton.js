@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { useDispatch } from 'react-redux';
-import resetUser from '../../redux/session';
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+
+import * as sessionActions from '../../redux/session';
 import OpenModalMenuItem from './OpenModalMenuItem.js';
 import LoginFormModal from '../LoginFormModal/index.js';
 import SignupFormModal from '../SignupFormPage/SignupFormModal.js';
@@ -10,19 +11,13 @@ function ProfileButton({ user }) {
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
 
+
     const openMenu = () => {
-        if (showMenu) return;
-        setShowMenu(true);
+        setShowMenu(!showMenu);
     };
 
     useEffect(() => {
         if (!showMenu) return;
-
-        const closeMenu = (e) => {
-            if (!ulRef.current.contains(e.target)) {
-                setShowMenu(false);
-            }
-        };
 
         document.addEventListener('click', closeMenu);
 
@@ -31,15 +26,15 @@ function ProfileButton({ user }) {
 
     const closeMenu = () => setShowMenu(false);
 
-    const logout = (e) => {
+    const logout = e => {
         e.preventDefault();
-        dispatch(resetUser());
+        dispatch(sessionActions.resetUser());
         closeMenu();
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
-    return (
+    return showMenu ? (
         <>
             <button onClick={openMenu}>
                 <i className="fas fa-user-circle" />
@@ -58,19 +53,19 @@ function ProfileButton({ user }) {
                     <>
                         <OpenModalMenuItem
                             itemText="Log In"
-                            onItemClick={closeMenu}
                             modalComponent={<LoginFormModal />}
                         />
                         <OpenModalMenuItem
                             itemText="Sign Up"
-                            onItemClick={closeMenu}
                             modalComponent={<SignupFormModal />}
                         />
                     </>
                 )}
             </ul>
         </>
-    );
+    ) : <button onClick={openMenu}>
+        <i className="fas fa-user-circle" />
+    </button>
 };
 
 export default ProfileButton;

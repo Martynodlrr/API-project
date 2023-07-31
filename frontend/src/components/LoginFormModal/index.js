@@ -1,6 +1,6 @@
+import { useHistory, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { useHistory } from 'react-router-dom';
 
 import * as sessionActions from "../../redux/session";
 import { useModal } from "../../context/Modal";
@@ -16,7 +16,7 @@ function LoginFormModal() {
   const { closeModal } = useModal();
   const sessionUser = useSelector(state => state.session.user);
 
-  if (sessionUser) history.push('/');
+  if (sessionUser) return <Redirect to="/" />
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -27,6 +27,14 @@ function LoginFormModal() {
         setErrors(res);
       });
   };
+
+  const signInDemo = () => {
+    dispatch(sessionActions.login({
+        "credential": "demo@user.io",
+        "password": "password"
+    }));
+    closeModal();
+}
 
   return (
     <>
@@ -54,6 +62,7 @@ function LoginFormModal() {
           <p>{errors.message}</p>
         )}
         <button type="submit">Log In</button>
+        <button onClick={signInDemo}>Demo Sign In</button>
       </form>
     </>
   );

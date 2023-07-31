@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal.js";
 import * as sessionActions from "../../redux/session";
@@ -28,14 +28,11 @@ function SignupFormModal() {
           password,
         })
       )
-        .then(closeModal)
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) {
-            setErrors(data.errors);
-          }
+        .then(res => {
+          console.log('what is res yo: ', res)
+          
         });
-    }
+    };
     return setErrors({
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });

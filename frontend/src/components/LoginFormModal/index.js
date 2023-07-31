@@ -1,26 +1,30 @@
-import React, { useState } from "react";
-import login from "../../redux/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useHistory } from 'react-router-dom';
+
+import * as sessionActions from "../../redux/session";
 import { useModal } from "../../context/Modal";
+
 import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const sessionUser = useSelector(state => state.session.user);
 
-  const handleSubmit = (e) => {
+  if (sessionUser) history.push('/');
+
+  const handleSubmit = e => {
     e.preventDefault();
     setErrors({});
-    return dispatch(login({ credential, password }))
-      .then(closeModal)
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
+    return dispatch(sessionActions.login({ credential, password }))
+      .then(res => {
+        if (res.user) closeModal();
+        setErrors(res);
       });
   };
 
@@ -33,7 +37,7 @@ function LoginFormModal() {
           <input
             type="text"
             value={credential}
-            onChange={(e) => setCredential(e.target.value)}
+            onChange={e => setCredential(e.target.value)}
             required
           />
         </label>
@@ -42,17 +46,17 @@ function LoginFormModal() {
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.credential && (
-          <p>{errors.credential}</p>
+        {errors.message && (
+          <p>{errors.message}</p>
         )}
         <button type="submit">Log In</button>
       </form>
     </>
   );
-}
+};
 
 export default LoginFormModal;

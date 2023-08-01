@@ -17,8 +17,9 @@ function SignupFormModal() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    setErrors({});
+
     if (password === confirmPassword) {
-      setErrors({});
       return dispatch(
         sessionActions.signup({
           email,
@@ -31,11 +32,15 @@ function SignupFormModal() {
         .then(res => {
           if (res.errors) {
             for (const error of res.errors) {
-              if (error.startsWith('Validation isEmail')) setErrors({ ...errors, emailValid: 'Invalid email' });
-              if (error.startsWith('email must be unique')) setErrors({ ...errors, uniqueEmail: 'Email is already in use' });
-              if (error.startsWith('Validation len on email failed')) setErrors({ ...errors, uniqueEmail: 'Email must be 3 - 256 characters long' });
-              if (error.startsWith('Validation len on username')) setErrors({ ...errors, userName: 'Username must be 4 - 30 characters long' });
-              if (error.startsWith('username must be unique')) setErrors({ ...errors, uniqueUsername: 'Username is already in use' });
+              setErrors(prevErrors => {
+                if (error.startsWith('Validation isEmail')) return { ...prevErrors, emailValid: 'Invalid email' };
+                if (error.startsWith('email must be unique')) return { ...prevErrors, uniqueEmail: 'Email is already in use' };
+                if (error.startsWith('Validation len on email failed')) return { ...prevErrors, uniqueEmail: 'Email must be 3 - 256 characters long' };
+                if (error.startsWith('Validation len on username failed')) return { ...prevErrors, userName: 'Username must be 4 - 30 characters long' };
+                if (error.startsWith('username must be unique')) return { ...prevErrors, uniqueUsername: 'Username is already in use' };
+                if (error.startsWith('Cannot be an email.')) return { ...prevErrors, emailUsername: 'Username cannot be a email' };
+                return prevErrors;
+              });
             }
           } else {
             closeModal();
@@ -47,6 +52,7 @@ function SignupFormModal() {
       });
     }
   };
+    console.log(errors)
 
   return (
     <>
@@ -61,8 +67,7 @@ function SignupFormModal() {
             required
           />
         </label>
-        {errors.emailValid && <p>{errors.emailValid}</p>}
-        {errors.uniqueEmail && <p>{errors.uniqueEmail}</p>}
+        {errors.emailValid && <p>{errors.emailValid}</p> || errors.uniqueEmail && <p>{errors.uniqueEmail}</p>}
         <label>
           Username
           <input
@@ -74,6 +79,7 @@ function SignupFormModal() {
         </label>
         {errors.username && <p>{errors.username}</p>}
         {errors.uniqueUsername && <p>{errors.uniqueUsername}</p>}
+        {errors.emailUsername && <p>{errors.emailUsername}</p>}
         <label>
           First Name
           <input
@@ -116,7 +122,16 @@ function SignupFormModal() {
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={
+          !email ||
+          !username ||
+          !firstName ||
+          !lastName ||
+          !password ||
+          username.length < 4 ||
+          password.length < 6
+          }
+        >Sign Up</button>
       </form>
     </>
   );

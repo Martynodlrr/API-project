@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Switch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./redux/session.js";
 import Navigation from "./components/Navagation/index.js";
 
 import SpotsRender from './components/Spots/SpotsRender.js';
+import SingleSpotRender from './components/Spots/SingleSpotRender.js';
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
@@ -16,8 +18,14 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Switch></Switch>}
-      <SpotsRender />
+      {isLoaded && <Switch>
+        <Route exact path='/'>
+          <SpotsRender />
+        </Route>
+        <Route path='/spots/:id'>
+          <SingleSpotRender />
+        </Route>
+      </Switch>}
     </>
   );
 };

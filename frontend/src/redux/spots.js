@@ -18,18 +18,39 @@ const setSingleSpot = spot => {
 };
 
 export const loadSpots = () => async dispatch => {
-  const payload = await csrfFetch("/api/spots");
+  let page = 1;
+  let allSpots = {};
+
+  while (true) {
+    const payload = await csrfFetch(`/api/spots?page=${page}`);
+    const response = await payload.json();
+    const spots = response.Spots;
+
+    spots.forEach(spot => {
+      allSpots[spot.id] = spot;
+    });
+
+    if (spots.length !== 20) {
+      break;
+    }
+
+    page++;
+  }
+
+  dispatch(setAllSpot(allSpots));
+
+  return allSpots;
+};
+
+export const fetchSingleSpot = id => async dispatch => {
+  const payload = await csrfFetch(`/api/spots/${id}`);
   const response = await payload.json();
 
-  const normalizedSpots = response.Spots.reduce((acc, spot) => {
-    acc[spot.id] = spot;
-    return acc;
-  }, {});
+  console.log('what is response yo: ', response);
+  dispatch(setSingleSpot(response));
 
-  dispatch(setAllSpot(normalizedSpots));
-
-  return normalizedSpots;
-};
+  return response;
+}
 
 const initialState = {
   allSpots: {},

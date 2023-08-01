@@ -47,7 +47,7 @@ function LoginFormModal() {
             value={credential}
             onChange={e => setCredential(e.target.value)}
             required
-          />
+            />
         </label>
         <label>
           Password
@@ -56,12 +56,12 @@ function LoginFormModal() {
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
-          />
+            />
         </label>
         {errors.message && (
           <p>{errors.message}</p>
-        )}
-        <button type="submit">Log In</button>
+          )}
+        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
         <button onClick={signInDemo}>Demo Sign In</button>
       </form>
     </>

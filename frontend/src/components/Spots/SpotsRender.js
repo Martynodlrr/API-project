@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+import { renderAvgRating } from '../../HelperFuncs.js';
 import { loadSpots } from '../../redux/spots';
 
 import './SpotsRender.css';
@@ -22,11 +23,6 @@ function SpotsRender() {
     history.push(`/spots/${spot.id}`);
   };
 
-  const renderAvgRating = rating => {
-    const strRating = rating.toString();
-    return strRating.includes('.') ? strRating : `${rating}.0`;
-  };
-
   useEffect(() => {
     dispatch(loadSpots());
   }, [dispatch]);
@@ -36,8 +32,7 @@ function SpotsRender() {
       {allSpots.map(spot => (
         <div key={spot.id} title={spot.name} onClick={() => handleRedirect(spot)}>
           <img src={spot.previewImage} alt={spot.name} />
-          <h2>City: {spot.city}</h2>
-          <h2>State: {spot.state}</h2>
+          <h2>{spot.city}, {spot.state}</h2>
           {spot.avgRating ? <p>Average stars: <span className="star">&#9733;</span>{renderAvgRating(spot.avgRating)}</p> : <p>New</p>}
           <p>${spot.price} a night</p>
         </div>

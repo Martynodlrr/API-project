@@ -46,7 +46,6 @@ export const fetchSingleSpot = id => async dispatch => {
   const payload = await csrfFetch(`/api/spots/${id}`);
   const response = await payload.json();
 
-  console.log('what is response yo: ', response);
   dispatch(setSingleSpot(response));
 
   return response;

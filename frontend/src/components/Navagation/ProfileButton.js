@@ -1,7 +1,8 @@
+import * as sessionActions from '../../redux/session';
 import { useState, useEffect, useRef } from "react";
+import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 
-import * as sessionActions from '../../redux/session';
 import OpenModalMenuItem from './OpenModalMenuItem.js';
 import LoginFormModal from '../LoginFormModal/index.js';
 import SignupFormModal from '../SignupFormPage/SignupFormModal.js';
@@ -50,7 +51,7 @@ function ProfileButton({ user }) {
                             <li>Hello, {user.firstName}</li>
                             <li>{user.email}</li>
                             <li>
-                                <button onClick={logout}>Log Out</button>
+                                <button onClick={logout}><NavLink exact to="/">Log Out</NavLink></button>
                             </li>
                         </>
                     ) : (

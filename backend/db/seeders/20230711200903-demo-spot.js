@@ -636,14 +636,15 @@ const data = [
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-      await queryInterface.bulkInsert(options, data, { validate: true });
+    await queryInterface.bulkInsert(options, data, { validate: true });
   },
 
   down: async (queryInterface, Sequelize) => {
     const Op = Sequelize.Op;
     await queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ["First Spot", "Second Spot", "Third Spot", "Fourth Spot", "Fifth Spot", "Sixth Spot", "Seventh Spot", "Eighth Spot", "Ninth Spot", "Tenth Spot", "Eleventh Spot", "Twelfth Spot", "Thirteenth Spot", "Fourteenth Spot", "Fifteenth Spot", "Sixteenth Spot", "Seventeenth Spot", "Eighteenth Spot", "Nineteenth Spot", "Twentieth Spot", "Twenty-First Spot", "Twenty-Second Spot", "Twenty-Third Spot", "Twenty-Fourth Spot", "Twenty-Fifth Spot", "Twenty-Sixth Spot", "Twenty-Seventh Spot", "Twenty-Eighth Spot", "Twenty-Ninth Spot", "Thirtieth Spot", "Thirty-First Spot", "Thirty-Second Spot", "Thirty-Third Spot", "Thirty-Fourth Spot", "Thirty-Fifth Spot", "Thirty-Sixth Spot", "Thirty-Seventh Spot", "Thirty-Eighth Spot", "Thirty-Ninth Spot", "Fortieth Spot", "Forty-First Spot", "Forty-Second Spot", "Forty-Third Spot", "Forty-Fourth Spot", "Forty-Fifth Spot", "Forty-Sixth Spot", "Forty-Seventh Spot", "Forty-Eighth Spot", "Forty-Ninth Spot", "Fiftieth Spot", "Fifty-First Spot", "Fifty-Second Spot"]
-    }
+      name: {
+        [Op.in]: ["First Spot", "Second Spot", "Third Spot", "Fourth Spot", "Fifth Spot", "Sixth Spot", "Seventh Spot", "Eighth Spot", "Ninth Spot", "Tenth Spot", "Eleventh Spot", "Twelfth Spot", "Thirteenth Spot", "Fourteenth Spot", "Fifteenth Spot", "Sixteenth Spot", "Seventeenth Spot", "Eighteenth Spot", "Nineteenth Spot", "Twentieth Spot", "Twenty-First Spot", "Twenty-Second Spot", "Twenty-Third Spot", "Twenty-Fourth Spot", "Twenty-Fifth Spot", "Twenty-Sixth Spot", "Twenty-Seventh Spot", "Twenty-Eighth Spot", "Twenty-Ninth Spot", "Thirtieth Spot", "Thirty-First Spot", "Thirty-Second Spot", "Thirty-Third Spot", "Thirty-Fourth Spot", "Thirty-Fifth Spot", "Thirty-Sixth Spot", "Thirty-Seventh Spot", "Thirty-Eighth Spot", "Thirty-Ninth Spot", "Fortieth Spot", "Forty-First Spot", "Forty-Second Spot", "Forty-Third Spot", "Forty-Fourth Spot", "Forty-Fifth Spot", "Forty-Sixth Spot", "Forty-Seventh Spot", "Forty-Eighth Spot", "Forty-Ninth Spot", "Fiftieth Spot", "Fifty-First Spot", "Fifty-Second Spot"]
+      }
     }, {});
   }
 };

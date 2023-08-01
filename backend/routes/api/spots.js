@@ -212,7 +212,7 @@ router.get('/:id/reviews', async (req, res) => {
   });
 
   if (!reviews.length) {
-    return res.status(404).json({ "message": "Spot couldn't be found" });
+    return res.status(404).json({ "message": "No reviews" });
   }
 
   reviews = reviews.map(review => review.toJSON());

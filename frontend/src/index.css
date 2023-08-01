@@ -3,3 +3,16 @@
     background-color: black;
     color: white;
 } */
+html {
+    background-color: black;
+    color: white;
+}
+
+button {
+    color: black;
+    background-color: white;
+}
+
+label {
+    color: black;
+}

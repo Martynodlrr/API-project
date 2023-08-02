@@ -1,0 +1,12 @@
+img {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.star {
+    color: rgb(233, 233, 0);
+}
+
+.spots {
+    width: fit-content;
+}

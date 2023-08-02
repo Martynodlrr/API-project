@@ -148,6 +148,8 @@ router.get('/', async (req, res) => {
       },
       {
         model: Review,
+        attributes: [],
+        group: ['Review.spotId'],
       },
     ],
     group: ['Spot.id'],
@@ -263,7 +265,7 @@ router.get('/:spotId/reviews', async (req, res) => {
   });
 
   if (!reviews.length) {
-    return res.status(404).json({ "message": "Spot couldn't be found" });
+    return res.status(404).json({ "message": "No reviews" });
   }
 
   let Reviews = reviews.map(review => {

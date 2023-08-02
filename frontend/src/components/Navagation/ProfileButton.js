@@ -51,6 +51,9 @@ function ProfileButton({ user }) {
                             <li>Hello, {user.firstName}</li>
                             <li>{user.email}</li>
                             <li>
+                                <div id='lineBreak'></div>
+                                {/* <CreateSpot /> */}
+                                <div id='lineBreak'></div>
                                 <button onClick={logout}><NavLink exact to="/">Log Out</NavLink></button>
                             </li>
                         </>
@@ -64,12 +67,14 @@ function ProfileButton({ user }) {
                                 itemText="Sign Up"
                                 modalComponent={<SignupFormModal />}
                             />
+                            <div id='lineBreak'></div>
+                            {/* <CreateSpot /> */}
                         </>
                     )}
                 </ul>
             )}
         </>
     );
-}
+};
 
 export default ProfileButton;

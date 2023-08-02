@@ -15,16 +15,11 @@ function Navigation({ isLoaded }) {
           style={{ width: "102px", height: "32px" }}
         />
       </Link>
-      <ul>
-        <li>
-          <button><NavLink exact to="/">Home</NavLink></button>
-        </li>
+      < div className='meunButton'>
         {isLoaded && (
-          <li>
-            <ProfileButton user={sessionUser} />
-          </li>
+          <ProfileButton user={sessionUser} />
         )}
-      </ul>
+      </div>
     </div>
   );
 };

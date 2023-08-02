@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { renderAvgRating } from '../../HelperFuncs.js';
-import * as sessionActions from '../../redux/spots.js';
+import * as spotActions from '../../redux/spots.js';
 import ReviewsRender from '../Reviews/Reviews.js';
 
 function SingleSpotRender() {
@@ -22,7 +22,7 @@ function SingleSpotRender() {
     ));
 
     useEffect(() => {
-        dispatch(sessionActions.fetchSingleSpot(id));
+        dispatch(spotActions.fetchSingleSpot(id));
     }, [dispatch]);
 
     return spot ? (
@@ -35,10 +35,8 @@ function SingleSpotRender() {
             ))}
             <p>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>
             <p>Description: {spot.description}</p>
-            {spot.numReviews > 0 ? <p>Average stars: <span className="star">&#9733;</span>{renderAvgRating(spot.avgStarRating)}</p> : <p>New</p>}
             <p>${spot.price} a night</p>
-            <button onClick={() => alert("Feature coming soon")}>Reserve</button>
-            <ReviewsRender />
+            <ReviewsRender spotId={id} />
         </>
     ) : (
         <>Loading...</>

@@ -33,7 +33,11 @@ function SpotsRender() {
         <div key={spot.id} title={spot.name} onClick={() => handleRedirect(spot)}>
           <img src={spot.previewImage} alt={spot.name} />
           <h2>{spot.city}, {spot.state}</h2>
-          {spot.avgRating ? <p>Average stars: <span className="star">&#9733;</span>{renderAvgRating(spot.avgRating)}</p> : <p>New</p>}
+          {spot.avgRating ? <p>Average stars: <span className="star">&#9733; </span>{renderAvgRating(spot.avgRating)}</p> :
+            <p>
+              <span className="star">&#9733; </span>
+              New
+            </p>}
           <p>${spot.price} a night</p>
         </div>
       ))}

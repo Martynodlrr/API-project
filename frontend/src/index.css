@@ -16,3 +16,9 @@ button {
 label {
     color: black;
 }
+
+#lineBreak {
+    width: auto;
+    height: 2px;
+    background-color: white;
+}

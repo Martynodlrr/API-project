@@ -1,12 +1,19 @@
 import { csrfFetch } from "./csrf";
 
-const SET_ALLREVIEWS = "spots/setAllReviews";
-const SET_OWNREVIEW = "spots/setSingleReview";
+const SET_ALLREVIEWS = "reviews/setAllReviews";
+const RESET_ALLREVIEW = "reviews/resetAllReview";
+const SET_OWNREVIEW = "review/setSingleReview";
 
 const setAllReviews = reviews => {
   return {
     type: SET_ALLREVIEWS,
     payload: reviews,
+  };
+};
+
+const resetAllReviews = () => {
+  return {
+    type: RESET_ALLREVIEW,
   };
 };
 
@@ -18,23 +25,33 @@ const setOwnReview = review => {
 };
 
 export const loadReviews = spotId => async dispatch => {
-    const payload = await csrfFetch(`/spots/${spotId}/reviews`);
-    const response = await payload.json();
-    console.log('what is response yo: ', response);
+  const payload = await csrfFetch(`/api/spots/${spotId}/reviews`);
+  const response = await payload.json();
+  const { Reviews } = response;
+  const allReviews = {};
 
-    // dispatch(setAllReviews(allSpots));
+  if (Reviews) {
+    Reviews.forEach(review => {
+      allReviews[review.id] = review;
+    });
+    dispatch(setAllReviews(allReviews));
+  }
 
-    return response;
+  return allReviews;
+};
+
+export const resetReviews = () => async dispatch => {
+  dispatch(resetAllReviews());
+  return true;
 };
 
 export const fetchOwnReview = id => async dispatch => {
-  const payload = await csrfFetch('/reviews/current');
+  const payload = await csrfFetch('/api/reviews/current');
   const response = await payload.json();
 
-//   dispatch(setOwnReview(response));
-    console.log('what si response yo: ', response);
+  //   dispatch(setOwnReview(response));
   return response;
-}
+};
 
 const initialState = {
     spot: {},
@@ -48,6 +65,11 @@ const reviewsReducer = (state = initialState, action) => {
       return {
         ...state,
         spot: action.payload,
+      };
+    case RESET_ALLREVIEW:
+      return {
+        ...state,
+        spot: {},
       };
     case SET_OWNREVIEW:
       return {

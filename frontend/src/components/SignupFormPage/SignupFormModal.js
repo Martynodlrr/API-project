@@ -52,7 +52,6 @@ function SignupFormModal() {
       });
     }
   };
-    console.log(errors)
 
   return (
     <>
@@ -63,7 +62,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             required
           />
         </label>

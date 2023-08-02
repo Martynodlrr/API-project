@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import OpenModalMenuItem from './OpenModalMenuItem.js';
 import LoginFormModal from '../LoginFormModal/index.js';
 import SignupFormModal from '../SignupFormPage/SignupFormModal.js';
+import CreateSpot from '../Spots/CreateSpot.js';
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
@@ -47,16 +48,23 @@ function ProfileButton({ user }) {
             {showMenu && (
                 <ul className={ulClassName} ref={ulRef}>
                     {user ? (
-                        <>
+                        <ul>
                             <li>Hello, {user.firstName}</li>
                             <li>{user.email}</li>
                             <li>
-                                <div id='lineBreak'></div>
-                                {/* <CreateSpot /> */}
-                                <div id='lineBreak'></div>
+                                <div className='lineBreak'></div>
+                            </li>
+                            <OpenModalMenuItem
+                                itemText="Create a Spot"
+                                modalComponent={<CreateSpot />}
+                            />
+                            <li>
+                                <div className='lineBreak'></div>
+                            </li>
+                            <li>
                                 <button onClick={logout}><NavLink exact to="/">Log Out</NavLink></button>
                             </li>
-                        </>
+                        </ul>
                     ) : (
                         <>
                             <OpenModalMenuItem
@@ -67,8 +75,6 @@ function ProfileButton({ user }) {
                                 itemText="Sign Up"
                                 modalComponent={<SignupFormModal />}
                             />
-                            <div id='lineBreak'></div>
-                            {/* <CreateSpot /> */}
                         </>
                     )}
                 </ul>

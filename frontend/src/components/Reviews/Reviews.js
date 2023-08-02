@@ -14,7 +14,7 @@ const ReviewsRender = ({ spotId }) => {
         dispatch(reviewActions.resetReviews());
         dispatch(reviewActions.loadReviews(spotId));
     }, [dispatch, spotId]);
-console.log(sessionUser && sessionUser.id)
+
     return (
         <>
             {Object.keys(reviews).length > 0 ?

@@ -2,7 +2,8 @@ import { csrfFetch } from "./csrf";
 
 const SET_ALLREVIEWS = "reviews/setAllReviews";
 const RESET_ALLREVIEW = "reviews/resetAllReview";
-const SET_OWNREVIEW = "review/setSingleReview";
+const SET_OWNREVIEWS = "review/setSingleReview";
+const POST_REVIEW = 'review/postReview'
 
 const setAllReviews = reviews => {
   return {
@@ -17,9 +18,16 @@ const resetAllReviews = () => {
   };
 };
 
-const setOwnReview = review => {
+const setOwnReview = ownReviews => {
   return {
-    type: SET_OWNREVIEW,
+    type: SET_OWNREVIEWS,
+    payload: ownReviews,
+  };
+};
+
+const postReview = review => {
+  return {
+    type: POST_REVIEW,
     payload: review,
   };
 };
@@ -45,11 +53,38 @@ export const resetReviews = () => async dispatch => {
   return true;
 };
 
-export const fetchOwnReview = id => async dispatch => {
+export const loadOwnReviews = () => async dispatch => {
   const payload = await csrfFetch('/api/reviews/current');
   const response = await payload.json();
+  console.log(response)
 
-  //   dispatch(setOwnReview(response));
+  const { Reviews } = response;
+  const ownReviews = {};
+  if (Reviews && Reviews.length) {
+    Reviews.forEach(review => {
+      ownReviews[review.spotId] = review;
+    })
+    dispatch(setOwnReview(ownReviews));
+  };
+
+  return response;
+};
+
+export const thunkPostReveiw = review => async dispatch => {
+  const { review, stars, spotId } = review;
+
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ review, stars })
+  };
+
+  const payload = await csrfFetch(`/spots/${ spotId }/reviews`, options);
+  const response = await payload.json();
+
+console.log('what is response yo: ', response)
+
+    // dispatch(SET_OWNREVIEWS(response));
   return response;
 };
 
@@ -71,7 +106,7 @@ const reviewsReducer = (state = initialState, action) => {
         ...state,
         spot: {},
       };
-    case SET_OWNREVIEW:
+    case SET_OWNREVIEWS:
       return {
         ...state,
         user: action.payload,

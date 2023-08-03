@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const SET_ALLSPOT = "spots/setAllSpot";
 const SET_SINGLESPOT = "spots/setSingleSpot";
 const CREATE_SINGLESPOT = "spots/createSingleSpot";
+const SET_IMAGES = "spots/setImages";
 
 const setAllSpot = spots => {
   return {
@@ -22,6 +23,15 @@ const createSingleSpot = spot => {
   return {
     type: CREATE_SINGLESPOT,
     payload: spot,
+  };
+};
+
+const setImages = (images, sessionUser) => {
+  const { previewResponse, imagesResponses } = images;
+  const payload = [previewResponse, ...imagesResponses];
+  return {
+    type: SET_IMAGES,
+    payload: { images: payload, sessionUser },
   };
 };
 
@@ -59,6 +69,37 @@ export const fetchSingleSpot = id => async dispatch => {
   return response;
 }
 
+export const createImages = imagesData => async dispatch => {
+  const { spotId, previewImg, images, sessionUser } = imagesData;
+
+  const previewOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url: previewImg, preview: true })
+  };
+  const previewPayload = await csrfFetch(`/api/spots/${spotId}/images`, previewOptions);
+  const previewResponse = await previewPayload.json();
+  const imagesResponses = [previewResponse];
+
+  if (images && images.length > 0) {
+    for (let imageUrl of images) {
+        const imageOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: imageUrl, preview: false })
+        };
+
+        const imagePayload = await csrfFetch(`/api/spots/${spotId}/images`, imageOptions);
+        const imageResponse = await imagePayload.json();
+
+        imagesResponses.push(imageResponse);
+      }
+    };
+
+    dispatch(setImages({ previewResponse, imagesResponses }, sessionUser));
+  return true;
+};
+
 export const createSpot = spot => async dispatch => {
   const options = {
     method: "POST",
@@ -70,9 +111,10 @@ export const createSpot = spot => async dispatch => {
 
   const payload = await csrfFetch('/api/spots', options);
   const response = await payload.json();
-  // if (payload.ok) {
-  //   dispatch(createSingleSpot(response));
-  // };
+  if (payload.ok) {
+    dispatch(createSingleSpot(response));
+    return { ...response, ok: true };
+  };
   return response;
 };
 
@@ -103,6 +145,15 @@ const spotsReducer = (state = initialState, action) => {
       return {
         ...state,
         singleSpot: action.payload,
+      };
+    case SET_IMAGES:
+      return {
+        ...state,
+        singleSpot: {
+          ...state.singleSpot,
+          SpotImages: action.payload.images,
+          Owner: action.payload.sessionUser
+        },
       };
     default:
       return state;

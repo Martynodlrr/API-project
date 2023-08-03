@@ -1,18 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { renderAvgRating } from '../../HelperFuncs.js';
+import OpenModalMenuItem from '../OpenModalButton/index.js';
+import LoginFormModal from '../LoginFormModal/index.js';
 import * as reviewActions from '../../redux/reviews.js';
+import { renderAvgRating } from '../../HelperFuncs.js';
 
 const ReviewsRender = ({ spotId }) => {
     const dispatch = useDispatch();
     const reviews = useSelector(state => state.reviews.spot);
+    const ownReviews = useSelector(state => state.reviews.user);
     const spot = useSelector(state => state.spots.singleSpot);
     const sessionUser = useSelector(state => state.session.user);
+    const spotReview = ownReviews[spotId];
 
     useEffect(() => {
         dispatch(reviewActions.resetReviews());
         dispatch(reviewActions.loadReviews(spotId));
+        dispatch(reviewActions.loadOwnReviews())
     }, [dispatch, spotId]);
 
     return (
@@ -27,8 +32,38 @@ const ReviewsRender = ({ spotId }) => {
                     New
                 </p>
             }
-            <button onClick={() => alert("Feature coming soon")}>Reserve</button>
-            <div id='lineBreak'></div>
+            {
+                sessionUser && sessionUser.id !== parseInt(spotId) ?
+                    <button onClick={() => alert("Feature coming soon")}>Reserve</button> :
+                    !sessionUser ?
+                <button className='menuButton'>
+                    <OpenModalMenuItem
+                    itemText="Log In to reserve"
+                    modalComponent={<LoginFormModal />}
+                    />
+                    </button> :
+            null
+            }
+            <div className='lineBreak'></div>
+
+            {Object.keys(sessionUser).length > 0 && sessionUser.id !== spot.Owner.id && !reviews ?
+                <>
+                    <h3>Be the first to post a review!</h3>
+                    <button className='menuButton'>
+                    <OpenModalMenuItem
+                    itemText="Post a review"
+                    modalComponent={<LoginFormModal />}
+                    />
+                    </button>
+                </> : (Object.keys(sessionUser).length > 0) && sessionUser.id !== spot.Owner.id && !spotReview ?
+                <button className='menuButton'>
+                <OpenModalMenuItem
+                itemText="Post a review"
+                modalComponent={<LoginFormModal />}
+                />
+                </button> : null
+            }
+
             {Object.keys(reviews).length > 0 ?
                 <div>
                     <h1>
@@ -44,15 +79,10 @@ const ReviewsRender = ({ spotId }) => {
                         </div>
                     ))}
                 </div> :
-                sessionUser && ( spot.ownerId === sessionUser.id ) ?
                 <h2>
                     <span className="star">&#9733; </span>
                     New
-                    </h2> :
-                    <>
-                        <h3>Be the first to post a review!</h3>
-                        <button>Post a Review</button>
-                    </>
+                </h2>
             }
         </>
     );

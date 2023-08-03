@@ -38,7 +38,7 @@ router.get('/current', async (req, res) => {
     });
 
     if (!reviews.length) {
-        return res.json({ "message": "no spots created for current user" });
+        return res.json({ "message": "no reviews for current user" });
     }
 
     reviews = reviews.map(review => review.toJSON());

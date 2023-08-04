@@ -3,22 +3,41 @@
     background-color: black;
     color: white;
 } */
-html {
-    background-color: black;
-    color: white;
-}
-
-button {
-    color: black;
-    background-color: white;
-}
-
-label {
-    color: black;
-}
-
-#lineBreak {
+.lineBreak {
     width: auto;
     height: 2px;
-    background-color: white;
+    background-color: black;
+}
+
+.lineBreakForm {
+    width: auto;
+    height: 2px;
+    background-color: black;
+}
+
+.Links a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+.menuButton {
+    list-style: none;
+}
+
+.Navlink {
+    text-decoration: none;
 }

@@ -1,15 +1,19 @@
-import * as sessionActions from '../../redux/session';
+import { NavLink, useHistory, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, useRef } from "react";
-import { NavLink } from "react-router-dom";
-import { useDispatch } from 'react-redux';
 
-import OpenModalMenuItem from './OpenModalMenuItem.js';
-import LoginFormModal from '../LoginFormModal/index.js';
-import SignupFormModal from '../SignupFormPage/SignupFormModal.js';
+import SignupFormModal from '../Modal/SessionModal/SignupFormPage/SignupFormModal.js';
+import LoginFormModal from '../Modal/SessionModal/LoginFormPage/LoginFormModal.js';
+import OpenModalMenuItem from '../Modal/OpenModalButton/OpenModalMenuItem.js';
+import * as sessionActions from '../../redux/session';
+import * as spotActions from '../../redux/spots.js';
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
     const [showMenu, setShowMenu] = useState(false);
+    const userSpotsObj = useSelector(state => state.spots.userSpots);
     const ulRef = useRef();
 
     const openMenu = () => {
@@ -17,7 +21,7 @@ function ProfileButton({ user }) {
     };
 
     useEffect(() => {
-        const closeMenu = (event) => {
+        const closeMenu = event => {
             if (ulRef.current && ulRef.current.contains(event.target)) {
                 return;
             }
@@ -31,32 +35,47 @@ function ProfileButton({ user }) {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
+    useEffect(() => {
+    }, [userSpotsObj]);
+
     const logout = e => {
         e.preventDefault();
         dispatch(sessionActions.resetUser());
+        dispatch(spotActions.thunkResetUserSpots());
         setShowMenu(false);
+        history.push('/');
     };
 
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
         <>
+            {
+                location.pathname === "/spots/current" && (
+                <NavLink to='/spots/new'>Create a Spot</NavLink>)
+            }
             <button onClick={openMenu}>
                 <i className="fas fa-user-circle" />
             </button>
             {showMenu && (
                 <ul className={ulClassName} ref={ulRef}>
                     {user ? (
-                        <>
+                        <ul>
                             <li>Hello, {user.firstName}</li>
                             <li>{user.email}</li>
                             <li>
-                                <div id='lineBreak'></div>
-                                {/* <CreateSpot /> */}
-                                <div id='lineBreak'></div>
-                                <button onClick={logout}><NavLink exact to="/">Log Out</NavLink></button>
+                                <div className='lineBreak'></div>
                             </li>
-                        </>
+                            <li className='Links'>
+                                <NavLink to='/spots/current' onClick={() => setShowMenu(false)}>Manage Spots</NavLink>
+                            </li>
+                            <li>
+                                <div className='lineBreak'></div>
+                            </li>
+                            <li>
+                                <button onClick={logout}>Log Out</button>
+                            </li>
+                        </ul>
                     ) : (
                         <>
                             <OpenModalMenuItem
@@ -67,8 +86,6 @@ function ProfileButton({ user }) {
                                 itemText="Sign Up"
                                 modalComponent={<SignupFormModal />}
                             />
-                            <div id='lineBreak'></div>
-                            {/* <CreateSpot /> */}
                         </>
                     )}
                 </ul>

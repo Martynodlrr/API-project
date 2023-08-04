@@ -5,7 +5,7 @@ import "./index.css";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { ModalProvider, Modal } from "./context/Modal.js";
+import { ModalProvider, Modal } from './components/Modal/context/Modal.js';
 import App from "./App";
 
 import configureStore from "./redux/index.js";

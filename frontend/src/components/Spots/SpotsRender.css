@@ -10,3 +10,7 @@ img {
 .spots {
     width: fit-content;
 }
+
+.createSpot {
+    max-height: 825px;
+}

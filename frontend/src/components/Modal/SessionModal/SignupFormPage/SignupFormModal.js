@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal.js";
-import * as sessionActions from "../../redux/session";
+import * as sessionActions from "../../../../redux/session.js";
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -52,7 +52,6 @@ function SignupFormModal() {
       });
     }
   };
-    console.log(errors)
 
   return (
     <>
@@ -63,7 +62,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             required
           />
         </label>

@@ -173,10 +173,16 @@ router.get('/current', async (req, res) => {
   if (!user) {
     return res.status(401).json({ "message": 'Invalid credentials' });
   }
+<<<<<<< HEAD
   const spots = await Spot.findAll({
     where: {
       ownerId: user.id
     },
+=======
+
+  const spots = await Spot.findAll({
+    where: { ownerId: user.id },
+>>>>>>> frontend
     include: [
       {
         model: SpotImage,
@@ -188,6 +194,7 @@ router.get('/current', async (req, res) => {
         order: ['createdAt'],
       },
     ],
+<<<<<<< HEAD
     group: ['Spot.id', 'SpotImages.id', 'Reviews.id']
   });
 
@@ -197,6 +204,20 @@ router.get('/current', async (req, res) => {
   }
 
   res.json({ "message": "no spots created for current user" });
+=======
+    group: ['Spot.id', 'SpotImages.id', 'Reviews.id'],
+  });
+
+  if (spots && spots.length > 0) {
+    const spotsData = spots.map(spot => {
+      spot.dataValues.created_at = formatDate(spot.dataValues.created_at);
+      return spot.dataValues;
+    });
+    return res.json({ Spots: spotsData });
+  }
+
+  res.status(404).json({ "message": "no spots created for current user" });
+>>>>>>> frontend
 });
 
 router.get('/:spotId/bookings', async (req, res) => {
@@ -550,7 +571,11 @@ router.put('/:spotId', async (req, res) => {
   if (spot) {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
+<<<<<<< HEAD
     if (user.id === parseInt(spot.ownerId)) {
+=======
+    if (user.id === spot.ownerId) {
+>>>>>>> frontend
       try {
         await spot.update({ address, city, state, country, lat, lng, name, description, price });
         const updatedSpot = await Spot.findByPk(spotId);
@@ -567,7 +592,7 @@ router.put('/:spotId', async (req, res) => {
       }
     }
 
-    res.status(401).json({ "message": 'Invalid credentials' });
+    return res.status(401).json({ "message": 'Invalid credentials' });
   } else {
 
     return res.status(404).json({ "message": "Spot couldn't be found" });
@@ -575,20 +600,24 @@ router.put('/:spotId', async (req, res) => {
 });
 
 router.delete('/:spotId', async (req, res) => {
-    const { user } = req;
-    const spotId = req.params.spotId;
-    const spot = await Spot.findByPk(spotId);
+  const { user } = req;
+  const spotId = req.params.spotId;
+  const spot = await Spot.findByPk(spotId);
 
-    if (!spot) {
-      return res.status(404).json({ "message": "Spot couldn't be found" });
-    }
+  if (!spot) {
+    return res.status(404).json({ "message": "Spot couldn't be found" });
+  }
 
-    if (user.id === spot.ownerId) {
-        await spot.destroy();
-        return res.json({ "message": 'Successfully deleted' });
-    }
+  if (user.id === spot.ownerId) {
+    await spot.destroy();
 
-    res.status(401).json({ "message": 'Invalid credentials' });
+    const remainingSpots = await Spot.findAll({ where: { ownerId: user.id } });
+    const noSpotsLeft = remainingSpots.length === 0;
+
+    return res.json({ "message": 'Successfully deleted', "noSpotsLeft": noSpotsLeft });
+  }
+
+  res.status(401).json({ "message": 'Invalid credentials' });
 });
 
 module.exports = router;

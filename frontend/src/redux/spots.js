@@ -128,15 +128,8 @@ export const addSpotImages = imagesData => async dispatch => {
   const imagesResponses = [previewResponse];
 
   if (images && images.length > 0) {
-    console.log(images)
-    console.log(images.length > 0)
     for (let imageUrl of images) {
-      console.log(imageUrl)
-      console.log(imageUrl.url)
-      console.log(imageUrl.url === '')
-      if (imageUrl.url === '') {
-        break
-      } else {
+      if (imageUrl.url !== '') {
 
         const imageOptions = {
           method: "POST",
@@ -148,9 +141,9 @@ export const addSpotImages = imagesData => async dispatch => {
         const imageResponse = await imagePayload.json();
 
         imagesResponses.push(imageResponse);
-      }
-    }
-  }
+      };
+    };
+  };
   const slicedImages = imagesResponses.splice(1);
 
   dispatch(addImages({ previewResponse, slicedImages }, sessionUser));

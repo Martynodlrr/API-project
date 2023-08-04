@@ -1,9 +1,12 @@
 import { csrfFetch } from "./csrf";
 
-const SET_ALLSPOT = "spots/setAllSpot";
-const SET_SINGLESPOT = "spots/setSingleSpot";
-const CREATE_SINGLESPOT = "spots/createSingleSpot";
-const SET_IMAGES = "spots/setImages";
+  const SET_ALLSPOT = "spots/setAllSpot";
+  const SET_SINGLESPOT = "spots/setSingleSpot";
+  const CREATE_SINGLESPOT = "spots/createSingleSpot";
+  const SET_IMAGES = "spots/setImages";
+  const LOAD_USERSPOTS = "spots/loadUserSpots";
+  const REMOVE_USERSPOT = "spots/removeUserSpot";
+  const RESET_USERSPOTS = "spots/resetUserSpotS";
 
 const setAllSpot = spots => {
   return {
@@ -34,6 +37,22 @@ const setImages = (images, sessionUser) => {
     payload: { images: payload, sessionUser },
   };
 };
+
+const loadUserSpots = spots => {
+  return {
+    type: LOAD_USERSPOTS,
+    payload: spots,
+  };
+};
+
+export const removeUserSpot = spotId => ({
+  type: REMOVE_USERSPOT,
+  payload: spotId
+});
+
+export const resetUserSpots = () => ({
+  type: RESET_USERSPOTS
+});
 
 export const loadSpots = () => async dispatch => {
   let page = 1;
@@ -111,11 +130,55 @@ export const createSpot = spot => async dispatch => {
 
   const payload = await csrfFetch('/api/spots', options);
   const response = await payload.json();
+
   if (payload.ok) {
     dispatch(createSingleSpot(response));
     return { ...response, ok: true };
   };
+
   return response;
+};
+
+export const fetchUserSpots = () => async dispatch => {
+  const payload = await csrfFetch('/api/spots/current');
+  const response = await payload.json();
+
+  if (!response.message) {
+    const { Spots } = response;
+    const userSpots = {};
+
+    Spots.forEach(spot => {
+      userSpots[spot.id] = spot;
+    });
+
+    dispatch(loadUserSpots(userSpots));
+
+    return response;
+  };
+
+  return response;
+};
+
+export const fetchRemoveOwnSpot = spotId => async dispatch => {
+  const options = { method: 'DELETE' };
+  const res = await csrfFetch(`/api/spots/${spotId}`, options);
+  const payload = await res.json();
+
+  if (res.ok) {
+    dispatch(removeUserSpot(spotId));
+    dispatch(fetchUserSpots());
+
+    return { ...payload, ok: true};
+  } else {
+    const { message } = await res.json();
+
+    return message;
+  };
+};
+
+export const thunkResetUserSpots = () => async dispatch => {
+  dispatch(resetUserSpots());
+  return true;
 };
 
 const initialState = {
@@ -127,6 +190,7 @@ const initialState = {
       ownerData: null,
     },
   },
+  userSpots: {},
 };
 
 const spotsReducer = (state = initialState, action) => {
@@ -155,6 +219,17 @@ const spotsReducer = (state = initialState, action) => {
           Owner: action.payload.sessionUser
         },
       };
+    case LOAD_USERSPOTS:
+      return {
+        ...state,
+        userSpots: action.payload,
+      };
+      case REMOVE_USERSPOT:
+        const newState = { ...state };
+        delete newState.userSpots[action.payload];
+        return newState;
+      case RESET_USERSPOTS:
+        return { ...state, userSpots: {}};
     default:
       return state;
   }

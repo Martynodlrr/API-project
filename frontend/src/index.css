@@ -14,3 +14,30 @@
     height: 2px;
     background-color: black;
 }
+
+.Links a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+.menuButton {
+    list-style: none;
+}
+
+.Navlink {
+    text-decoration: none;
+}

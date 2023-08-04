@@ -1,9 +1,9 @@
-import { Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import { useModal } from "../../context/Modal.js";
 import * as sessionActions from "../../redux/spots.js";
+import { useModal } from '../Modal/context/Modal.js';
 
 import './SpotsRender.css';
 
@@ -185,6 +185,7 @@ const CreateSpot = () => {
                         onChange={e => setPrice(e.target.value)}
                         placeholder="Price per night (USD)"
                         min={1}
+                        max={9999999999.99}
                     />
                     {errors.price && <p className="error">{errors.price}</p>}
                 </label>

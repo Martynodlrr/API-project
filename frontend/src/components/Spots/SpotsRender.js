@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { renderAvgRating } from '../../HelperFuncs.js';
-import { loadSpots } from '../../redux/spots';
+import * as spotActions from '../../redux/spots';
 
 import './SpotsRender.css';
 
@@ -19,12 +19,13 @@ function SpotsRender() {
 
   const dispatch = useDispatch();
 
-  const handleRedirect = (spot) => {
+  const handleRedirect = spot => {
     history.push(`/spots/${spot.id}`);
   };
 
   useEffect(() => {
-    dispatch(loadSpots());
+    dispatch(spotActions.loadSpots());
+    dispatch(spotActions.fetchUserSpots());
   }, [dispatch]);
 
   return (

@@ -1,9 +1,10 @@
 import { useHistory, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import * as sessionActions from "../../redux/session";
-import { useModal } from "../../context/Modal";
+import * as sessionActions from '../../../../redux/session.js';
+import * as spotActions from '../../../../redux/spots.js';
+import { useModal } from '../../context/Modal.js';
 
 import "./LoginForm.css";
 
@@ -16,25 +17,40 @@ function LoginFormModal() {
   const { closeModal } = useModal();
   const sessionUser = useSelector(state => state.session.user);
 
+  useEffect(() => {
+    if (sessionUser) {
+      history.push("/");
+    }
+  }, [sessionUser, history]);
+
   if (sessionUser) return <Redirect to="/" />
 
   const handleSubmit = e => {
     e.preventDefault();
     setErrors({});
+
     return dispatch(sessionActions.login({ credential, password }))
       .then(res => {
-        if (res.user) closeModal();
+        if (res.user) {
+          dispatch(spotActions.fetchUserSpots());
+          closeModal();
+        }
         setErrors(res);
       });
   };
 
   const signInDemo = () => {
     dispatch(sessionActions.login({
-        "credential": "demo@user.io",
-        "password": "password"
-    }));
-    closeModal();
-}
+      "credential": "demo@user.io",
+      "password": "password"
+    }))
+    .then(res => {
+      if (res.user) {
+        dispatch(spotActions.fetchUserSpots());
+        closeModal();
+      }
+    });
+  }
 
   return (
     <>
@@ -47,7 +63,7 @@ function LoginFormModal() {
             value={credential}
             onChange={e => setCredential(e.target.value)}
             required
-            />
+          />
         </label>
         <label>
           Password
@@ -56,11 +72,11 @@ function LoginFormModal() {
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
-            />
+          />
         </label>
         {errors.message && (
           <p>{errors.message}</p>
-          )}
+        )}
         <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
         <button onClick={signInDemo}>Demo Sign In</button>
       </form>

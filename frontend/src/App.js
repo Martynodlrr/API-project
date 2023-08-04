@@ -1,11 +1,13 @@
+import * as sessionActions from "./redux/session.js";
+import { Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Switch, Route } from "react-router-dom";
-import * as sessionActions from "./redux/session.js";
-import Navigation from "./components/Navagation/index.js";
 
-import SpotsRender from './components/Spots/SpotsRender.js';
 import SingleSpotRender from './components/Spots/SingleSpotRender.js';
+import UserSpotsRender from "./components/Spots/UserSpotsRender.js";
+import SpotsRender from './components/Spots/SpotsRender.js';
+import Navigation from "./components/Navagation/index.js";
+import CreateSpot from "./components/Spots/CreateSpot.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +24,13 @@ function App() {
         <Route exact path='/'>
           <SpotsRender />
         </Route>
-        <Route path='/spots/:id'>
+        <Route exact path='/spots/current'>
+          <UserSpotsRender />
+        </Route>
+        <Route exact path='/spots/new'>
+          <CreateSpot />
+        </Route>
+        <Route exact path='/spots/:id'>
           <SingleSpotRender />
         </Route>
       </Switch>}

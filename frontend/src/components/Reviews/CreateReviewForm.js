@@ -1,20 +1,21 @@
-import { Redirect, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-import { useModal } from "../../context/Modal.js";
 import * as sessionActions from "../../redux/reviews.js";
+import * as spotActions from '../../redux/spots.js';
+import { useModal } from "../Modal/context/Modal.js";
 
-const CreateSpot = () => {
+const CreateReview = id => {
+    const { spotId } = id;
     const dispatch = useDispatch();
     const [review, setReview] = useState("");
-    const [stars, setStars] = useState(0);
+    const [stars, setStars] = useState(1);
     const [errors, setErrors] = useState({});
     const { closeModal } = useModal();
     const [isSubmitted, setIsSubmitted] = useState(false);
 
 
-    const sessionUser = useSelector(state => state.session.user);
     const history = useHistory();
 
     const validateForm = () => {
@@ -33,13 +34,21 @@ const CreateSpot = () => {
         if (Object.keys(newErrors).length > 0) return;
 
         dispatch(
-            sessionActions.createSpot({
+            sessionActions.thunkPostReveiw({
                 review,
-                stars
+                stars,
+                spotId
             }))
             .then(res => {
-                console.log('what is res yo: ', res)
-                closeModal();
+                if (res.ok) {
+                    dispatch(sessionActions.loadReviews(spotId));
+                    dispatch(spotActions.fetchSingleSpot(spotId));
+
+                    closeModal();
+                    history.push(`/spots/${spotId}`);
+                } else {
+                    return setErrors({ ...errors, message: res.message });
+                }
             });
     };
 
@@ -82,4 +91,4 @@ const CreateSpot = () => {
     );
 };
 
-export default CreateSpot;
+export default CreateReview;

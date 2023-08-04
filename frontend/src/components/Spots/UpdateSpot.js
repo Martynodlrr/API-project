@@ -1,14 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import * as sessionActions from "../../redux/spots.js";
+import * as spotActions from '../../redux/spots.js';
 import { useModal } from '../Modal/context/Modal.js';
 
 import './SpotsRender.css';
 
-const CreateSpot = () => {
+const UpdateSpot = () => {
+    const { spotId } = useParams();
     const dispatch = useDispatch();
+    const spot = useSelector(state => state.spots.singleSpot);
     const [address, setAddress] = useState("");
     const [city, setCity] = useState("");
     const [state, setState] = useState("");
@@ -23,8 +25,11 @@ const CreateSpot = () => {
     const [errors, setErrors] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
     const { closeModal } = useModal();
-    const sessionUser = useSelector(state => state.session.user);
     const history = useHistory();
+
+    useEffect(() => {
+        dispatch(spotActions.fetchSingleSpot(spotId));
+    }, [dispatch]);
 
     const validateForm = () => {
         const newErrors = {};
@@ -34,7 +39,7 @@ const CreateSpot = () => {
         if (!country) newErrors.country = "Country is required";
         if (!description) newErrors.description = "Description is required";
         if (!price) newErrors.price = "Price is required";
-        if (!previewImg) newErrors.previewImg = "Preview Image is required";
+        if (!images[0] || !images[0].url) newErrors.previewImg = "Preview Image is required";
         return newErrors;
     };
 
@@ -47,16 +52,15 @@ const CreateSpot = () => {
         if (Object.keys(newErrors).length > 0) return;
 
         dispatch(
-            sessionActions.createSpot({
+            spotActions.fetchUpdateSpot({
                 address,
                 city,
                 state,
                 country,
-                lat,
-                lng,
                 name,
                 description,
-                price
+                price,
+                spotId,
             }))
             .then(res => {
                 if (res.errors) {
@@ -76,12 +80,11 @@ const CreateSpot = () => {
                 } else {
                     if (res.ok) {
                         const { id } = res;
-
-                        dispatch(sessionActions.addSpotImages({
-                            previewImg,
-                            images: images.filter(image => image),
+                        dispatch(spotActions.addSpotImages({
+                            previewImg: images[0],
+                            images: images.slice(1),
                             spotId: id,
-                            sessionUser
+                            updating: true,
                         }))
                             .then(() => {
                                 closeModal();
@@ -93,16 +96,25 @@ const CreateSpot = () => {
     };
 
     useEffect(() => {
-        if (isSubmitted) {
-            const newErrors = validateForm();
-            setErrors(newErrors);
+        if (spot) {
+            setAddress(spot.address);
+            setCity(spot.city);
+            setState(spot.state);
+            setCountry(spot.country);
+            setName(spot.name);
+            setDescription(spot.description);
+            setPrice(spot.price);
+            const spotImages = spot.SpotImages
+            .filter(image => image.url !== '')
+                .map(image => ({ ...image }));
+            setImages(spotImages);
         }
-    }, [isSubmitted, address, city, state, country, lat, lng, name, description, price, previewImg]);
+    }, [isSubmitted, spot]);
 
     return (
         <>
-            <h1>Create a New Spot</h1>
-            <form className="createSpot" onSubmit={handleSubmit}>
+            <h1>Update your Spot</h1>
+            <form className="updateSpot" onSubmit={handleSubmit}>
                 <h2>Where's your place located?</h2>
                 <p>Guests will only get your exact address once they booked a reservation.</p>
                 <label>
@@ -185,66 +197,62 @@ const CreateSpot = () => {
                         onChange={e => setPrice(e.target.value)}
                         placeholder="Price per night (USD)"
                         min={1}
-                        max={9999999999.99}
+                        max={9999999999}
                     />
                     {errors.price && <p className="error">{errors.price}</p>}
                 </label>
                 <div className='lineBreakForm'></div>
                 <h2>Liven up your spot with photos</h2>
                 <p>Submit a link at least one photo to publish your spot.</p>
-                <label>
+                {images.length && <label>
                     <input
                         type="url"
-                        value={previewImg}
-                        onChange={e => setPreviewImg(e.target.value)}
+                        value={images[0].url || ''}
+                        onChange={e => {
+                            const updatedImage = { ...images[0], url: e.target.value };
+                            setImages([updatedImage, ...images.slice(1)]);
+                            setPreviewImg(updatedImage);
+                        }}
                         placeholder="Preview Image URL"
                     />
-                </label>
+                </label>}
                 {errors.previewImg && <p className="error">{errors.previewImg}</p>}
                 <label>
                     <input
                         type="url"
-                        value={images[0] || ''}
-                        onChange={e => setImages([e.target.value, ...images.slice(1)])}
+                        value={images[1]?.url || ''}
+                        onChange={e => setImages([images[0], { ...images[1], url: e.target.value }, ...images.slice(2)])}
                         placeholder="Image URL"
                     />
                 </label>
                 <label>
                     <input
                         type="url"
-                        value={images[1] || ''}
-                        onChange={e => setImages([images[0], e.target.value, ...images.slice(2)])}
+                        value={images[2]?.url || ''}
+                        onChange={e => setImages([...images.slice(0, 2), { ...images[2], url: e.target.value }, ...images.slice(3)])}
                         placeholder="Image URL"
                     />
                 </label>
                 <label>
                     <input
                         type="url"
-                        value={images[2] || ''}
-                        onChange={e => setImages([...images.slice(0, 2), e.target.value, ...images.slice(3)])}
+                        value={images[3]?.url || ''}
+                        onChange={e => setImages([...images.slice(0, 3), { ...images[3], url: e.target.value }, ...images.slice(4)])}
                         placeholder="Image URL"
                     />
                 </label>
                 <label>
                     <input
                         type="url"
-                        value={images[3] || ''}
-                        onChange={e => setImages([...images.slice(0, 3), e.target.value, ...images.slice(4)])}
+                        value={images[4]?.url || ''}
+                        onChange={e => setImages([...images.slice(0, 4), { ...images[4], url: e.target.value }])}
                         placeholder="Image URL"
                     />
                 </label>
-                <label>
-                    <input
-                        type="url"
-                        value={images[4] || ''}
-                        onChange={e => setImages([...images.slice(0, 4), e.target.value])}
-                        placeholder="Image URL"
-                    />
-                </label>
-                <button type="submit">Create Spot</button>
+                <button type="submit">Update your Spot</button>
             </form>
         </>
     );
 };
 
-export default CreateSpot;
+export default UpdateSpot;

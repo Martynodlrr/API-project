@@ -18,6 +18,9 @@ function UserSpotsRender() {
     history.push(`/spots/${spot.id}`);
   };
 
+  const handleUpdate = spotId => {
+    setModalContent(<ConfirmationDeleteModal spotId={spotId} slice={'Spot'} />);
+  };
 
   const handleDelete = spotId => {
     setModalContent(<ConfirmationDeleteModal spotId={spotId} slice={'Spot'} />);
@@ -28,7 +31,6 @@ function UserSpotsRender() {
   }, [dispatch]);
 
   if (!sessionUser) history.push('/')
-
   return (Object.keys(userSpotsObj).length > 0 ?
     <>
       <h1>Manage Spots</h1>
@@ -46,7 +48,7 @@ function UserSpotsRender() {
                 </p>}
               <p>${spot.price} a night</p>
             </div>
-            <button>Update</button>
+            <button><NavLink to={`/spots/${spot.id}/edit`}>Update</NavLink></button>
             <button onClick={() => handleDelete(spot.id)}>Delete</button>
           </React.Fragment>
         ))}

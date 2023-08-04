@@ -3,10 +3,12 @@ import { csrfFetch } from "./csrf";
   const SET_ALLSPOT = "spots/setAllSpot";
   const SET_SINGLESPOT = "spots/setSingleSpot";
   const CREATE_SINGLESPOT = "spots/createSingleSpot";
-  const SET_IMAGES = "spots/setImages";
+  const ADD_IMAGES = "spots/setImages";
+  const REMOVE_IMAGES = "spots/removeImages";
   const LOAD_USERSPOTS = "spots/loadUserSpots";
   const REMOVE_USERSPOT = "spots/removeUserSpot";
-  const RESET_USERSPOTS = "spots/resetUserSpotS";
+  const RESET_USERSPOTS = "spots/resetUserSpots";
+  const UPDATE_SPOT = "spots/updateSpot";
 
 const setAllSpot = spots => {
   return {
@@ -29,12 +31,19 @@ const createSingleSpot = spot => {
   };
 };
 
-const setImages = (images, sessionUser) => {
-  const { previewResponse, imagesResponses } = images;
-  const payload = [previewResponse, ...imagesResponses];
+const addImages = (images, sessionUser) => {
+  const { previewResponse, slicedImages } = images;
+  const payload = [previewResponse, ...slicedImages];
   return {
-    type: SET_IMAGES,
+    type: ADD_IMAGES,
     payload: { images: payload, sessionUser },
+  };
+};
+
+const removeImages = spotId => {
+  return {
+    type: REMOVE_IMAGES,
+    payload: spotId,
   };
 };
 
@@ -52,6 +61,11 @@ export const removeUserSpot = spotId => ({
 
 export const resetUserSpots = () => ({
   type: RESET_USERSPOTS
+});
+
+export const updateSpot = spot => ({
+  type: UPDATE_SPOT,
+  payload: spot
 });
 
 export const loadSpots = () => async dispatch => {
@@ -88,24 +102,46 @@ export const fetchSingleSpot = id => async dispatch => {
   return response;
 }
 
-export const createImages = imagesData => async dispatch => {
-  const { spotId, previewImg, images, sessionUser } = imagesData;
+export const addSpotImages = imagesData => async dispatch => {
+  const { spotId, previewImg, images, sessionUser, updating } = imagesData;
+  const deleteOptions = {
+    method: "DELETE"
+  }
+
+  if (updating) {
+    await csrfFetch(`/api/spot-images/${previewImg.id}`, deleteOptions);
+
+    images.forEach(async image => {
+      await csrfFetch(`/api/spot-images/${image.id}`, deleteOptions);
+    });
+    await dispatch(removeImages(spotId));
+  }
 
   const previewOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url: previewImg, preview: true })
+    body: JSON.stringify({ url: previewImg.url, preview: true })
   };
+
   const previewPayload = await csrfFetch(`/api/spots/${spotId}/images`, previewOptions);
   const previewResponse = await previewPayload.json();
   const imagesResponses = [previewResponse];
 
   if (images && images.length > 0) {
+    console.log(images)
+    console.log(images.length > 0)
     for (let imageUrl of images) {
+      console.log(imageUrl)
+      console.log(imageUrl.url)
+      console.log(imageUrl.url === '')
+      if (imageUrl.url === '') {
+        break
+      } else {
+
         const imageOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: imageUrl, preview: false })
+          body: JSON.stringify({ url: imageUrl.url, preview: false })
         };
 
         const imagePayload = await csrfFetch(`/api/spots/${spotId}/images`, imageOptions);
@@ -113,9 +149,11 @@ export const createImages = imagesData => async dispatch => {
 
         imagesResponses.push(imageResponse);
       }
-    };
+    }
+  }
+  const slicedImages = imagesResponses.splice(1);
 
-    dispatch(setImages({ previewResponse, imagesResponses }, sessionUser));
+  dispatch(addImages({ previewResponse, slicedImages }, sessionUser));
   return true;
 };
 
@@ -181,6 +219,30 @@ export const thunkResetUserSpots = () => async dispatch => {
   return true;
 };
 
+export const fetchUpdateSpot = spot => async dispatch => {
+  const { spotId } = spot;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(spot)
+  };
+
+  const res = await csrfFetch(`/api/spots/${spotId}`, options);
+  const payload = await res.json();
+
+  if (res.ok) {
+    dispatch(updateSpot(payload));
+
+    return { ...payload, ok: true};
+  } else {
+
+    return payload;
+  };
+};
+
 const initialState = {
   allSpots: {},
   singleSpot: {
@@ -210,13 +272,33 @@ const spotsReducer = (state = initialState, action) => {
         ...state,
         singleSpot: action.payload,
       };
-    case SET_IMAGES:
+    case UPDATE_SPOT:
+      return {
+        ...state,
+        userSpots: {
+          ...state.userSpots,
+          [action.payload.id]: action.payload
+        },
+      };
+    case REMOVE_IMAGES:
+      return {
+        ...state,
+        userSpots: {
+          ...state.userSpots,
+          [action.payload]: {
+            ...state.userSpots[action.payload],
+            SpotImages: []
+          },
+        },
+        singleSpot: { ...state.singleSpot, SpotImages: []}
+      };
+    case ADD_IMAGES:
       return {
         ...state,
         singleSpot: {
           ...state.singleSpot,
           SpotImages: action.payload.images,
-          Owner: action.payload.sessionUser
+          Owner: action.payload.sessionUser,
         },
       };
     case LOAD_USERSPOTS:
@@ -224,15 +306,16 @@ const spotsReducer = (state = initialState, action) => {
         ...state,
         userSpots: action.payload,
       };
-      case REMOVE_USERSPOT:
-        const newState = { ...state };
-        delete newState.userSpots[action.payload];
-        return newState;
-      case RESET_USERSPOTS:
-        return { ...state, userSpots: {}};
+    case REMOVE_USERSPOT:
+      const newState = { ...state };
+      delete newState.userSpots[action.payload];
+      return newState;
+    case RESET_USERSPOTS:
+      return { ...state, userSpots: {} };
     default:
       return state;
   }
 };
+
 
 export default spotsReducer;

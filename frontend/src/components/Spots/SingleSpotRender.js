@@ -6,7 +6,7 @@ import * as spotActions from '../../redux/spots.js';
 import ReviewsRender from '../Reviews/Reviews.js';
 
 function SingleSpotRender() {
-    const { id } = useParams();
+    const { spotId } = useParams();
     const dispatch = useDispatch();
     const spot = useSelector(state => state.spots.singleSpot);
 
@@ -21,7 +21,7 @@ function SingleSpotRender() {
     ));
 
     useEffect(() => {
-        dispatch(spotActions.fetchSingleSpot(id));
+        dispatch(spotActions.fetchSingleSpot(spotId));
     }, [dispatch]);
 
     return spot ? (
@@ -30,12 +30,13 @@ function SingleSpotRender() {
             <h5>{spot.city}, {spot.state}, {spot.country}</h5>
             {previewImageUrl && <img src={previewImageUrl} alt={spot.name} className='previewImg' />}
             {images && images.map(image => (
-                <img key={image.id} src={image.url} alt={spot.name} className='notPreviewImg' />
+                image.url &&
+                < img key={image.id} src={image.url} alt={spot.name} className='notPreviewImg' />
             ))}
             {spot.Owner && <p>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>}
             <p>Description: {spot.description}</p>
             <p>${spot.price} a night</p>
-            <ReviewsRender spotId={id} />
+            <ReviewsRender spotId={spotId} />
         </>
     ) : (
         <>Loading...</>

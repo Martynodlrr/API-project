@@ -8,6 +8,7 @@ import UserSpotsRender from "./components/Spots/UserSpotsRender.js";
 import SpotsRender from './components/Spots/SpotsRender.js';
 import Navigation from "./components/Navagation/index.js";
 import CreateSpot from "./components/Spots/CreateSpot.js";
+import UpdateSpot from "./components/Spots/UpdateSpot.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,10 +31,17 @@ function App() {
         <Route exact path='/spots/new'>
           <CreateSpot />
         </Route>
-        <Route exact path='/spots/:id'>
+        <Route exact path='/spots/:spotId/edit'>
+          <UpdateSpot />
+        </Route>
+        <Route exact path='/spots/:spotId'>
           <SingleSpotRender />
         </Route>
-      </Switch>}
+        <Route path=''>
+          404 Page Not Found
+        </Route>
+      </Switch>
+      }
     </>
   );
 };

@@ -36,11 +36,6 @@ module.exports = {
         preview: false
       },
       {
-        spotId: 1,
-        url: "https://thumbs.dreamstime.com/b/beautiful-house-tree-against-cloudy-blue-sky-background-54044451.jpg",
-        preview: false
-      },
-      {
         spotId: 2,
         url: "https://media.istockphoto.com/id/1147674296/photo/single-family-new-construction-home-in-suburb-neighborhood-in-the-south.webp?b=1&s=170667a&w=0&k=20&c=dhqLHRQolgIK7Q6n54N7d_pwCpkLhRl-0PFS1VMb0lU=",
         preview: false

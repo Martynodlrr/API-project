@@ -484,7 +484,7 @@ router.put('/:spotId', async (req, res) => {
   if (spot) {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    if (user.id === parseInt(spotId)) {
+    if (user.id === spot.ownerId) {
       try {
         await spot.update({ address, city, state, country, lat, lng, name, description, price });
         const updatedSpot = await Spot.findByPk(spotId);
@@ -501,7 +501,7 @@ router.put('/:spotId', async (req, res) => {
       }
     }
 
-    res.status(401).json({ "message": 'Invalid credentials' });
+    return res.status(401).json({ "message": 'Invalid credentials' });
   } else {
 
     return res.status(404).json({ "message": "Spot couldn't be found" });

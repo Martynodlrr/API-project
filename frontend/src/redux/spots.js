@@ -75,8 +75,8 @@ export const loadSpots = () => async dispatch => {
   while (true) {
     const payload = await csrfFetch(`/api/spots?page=${page}`);
     const response = await payload.json();
-    const spots = response.Spots;
-
+    const spots = response.spots;
+    
     spots.forEach(spot => {
       allSpots[spot.id] = spot;
     });

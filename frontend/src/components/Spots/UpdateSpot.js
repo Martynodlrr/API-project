@@ -96,7 +96,7 @@ const UpdateSpot = () => {
     };
 
     useEffect(() => {
-        if (spot) {
+        if (spot.spotData) {
             setAddress(spot.address);
             setCity(spot.city);
             setState(spot.state);

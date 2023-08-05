@@ -140,7 +140,7 @@ router.get('/', async (req, res) => {
     offset: (page - 1) * size,
     limit: size,
     where: {},
-    order: [['id', 'ASC']], // Order by id in ascending order
+    order: [['id', 'ASC']],
     include: [
       {
         model: SpotImage,
@@ -173,16 +173,9 @@ router.get('/current', async (req, res) => {
   if (!user) {
     return res.status(401).json({ "message": 'Invalid credentials' });
   }
-<<<<<<< HEAD
-  const spots = await Spot.findAll({
-    where: {
-      ownerId: user.id
-    },
-=======
 
   const spots = await Spot.findAll({
     where: { ownerId: user.id },
->>>>>>> frontend
     include: [
       {
         model: SpotImage,
@@ -194,18 +187,7 @@ router.get('/current', async (req, res) => {
         order: ['createdAt'],
       },
     ],
-<<<<<<< HEAD
     group: ['Spot.id', 'SpotImages.id', 'Reviews.id']
-  });
-
-  if (spots) {
-    const Spots = transformSpotDataWithoutSpotId(spots)
-    return res.json(Spots);
-  }
-
-  res.json({ "message": "no spots created for current user" });
-=======
-    group: ['Spot.id', 'SpotImages.id', 'Reviews.id'],
   });
 
   if (spots && spots.length > 0) {
@@ -216,8 +198,7 @@ router.get('/current', async (req, res) => {
     return res.json({ Spots: spotsData });
   }
 
-  res.status(404).json({ "message": "no spots created for current user" });
->>>>>>> frontend
+  return res.status(404).json({ "message": "no spots created for current user" });
 });
 
 router.get('/:spotId/bookings', async (req, res) => {
@@ -571,11 +552,7 @@ router.put('/:spotId', async (req, res) => {
   if (spot) {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-<<<<<<< HEAD
-    if (user.id === parseInt(spot.ownerId)) {
-=======
     if (user.id === spot.ownerId) {
->>>>>>> frontend
       try {
         await spot.update({ address, city, state, country, lat, lng, name, description, price });
         const updatedSpot = await Spot.findByPk(spotId);

@@ -76,7 +76,7 @@ export const loadSpots = () => async dispatch => {
     const payload = await csrfFetch(`/api/spots?page=${page}`);
     const response = await payload.json();
     const spots = response.spots;
-    
+
     spots.forEach(spot => {
       allSpots[spot.id] = spot;
     });
@@ -120,25 +120,26 @@ export const addSpotImages = imagesData => async dispatch => {
   const previewOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url: previewImg.url, preview: true })
+    body: JSON.stringify({ url: previewImg, preview: true })
   };
 
   const previewPayload = await csrfFetch(`/api/spots/${spotId}/images`, previewOptions);
   const previewResponse = await previewPayload.json();
   const imagesResponses = [previewResponse];
-
-  if (images && images.length > 0) {
-    for (let imageUrl of images) {
-      if (imageUrl.url !== '') {
+  
+if (images && images.length > 0) {
+  for (let imageUrl of images) {
+      if (imageUrl !== '') {
 
         const imageOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: imageUrl.url, preview: false })
+          body: JSON.stringify({ url: imageUrl, preview: false })
         };
 
         const imagePayload = await csrfFetch(`/api/spots/${spotId}/images`, imageOptions);
         const imageResponse = await imagePayload.json();
+
 
         imagesResponses.push(imageResponse);
       };

@@ -238,14 +238,6 @@ const CreateSpot = () => {
                         placeholder="Image URL"
                     />
                 </label>
-                <label>
-                    <input
-                        type="url"
-                        value={images[4] || ''}
-                        onChange={e => setImages([...images.slice(0, 4), e.target.value])}
-                        placeholder="Image URL"
-                    />
-                </label>
                 <button type="submit">Create Spot</button>
             </form>
         </>

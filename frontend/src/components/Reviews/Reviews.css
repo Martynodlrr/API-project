@@ -3,12 +3,14 @@
     padding: 10px;
     align-items: flex-start;
     justify-content: space-between;
-    width: 200px;
+    width: -moz-fit-content;
+    width: fit-content;
     display: grid;
-    justify-items: center;
-    margin-left: 200px;
+    justify-items: flex-end;
+    margin-left: 875px;
     margin-bottom: 20px;
 }
+
 .reserve-info {
     flex: 1 1;
     display: flex;
@@ -29,4 +31,9 @@
 
 .reserve-info p {
     margin-left: 75px;
+    margin-top: 30px;
+}
+
+.menuButton li {
+    color: black;
 }

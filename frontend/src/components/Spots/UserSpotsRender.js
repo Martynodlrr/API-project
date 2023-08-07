@@ -35,7 +35,7 @@ function UserSpotsRender() {
     <>
       <h1>Manage Spots</h1>
       <button><NavLink to='/spots/new'>Create a Spot</NavLink></button>
-      <div className='spots'>
+      <div className='spots-grid'>
         {Object.values(userSpotsObj).map(spot => (
           <div key={spot.id} className='spots-container'>
             <div className='spots-grid'>
@@ -64,7 +64,7 @@ function UserSpotsRender() {
                       </p>
                     )}
                   </div>
-                  <p className='price'>${spot.price} a night</p>
+                  <p className='price'>${spot.price} night</p>
                 </div>
               </div>
             </div>

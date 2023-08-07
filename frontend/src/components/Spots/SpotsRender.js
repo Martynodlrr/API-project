@@ -58,7 +58,7 @@ function SpotsRender() {
                   </p>
                 )}
               </div>
-              <p className='price'>${spot.price} a night</p>
+              <p className='price'>${spot.price} night</p>
             </div>
           </div>
         ))}

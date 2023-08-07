@@ -1,10 +1,43 @@
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { FaStar } from 'react-icons/fa';
 
 import * as sessionActions from "../../redux/reviews.js";
 import * as spotActions from '../../redux/spots.js';
 import { useModal } from "../Modal/context/Modal.js";
+
+import './CreateReviewForm.css'
+
+const StarRating = ({ rating, setRating }) => {
+    const [hover, setHover] = useState(null);
+
+    return (
+        <div>
+            {[...Array(5)].map((star, index) => {
+                const starValue = index + 1;
+
+                return (
+                    <label key={index}>
+                        <input
+                            type="radio"
+                            name="rating"
+                            value={starValue}
+                            onClick={() => setRating(starValue)}
+                        />
+                        <FaStar
+                            className="star"
+                            color={starValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                            size={20}
+                            onMouseEnter={() => setHover(starValue)}
+                            onMouseLeave={() => setHover(null)}
+                        />
+                    </label>
+                );
+            })}
+        </div>
+    );
+};
 
 const CreateReview = id => {
     const { spotId } = id;
@@ -63,7 +96,7 @@ const CreateReview = id => {
         <>
             <form className="createReview" onSubmit={handleSubmit}>
                 <h2>How was your stay?</h2>
-                {errors.message && <p className="error">{ errors.message }</p>}
+                {errors.message && <p className="error">{errors.message}</p>}
                 <label>
                     {errors.review && <p className="error">{errors.review}</p>}
                     {errors.uniqueAddress && <p className="error">{errors.uniqueAddress}</p>}
@@ -77,15 +110,9 @@ const CreateReview = id => {
                 <label>
                     {errors.stars && <p className="error">{errors.stars}</p>}
                     Stars
-                    <input
-                        type="number"
-                        value={stars}
-                        onChange={e => setStars(e.target.value)}
-                        min={1}
-                        max={5}
-                    />
+                    <StarRating rating={stars} setRating={setStars} />
                 </label>
-                <button type="submit" disabled={ !stars || review.length < 10 }>Submit Your Review</button>
+                <button type="submit" disabled={!stars || review.length < 10}>Submit Your Review</button>
             </form>
         </>
     );

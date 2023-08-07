@@ -44,41 +44,43 @@ function LoginFormModal() {
       "credential": "demo@user.io",
       "password": "password"
     }))
-    .then(res => {
-      if (res.user) {
-        dispatch(spotActions.fetchUserSpots());
-        closeModal();
-      }
-    });
+      .then(res => {
+        if (res.user) {
+          dispatch(spotActions.fetchUserSpots());
+          closeModal();
+        }
+      });
   }
 
   return (
     <>
-      <h1>Log In</h1>
+      <h1 className='formTitle'>Log In</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          <input
-            type="text"
-            value={credential}
-            onChange={e => setCredential(e.target.value)}
-            placeholder='UserName or Email'
-            required
-          />
-        </label>
-        <label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder='Password'
-            required
-          />
-        </label>
-        {errors.message && (
-          <p>The provided credentials were invalid</p>
-        )}
-        <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
-        <button onClick={signInDemo}>Demo Sign In</button>
+        <div className='formContainer'>
+          <label>
+            <input
+              type="text"
+              value={credential}
+              onChange={e => setCredential(e.target.value)}
+              placeholder='UserName or Email'
+              required
+            />
+          </label>
+          <label>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder='Password'
+              required
+            />
+          </label>
+          {errors.message && (
+            <p className='error'>The provided credentials were invalid</p>
+          )}
+          <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
+          <button onClick={signInDemo}>Demo Sign In</button>
+        </div>
       </form>
     </>
   );

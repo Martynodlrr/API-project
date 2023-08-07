@@ -9,7 +9,7 @@ import { renderAvgRating } from '../../HelperFuncs.js';
 import { useModal } from '../Modal/context/Modal.js';
 import CreateReview from './CreateReviewForm.js';
 
-// import './Reviews.css';
+import './Reviews.css';
 
 const ReviewsRender = ({ spotId }) => {
     const dispatch = useDispatch();

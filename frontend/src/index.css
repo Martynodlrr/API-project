@@ -78,3 +78,14 @@ button {
     pointer-events: auto;
     cursor: pointer;
 }
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}
+
+.formTitle {
+    text-align: center;
+}

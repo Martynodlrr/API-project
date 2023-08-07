@@ -39,5 +39,5 @@
   "devDependencies": {
     "redux-logger": "^3.0.6"
   },
-  "proxy": "https://airbnb-api-udp4.onrender.com"
+  "proxy": "http://localhost:8000/"
 }

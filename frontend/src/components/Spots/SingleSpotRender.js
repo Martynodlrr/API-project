@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import * as spotActions from '../../redux/spots.js';
 import ReviewsRender from '../Reviews/Reviews.js';
 
-// import './SingleSpotRender.css';
+import './SingleSpotRender.css';
 
 function SingleSpotRender() {
     const { spotId } = useParams();
@@ -40,8 +40,10 @@ function SingleSpotRender() {
                 </div>
             </div>
             {Spots.Owner && <p>Hosted by {Spots.Owner.firstName} {Spots.Owner.lastName}</p>}
-            <p>Description: {Spots.description}</p>
-            <p id='price'>${Spots.price} a night</p>
+            <p id='description'>Description: {Spots.description}</p>
+            <div id='price'>
+                <p>${Spots.price} a night</p>
+            </div>
             <ReviewsRender spotId={spotId} />
         </div>
     ) : (

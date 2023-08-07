@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import * as sessionActions from "../../redux/spots.js";
 import { useModal } from '../Modal/context/Modal.js';
 
-import './SpotsRender.css';
+import './FormStyle.css';
 
 const CreateSpot = () => {
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const CreateSpot = () => {
         if (!city) newErrors.city = "City is required";
         if (!state) newErrors.state = "State is required";
         if (!country) newErrors.country = "Country is required";
-        if (!description) newErrors.description = "Description is required";
+        if (!description) newErrors.description = "Description needs a minimum of 30 characters";
         if (!price) newErrors.price = "Price is required";
         if (!previewImg) newErrors.previewImg = "Preview Image is required";
         return newErrors;
@@ -102,13 +102,13 @@ const CreateSpot = () => {
     return (
         <>
             <h1>Create a New Spot</h1>
-            <form className="createSpot" onSubmit={handleSubmit}>
+            <form className="handleSpot" onSubmit={handleSubmit}>
                 <h2>Where's your place located?</h2>
-                <p>Guests will only get your exact address once they booked a reservation.</p>
-                <label>
-                    Street Address
+                <p>Guests will only get your exact address once they book a reservation.</p>
                     {errors.address && <p className="error">{errors.address}</p>}
                     {errors.uniqueAddress && <p className="error">{errors.uniqueAddress}</p>}
+                <label>
+                    Street Address
                     <input
                         type="text"
                         value={address}
@@ -116,38 +116,40 @@ const CreateSpot = () => {
                         placeholder="Address"
                     />
                 </label>
-                <label>
-                    City
+                <div id="locationErrors">
                     {errors.city && <p className="error">{errors.city}</p>}
-                    <input
-                        type="text"
-                        value={city}
-                        onChange={e => setCity(e.target.value)}
-                        placeholder="City"
-                    />
-                </label>
-                <p>,</p>
-                <label>
-                    State
                     {errors.state && <p className="error">{errors.state}</p>}
-                    <input
-                        type="text"
-                        value={state}
-                        onChange={e => setState(e.target.value)}
-                        placeholder="State"
-                    />
-                </label>
-                <p>,</p>
-                <label>
-                    Country
                     {errors.country && <p className="error">{errors.country}</p>}
-                    <input
-                        type="text"
-                        value={country}
-                        onChange={e => setCountry(e.target.value)}
-                        placeholder="Country"
-                    />
-                </label>
+                </div>
+                <div className="locationContainer">
+                    <label>
+                        City
+                        <input
+                            type="text"
+                            value={city}
+                            onChange={e => setCity(e.target.value)}
+                            placeholder="City"
+                        />
+                    </label>
+                    <label>
+                        State
+                        <input
+                            type="text"
+                            value={state}
+                            onChange={e => setState(e.target.value)}
+                            placeholder="State"
+                        />
+                    </label>
+                    <label>
+                        Country
+                        <input
+                            type="text"
+                            value={country}
+                            onChange={e => setCountry(e.target.value)}
+                            placeholder="Country"
+                        />
+                    </label>
+                </div>
                 <div className='lineBreakForm'></div>
                 <h2>Describe your place to guest</h2>
                 <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
@@ -158,6 +160,7 @@ const CreateSpot = () => {
                         onChange={e => setDescription(e.target.value)}
                         minLength={30}
                         placeholder="Please write at least 30 characters"
+                        id="description"
                     />
                 </label>
                 {errors.description && <p className="error">{errors.description}</p>}
@@ -177,18 +180,20 @@ const CreateSpot = () => {
                 <div className='lineBreakForm'></div>
                 <h2>Set a base price for your spot</h2>
                 <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                <label>
-                    $
-                    <input
-                        type="number"
-                        value={price}
-                        onChange={e => setPrice(e.target.value)}
-                        placeholder="Price per night (USD)"
-                        min={1}
-                        max={9999999999.99}
-                    />
+                <div className="priceContainer">
+                    <label>
+                        <span>$</span>
+                        <input
+                            type="number"
+                            value={price}
+                            onChange={e => setPrice(e.target.value)}
+                            placeholder="Price per night (USD)"
+                            min={1}
+                            max={9999999999.99}
+                        />
+                    </label>
                     {errors.price && <p className="error">{errors.price}</p>}
-                </label>
+                </div>
                 <div className='lineBreakForm'></div>
                 <h2>Liven up your spot with photos</h2>
                 <p>Submit a link at least one photo to publish your spot.</p>
@@ -244,6 +249,7 @@ const CreateSpot = () => {
                 <button type="submit">Create Spot</button>
             </form>
         </>
+
     );
 };
 

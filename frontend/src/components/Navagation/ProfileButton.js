@@ -17,15 +17,16 @@ function ProfileButton({ user }) {
     const ulRef = useRef();
 
     const openMenu = () => {
-        setShowMenu(true);
+        if (!showMenu) {
+            setShowMenu(true);
+        }
     };
 
     useEffect(() => {
         const closeMenu = event => {
-            if (ulRef.current && ulRef.current.contains(event.target)) {
-                return;
+            if (ulRef.current && !ulRef.current.contains(event.target)) {
+                setShowMenu(false);
             }
-            setShowMenu(false);
         };
 
         if (showMenu) {
@@ -46,17 +47,23 @@ function ProfileButton({ user }) {
         history.push('/');
     };
 
-    const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+    const ulClassName = `profile-dropdown${showMenu ? " show" : ""}`;
 
     return (
         <>
             {
                 location.pathname === "/spots/current" && (
-                <NavLink to='/spots/new'>Create a Spot</NavLink>)
+                    <NavLink to='/spots/new' className="menuButton">Create a Spot</NavLink>)
             }
-            <button onClick={openMenu}>
-                <i className="fas fa-user-circle" />
-            </button>
+            {user ? (
+                <button onClick={openMenu}>
+                    <i className="fas fa-user-circle" />
+                </button>
+            ) : (
+                <button onClick={openMenu}>
+                    <i className="fas fa-bars" />
+                </button>
+            )}
             {showMenu && (
                 <ul className={ulClassName} ref={ulRef}>
                     {user ? (
@@ -77,16 +84,18 @@ function ProfileButton({ user }) {
                             </li>
                         </ul>
                     ) : (
-                        <>
+                        <ul>
                             <OpenModalMenuItem
                                 itemText="Log In"
                                 modalComponent={<LoginFormModal />}
+                                onItemClick={() => setShowMenu(false)}
                             />
                             <OpenModalMenuItem
                                 itemText="Sign Up"
                                 modalComponent={<SignupFormModal />}
+                                onItemClick={() => setShowMenu(false)}
                             />
-                        </>
+                        </ul>
                     )}
                 </ul>
             )}

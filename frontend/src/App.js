@@ -21,6 +21,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <div className='lineBreak'></div>
       {isLoaded && <Switch>
         <Route exact path='/'>
           <SpotsRender />

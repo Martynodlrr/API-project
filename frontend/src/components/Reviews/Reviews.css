@@ -1,0 +1,32 @@
+.reserve-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 200px;
+    display: grid;
+    justify-items: center;
+    margin-left: 200px;
+    margin-bottom: 20px;
+}
+.reserve-info {
+    flex: 1 1;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.reserve-button {
+    background-color: #ff4f4f;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+
+.reserve-info p {
+    margin-left: 75px;
+}

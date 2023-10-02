@@ -17,7 +17,7 @@ const ReviewsRender = ({ spotId }) => {
     const { setModalContent } = useModal();
     const reviews = useSelector(state => state.reviews.spot);
     const ownReviews = useSelector(state => state.reviews.user);
-    const { Spots } = useSelector(state => state.spots.singleSpot);
+    const { spot } = useSelector(state => state.spots.singleSpot);
     const sessionUser = useSelector(state => state.session.user);
     const spotReview = ownReviews[spotId];
 
@@ -33,7 +33,7 @@ const ReviewsRender = ({ spotId }) => {
         dispatch(reviewActions.loadOwnReviews())
     }, [dispatch, spotId, reloadKey]);
 
-    if (!Spots.Owner) return null;
+    if (!spot.Owner) return null;
 
     return (
         <>
@@ -42,7 +42,7 @@ const ReviewsRender = ({ spotId }) => {
                 {reviews && Object.keys(reviews).length > 0 ? (
                     <p>
                         <span className="star">&#9733; </span>
-                        {Spots.avgStarRating && renderAvgRating(Spots.avgStarRating)} &middot; {Object.keys(reviews).length} Reviews
+                        {spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} Reviews
                     </p>
                 ) : (
                     <p>
@@ -51,7 +51,7 @@ const ReviewsRender = ({ spotId }) => {
                     </p>
                 )}
 
-                {sessionUser && sessionUser.id !== Spots.ownerId ? (
+                {sessionUser && sessionUser.id !== spot.ownerId ? (
                     <button className="reserve-button" onClick={() => alert("Feature coming soon")}>Reserve</button>
                 ) : (
                     !sessionUser && (
@@ -70,11 +70,11 @@ const ReviewsRender = ({ spotId }) => {
 
             {Object.keys(reviews).length > 0 && (
                 <h1>
-                    <span className="star">&#9733; </span>{Spots.avgStarRating && renderAvgRating(Spots.avgStarRating)} &middot; {Object.keys(reviews).length} {Object.keys(reviews).length > 1 ? 'Reviews' : 'Review'}
+                    <span className="star">&#9733; </span>{spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} {Object.keys(reviews).length > 1 ? 'Reviews' : 'Review'}
                 </h1>
             )}
 
-            {sessionUser && Object.keys(sessionUser).length > 0 && sessionUser.id !== Spots.Owner.id && !spotReview &&
+            {sessionUser && Object.keys(sessionUser).length > 0 && sessionUser.id !== spot.Owner.id && !spotReview &&
                 <button className='menuButton'>
                     <OpenModalMenuItem
                         itemText="Post a review"

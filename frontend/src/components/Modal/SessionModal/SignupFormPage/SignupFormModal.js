@@ -1,4 +1,6 @@
 import { useModal } from "../../context/Modal.js";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
@@ -6,7 +8,7 @@ import * as sessionActions from "../../../../redux/session.js";
 
 import "./SignupForm.css";
 
-function SignupFormModal() {
+function SignupFormModal({ theme }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -32,7 +34,6 @@ function SignupFormModal() {
         })
       )
         .then(res => {
-          console.log(res)
           if (res.message === 'user already exists') {
             setErrors({ user: 'Email or User Name already in use' });
             return;
@@ -64,79 +65,122 @@ function SignupFormModal() {
       <form onSubmit={handleSubmit}>
         <div className="formContainer">
           {errors.user && <p className="error">{errors.user}</p>}
-        <label>
-          <input
-            type="text"
+
+          <TextField
             value={email}
             onChange={e => setEmail(e.target.value)}
-            placeholder="Email"
+            label="Email"
+            variant="standard"
             required
-            />
-        </label>
-        {errors.emailValid && <p className="error">{errors.emailValid}</p>}
-        <label>
-          <input
-            type="text"
+            fullWidth
+            sx={{
+              '& label.Mui-focused': {
+                color: '#000000',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000000',
+              },
+            }}
+          />
+          {errors.emailValid && <p className="error">{errors.emailValid}</p>}
+
+          <TextField
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="UserName"
+            onChange={e => setUsername(e.target.value)}
+            label="Username"
+            variant="standard"
             required
-            />
-        </label>
-        {errors.username && <p className="error">{errors.username}</p>}
-        {errors.emailUsername && <p className="error">{errors.emailUsername}</p>}
-        <label>
-          <input
-            type="text"
+            fullWidth
+            sx={{
+              '& label.Mui-focused': {
+                color: '#000000',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000000',
+              },
+            }}
+          />
+
+          <TextField
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="First Name"
+            onChange={e => setFirstName(e.target.value)}
+            label="First Name"
+            variant="standard"
             required
-            />
-        </label>
-        {errors.firstName && <p className="error">{errors.firstName}</p>}
-        <label>
-          <input
-            type="text"
+            fullWidth
+            sx={{
+              '& label.Mui-focused': {
+                color: '#000000',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000000',
+              },
+            }}
+          />
+
+          <TextField
             value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Last Name"
+            onChange={e => setLastName(e.target.value)}
+            label="Last Name"
+            variant="standard"
             required
-            />
-        </label>
-        {errors.lastName && <p className="error">{errors.lastName}</p>}
-        <label>
-          <input
-            type="password"
+            fullWidth
+            sx={{
+              '& label.Mui-focused': {
+                color: '#000000',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000000',
+              },
+            }}
+          />
+
+          <TextField
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-            />
-        </label>
-        {errors.password && <p className="error">{errors.password}</p>}
-        <label>
-          <input
+            onChange={e => setPassword(e.target.value)}
+            label="Password"
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm Password"
+            variant="standard"
             required
-            />
-        </label>
-        {errors.confirmPassword && (
-          <p className="error">{errors.confirmPassword}</p>
-          )}
-        <button type="submit" disabled={
-          !email ||
-          !username ||
-          !firstName ||
-          !lastName ||
-          !password ||
-          username.length < 4 ||
-          password.length < 6
-        }
-        >Sign Up</button>
+            fullWidth
+            sx={{
+              '& label.Mui-focused': {
+                color: '#000000',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000000',
+              },
+            }}
+          />
+          {errors.password && <p className="error">{errors.password}</p>}
+
+          <TextField
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            label="Confirm Password"
+            type="password"
+            variant="standard"
+            required
+            fullWidth
+            sx={{
+              '& label.Mui-focused': {
+                color: '#000000',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000000',
+              },
+            }}
+          />
+          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+
+          <Button
+            type="submit"
+            disabled={!email || !username || !firstName || !lastName || !password || username.length < 4 || password.length < 6}
+            variant="contained"
+            style={{ backgroundColor: theme.palette.primary.main }}
+          >
+            Sign Up
+          </Button>
         </div>
       </form>
     </>

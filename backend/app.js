@@ -14,6 +14,7 @@ const app = express();
 const setupMiddleware = (app) => {
   app.use(morgan('dev'));
   app.use(cookieParser());
+  app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
   if (environment === 'development') {

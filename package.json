@@ -15,8 +15,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "react-icons": "^4.10.1"
-  }
+  "license": "ISC"
 }

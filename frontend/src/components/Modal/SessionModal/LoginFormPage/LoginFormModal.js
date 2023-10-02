@@ -1,14 +1,15 @@
 import { useHistory, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
+import TextField from '@mui/material/TextField';
 import { useState, useEffect } from "react";
 
 import * as sessionActions from '../../../../redux/session.js';
 import * as spotActions from '../../../../redux/spots.js';
 import { useModal } from '../../context/Modal.js';
+import Button from '@mui/material/Button';
 
 import "./LoginForm.css";
-
-function LoginFormModal() {
+function LoginFormModal({ theme }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const [credential, setCredential] = useState("");
@@ -57,29 +58,62 @@ function LoginFormModal() {
       <h1 className='formTitle'>Log In</h1>
       <form onSubmit={handleSubmit}>
         <div className='formContainer'>
-          <label>
-            <input
-              type="text"
-              value={credential}
-              onChange={e => setCredential(e.target.value)}
-              placeholder='UserName or Email'
-              required
-            />
-          </label>
-          <label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder='Password'
-              required
-            />
-          </label>
+          <TextField
+            type="text"
+            value={credential}
+            onChange={e => setCredential(e.target.value)}
+            label="UserName or Email"
+            variant="standard"
+            required
+            fullWidth
+            sx={{
+              '& label.Mui-focused': {
+                color: '#000000',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000000',
+              },
+            }}
+          />
+
+          <TextField
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            label="Password"
+            variant="standard"
+            required
+            fullWidth
+            sx={{
+              '& label.Mui-focused': {
+                color: '#000000',
+              },
+              '& .MuiInput-underline:after': {
+                borderBottomColor: '#000000',
+              },
+            }}
+          />
           {errors.message && (
             <p className='error'>The provided credentials were invalid</p>
           )}
-          <button type="submit" disabled={credential.length < 4 || password.length < 6}>Log In</button>
-          <button onClick={signInDemo}>Demo Sign In</button>
+          <Button
+            type="submit"
+            disabled={credential.length < 4 || password.length < 6}
+            variant="contained"
+            style={{ backgroundColor: theme.palette.primary.main }}
+          >
+            Log In
+          </Button>
+          <Button
+            onClick={signInDemo}
+            variant="outlined"
+            style={{
+              color: theme.palette.primary.main,
+              borderColor: theme.palette.primary.main
+            }}
+          >
+            Demo Sign In
+          </Button>
         </div>
       </form>
     </>

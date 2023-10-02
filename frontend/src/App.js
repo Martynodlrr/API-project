@@ -1,7 +1,13 @@
 import * as sessionActions from "./redux/session.js";
+import { ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import { Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 import SingleSpotRender from './components/Spots/SingleSpotRender.js';
 import UserSpotsRender from "./components/Spots/UserSpotsRender.js";
@@ -18,8 +24,49 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        light: '#ea605d',
+        main: '#e53935',
+        dark: '#a02725',
+      },
+      secondary: {
+        light: '#000000',
+        main: '#000000',
+        dark: '#000000',
+      },
+    },
+    components: {
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            "&.Mui-focused": {
+              color: '#000000',
+            },
+          },
+        },
+      },
+      MuiInput: {
+        styleOverrides: {
+          underline: {
+            "&:before": {
+              borderBottomColor: '#000000',
+            },
+            "&:hover:not(.Mui-disabled):before": {
+              borderBottomColor: '#000000',
+            },
+            "&:after": {
+              borderBottomColor: '#000000',
+            }
+          }
+        }
+      }
+    }
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Navigation isLoaded={isLoaded} />
       <div className='lineBreak'></div>
       {isLoaded && <Switch>
@@ -38,12 +85,12 @@ function App() {
         <Route exact path='/spots/:spotId'>
           <SingleSpotRender />
         </Route>
-        <Route path=''>
+        <Route path='*'>
           404 Page Not Found
         </Route>
       </Switch>
       }
-    </>
+    </ThemeProvider>
   );
 };
 

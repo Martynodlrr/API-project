@@ -33,7 +33,7 @@ const createSingleSpot = spot => {
 
 const addImages = (images, sessionUser) => {
   const { previewResponse, slicedImages } = images;
-  const payload = [previewResponse, ...slicedImages];
+  const payload = [previewResponse, ...(slicedImages || [])];
   return {
     type: ADD_IMAGES,
     payload: { images: payload, sessionUser },
@@ -96,57 +96,40 @@ export const loadSpots = () => async dispatch => {
 export const fetchSingleSpot = id => async dispatch => {
   const payload = await csrfFetch(`/api/spots/${id}`);
   const response = await payload.json();
+  const { Spots } = response;
 
-  dispatch(setSingleSpot(response));
+  dispatch(setSingleSpot({ spot: Spots }));
 
   return response;
 }
 
 export const addSpotImages = imagesData => async dispatch => {
   const { spotId, previewImg, images, sessionUser, updating } = imagesData;
-  const deleteOptions = {
-    method: "DELETE"
-  }
-
+  const formData = new FormData();
+  
   if (updating) {
-    await csrfFetch(`/api/spot-images/${previewImg.id}`, deleteOptions);
+    await csrfFetch(`/api/spot-images/${previewImg.id}`, { method: "DELETE" });
 
-    images.forEach(async image => {
-      await csrfFetch(`/api/spot-images/${image.id}`, deleteOptions);
+    images.forEach(async imageFile => {
+      await csrfFetch(`/api/spot-images/${imageFile.id}`, { method: "DELETE" });
     });
     await dispatch(removeImages(spotId));
   }
 
-  const previewOptions = {
+  // Add the preview image file to the FormData
+  formData.append("preview", previewImg);
+  images && images.forEach((imageFile, index) => {
+    formData.append(`images[${index}]`, imageFile);
+  });
+
+  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url: previewImg, preview: true })
-  };
+    body: formData, // Send FormData instance without setting content-type explicitly
+  });
 
-  const previewPayload = await csrfFetch(`/api/spots/${spotId}/images`, previewOptions);
-  const previewResponse = await previewPayload.json();
-  const imagesResponses = [previewResponse];
-  
-if (images && images.length > 0) {
-  for (let imageUrl of images) {
-      if (imageUrl !== '') {
+  const data = await response.json();
 
-        const imageOptions = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: imageUrl, preview: false })
-        };
-
-        const imagePayload = await csrfFetch(`/api/spots/${spotId}/images`, imageOptions);
-        const imageResponse = await imagePayload.json();
-
-
-        imagesResponses.push(imageResponse);
-      };
-    };
-  };
-  const slicedImages = imagesResponses.splice(1);
-
+  const { previewResponse, slicedImages } = data;
   dispatch(addImages({ previewResponse, slicedImages }, sessionUser));
   return true;
 };

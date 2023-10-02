@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const { Sequelize } = require('sequelize');
 const { formatDate } = require('../../utils/helperFunc.js');
@@ -394,11 +395,13 @@ router.post('/', async (req, res) => {
   return res.status(401).json({ "message": 'Invalid credentials' });
 });
 
-router.post('/:spotId/images', async (req, res) => {
+router.post('/:spotId/images', singleMulterUpload("image"), async (req, res) => {
   const { user } = req;
   const spotId = req.params.spotId;
-  const { url, preview } = req.body;
-
+  const { preview } = req.body;
+  const profileImageUrl = req.file ?
+      await singleFileUpload({ file: req.file, public: true }) :
+      null;
 
   const spot = await Spot.findOne({ where: { id: spotId } });
 
@@ -408,7 +411,7 @@ router.post('/:spotId/images', async (req, res) => {
 
   if (spot) {
     try {
-      const image = await SpotImage.create({ spotId, url, preview });
+      const image = await SpotImage.create({ spotId, profileImageUrl, preview });
       const { createdAt, updatedAt, spotId: excludedSpotId, ...imageData } = image.dataValues;
 
       return res.json(imageData);

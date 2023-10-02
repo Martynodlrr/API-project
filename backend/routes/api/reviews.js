@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 const { Review, User, Spot, ReviewImage, SpotImage } = require('../../db/models');
 const { Sequelize } = require('sequelize');
 const { formatDate } = require('../../utils/helperFunc.js');
@@ -90,10 +91,9 @@ router.get('/current', async (req, res) => {
     res.json({ Reviews });
 });
 
-router.post('/:reviewId/images', async (req, res) => {
+router.post('/:reviewId/images', singleMulterUpload("image"), async (req, res) => {
     const { user } = req;
     const { reviewId } = req.params;
-    const { url } = req.body;
 
     if (!user) {
         return res.status(401).json({
@@ -119,8 +119,12 @@ router.post('/:reviewId/images', async (req, res) => {
         });
     }
 
+
+        const profileImageUrl = req.file ?
+          await singleFileUpload({ file: req.file, public: true }) :
+          null;
     try {
-        const image = await ReviewImage.create({ reviewId: review.id, url });
+        const image = await ReviewImage.create({ reviewId: review.id, profileImageUrl });
         return res.json(image);
     } catch (err) {
         const errors = [];

@@ -1,60 +1,31 @@
 const AWS = require("aws-sdk");
-// name of your bucket here
+const multer = require("multer");
+const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 const NAME_OF_BUCKET = "my-airbnb-aws-bucket";
 
-const multer = require("multer");
-
-const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
-
-// --------------------------- Public UPLOAD ------------------------
-
-const singlePublicFileUpload = async (file) => {
-  const { originalname, mimetype, buffer } = await file;
+const singleFileUpload = async ({ file, public = false }) => {
+  const { originalname, buffer } = file;
   const path = require("path");
-  // name of the file in your S3 bucket will be the date in ms plus the extension name
+
+  // Set the name of the file in your S3 bucket to the date in ms plus the
+  // extension name.
   const Key = new Date().getTime().toString() + path.extname(originalname);
   const uploadParams = {
     Bucket: NAME_OF_BUCKET,
-    Key,
-    Body: buffer,
-    ACL: "public-read",
+    Key: public ? `public/${Key}` : Key,
+    Body: buffer
   };
   const result = await s3.upload(uploadParams).promise();
 
-  // save the name of the file in your bucket as the key in your database to retrieve for later
-  return result.Location;
+  // Return the link if public. If private, return the name of the file in your
+  // S3 bucket as the key in your database for subsequent retrieval.
+  return public ? result.Location : result.Key;
 };
 
-const multiplePublicFileUpload = async (files) => {
+const multipleFilesUpload = async ({files, public = false}) => {
   return await Promise.all(
     files.map((file) => {
-      return singlePublicFileUpload(file);
-    })
-  );
-};
-
-// --------------------------- Prviate UPLOAD ------------------------
-
-const singlePrivateFileUpload = async (file) => {
-  const { originalname, mimetype, buffer } = await file;
-  const path = require("path");
-  // name of the file in your S3 bucket will be the date in ms plus the extension name
-  const Key = new Date().getTime().toString() + path.extname(originalname);
-  const uploadParams = {
-    Bucket: NAME_OF_BUCKET,
-    Key,
-    Body: buffer,
-  };
-  const result = await s3.upload(uploadParams).promise();
-
-  // save the name of the file in your bucket as the key in your database to retrieve for later
-  return result.Key;
-};
-
-const multiplePrivateFileUpload = async (files) => {
-  return await Promise.all(
-    files.map((file) => {
-      return singlePrivateFileUpload(file);
+      return singleFileUpload({file, public});
     })
   );
 };
@@ -64,13 +35,11 @@ const retrievePrivateFile = (key) => {
   if (key) {
     fileUrl = s3.getSignedUrl("getObject", {
       Bucket: NAME_OF_BUCKET,
-      Key: key,
+      Key: key
     });
   }
   return fileUrl || key;
 };
-
-// --------------------------- Storage ------------------------
 
 const storage = multer.memoryStorage({
   destination: function (req, file, callback) {
@@ -85,11 +54,9 @@ const multipleMulterUpload = (nameOfKey) =>
 
 module.exports = {
   s3,
-  singlePublicFileUpload,
-  multiplePublicFileUpload,
-  singlePrivateFileUpload,
-  multiplePrivateFileUpload,
+  singleFileUpload,
+  multipleFilesUpload,
   retrievePrivateFile,
   singleMulterUpload,
-  multipleMulterUpload,
+  multipleMulterUpload
 };

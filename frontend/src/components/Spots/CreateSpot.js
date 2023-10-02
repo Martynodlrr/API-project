@@ -1,7 +1,11 @@
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { TextareaAutosize, TextField } from '@mui/material';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Button from '@mui/material/Button';
 
+import InputFileUpload from '../InputFileUpload/InputFileUpload.js';
 import * as sessionActions from "../../redux/spots.js";
 import { useModal } from '../Modal/context/Modal.js';
 
@@ -25,6 +29,14 @@ const CreateSpot = () => {
     const { closeModal } = useModal();
     const sessionUser = useSelector(state => state.session.user);
     const history = useHistory();
+
+    const handleDescriptionChange = (e) => {
+        const value = e.target.value;
+
+        if (value.length <= 300 || (value.length < description.length)) {
+            setDescription(value);
+        }
+    };
 
     const validateForm = () => {
         const newErrors = {};
@@ -99,149 +111,139 @@ const CreateSpot = () => {
         }
     }, [isSubmitted, address, city, state, country, lat, lng, name, description, price, previewImg]);
 
+    const updatePreviewImage = e => {
+        const file = e.target.files[0];
+        if (file) setPreviewImg(file);
+    };
+
+    const updateImageArray = (index) => (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const newImages = [...images];
+            newImages[index] = file;
+            setImages(newImages);
+        }
+    };
+
     return (
         <>
-            <h1>Create a New Spot</h1>
-            <form className="handleSpot" onSubmit={handleSubmit}>
+            <h1 className='formTitle'>Create a New Spot</h1>
+            <form onSubmit={handleSubmit} className='formContainer'>
                 <h2>Where's your place located?</h2>
                 <p>Guests will only get your exact address once they book a reservation.</p>
-                    {errors.address && <p className="error">{errors.address}</p>}
-                    {errors.uniqueAddress && <p className="error">{errors.uniqueAddress}</p>}
-                <label>
-                    Street Address
-                    <input
-                        type="text"
-                        value={address}
-                        onChange={e => setAddress(e.target.value)}
-                        placeholder="Address"
-                    />
-                </label>
-                <div id="locationErrors">
-                    {errors.city && <p className="error">{errors.city}</p>}
-                    {errors.state && <p className="error">{errors.state}</p>}
-                    {errors.country && <p className="error">{errors.country}</p>}
-                </div>
-                <div className="locationContainer">
-                    <label>
-                        City
-                        <input
-                            type="text"
-                            value={city}
-                            onChange={e => setCity(e.target.value)}
-                            placeholder="City"
-                        />
-                    </label>
-                    <label>
-                        State
-                        <input
-                            type="text"
-                            value={state}
-                            onChange={e => setState(e.target.value)}
-                            placeholder="State"
-                        />
-                    </label>
-                    <label>
-                        Country
-                        <input
-                            type="text"
-                            value={country}
-                            onChange={e => setCountry(e.target.value)}
-                            placeholder="Country"
-                        />
-                    </label>
-                </div>
-                <div className='lineBreakForm'></div>
+                <TextField
+                    value={address}
+                    onChange={e => setAddress(e.target.value)}
+                    label="Street Address"
+                    variant="standard"
+                    required
+                />
+                {errors.address && <p className='error'>{errors.address}</p>}
+
+                <TextField
+                    value={city}
+                    onChange={e => setCity(e.target.value)}
+                    label="City"
+                    variant="standard"
+                    required
+                />
+                {errors.city && <p className='error'>{errors.city}</p>}
+
+                <TextField
+                    value={state}
+                    onChange={e => setState(e.target.value)}
+                    label="State"
+                    variant="standard"
+                    required
+                />
+                {errors.state && <p className='error'>{errors.state}</p>}
+
+                <TextField
+                    value={country}
+                    onChange={e => setCountry(e.target.value)}
+                    label="Country"
+                    variant="standard"
+                    required
+                />
+                {errors.country && <p className='error'>{errors.country}</p>}
+
                 <h2>Describe your place to guest</h2>
-                <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
-                <label>
-                    <input
-                        type="text"
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                        minLength={30}
-                        placeholder="Please write at least 30 characters"
-                        id="description"
-                    />
-                </label>
-                {errors.description && <p className="error">{errors.description}</p>}
-                <div className='lineBreakForm'></div>
+                <p>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
+
+                <TextareaAutosize
+                    minRows={3}
+                    value={description}
+                    onChange={handleDescriptionChange}
+                    required
+                    style={{ minWidth: "300px", minHeight: "75px", maxWidth: "500px", maxHeight: "150px" }}
+                    placeholder="Please write at least 30 characters, up to 300."
+                />
+
+                {errors.description && <p className='error'>{errors.description}</p>}
+
                 <h2>Create a title for your Spot</h2>
                 <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
-                <label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                        placeholder="Name of your Spot"
-                    />
-                </label>
-                {errors.name && <p className="error">{errors.name}</p>}
-                {isSubmitted && errors.nameLen && <p className="error">{errors.nameLen}</p>}
-                <div className='lineBreakForm'></div>
+
+                <TextField
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    label="Name of your Spot"
+                    variant="standard"
+                    required
+                />
+                {errors.name && <p className='error'>{errors.name}</p>}
+
                 <h2>Set a base price for your spot</h2>
                 <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                <div className="priceContainer">
-                    <label>
-                        <span>$</span>
-                        <input
-                            type="number"
-                            value={price}
-                            onChange={e => setPrice(e.target.value)}
-                            placeholder="Price per night (USD)"
-                            min={1}
-                            max={9999999999.99}
-                        />
-                    </label>
-                    {errors.price && <p className="error">{errors.price}</p>}
-                </div>
-                <div className='lineBreakForm'></div>
+
+                <TextField
+                    type="number"
+                    value={price}
+                    onChange={e => setPrice(e.target.value)}
+                    label="Price (USD)"
+                    variant="standard"
+                    required
+                    placeholder="Per Night"
+                    inputProps={{
+                        min: 1,
+                        max: 9999999999.99,
+                        step: "0.01"
+                    }}
+                />
+
+                {errors.price && <p className='error'>{errors.price}</p>}
+
                 <h2>Liven up your spot with photos</h2>
-                <p>Submit a link at least one photo to publish your spot.</p>
-                <label>
-                    <input
-                        type="url"
-                        value={previewImg}
-                        onChange={e => setPreviewImg(e.target.value)}
-                        placeholder="Preview Image URL"
+                <p>Upload at least a preview image to publish your spot, extra are optional but encouraged.</p>
+
+                <div style={{ marginBottom: '10px' }}>
+                    <InputFileUpload
+                        label="Upload Preview Image"
+                        startIcon={<CloudUploadIcon />}
+                        onChange={updatePreviewImage}
                     />
-                </label>
-                {errors.previewImg && <p className="error">{errors.previewImg}</p>}
-                <label>
-                    <input
-                        type="url"
-                        value={images[0] || ''}
-                        onChange={e => setImages([e.target.value, ...images.slice(1)])}
-                        placeholder="Image URL"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="url"
-                        value={images[1] || ''}
-                        onChange={e => setImages([images[0], e.target.value, ...images.slice(2)])}
-                        placeholder="Image URL"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="url"
-                        value={images[2] || ''}
-                        onChange={e => setImages([...images.slice(0, 2), e.target.value, ...images.slice(3)])}
-                        placeholder="Image URL"
-                    />
-                </label>
-                <label>
-                    <input
-                        type="url"
-                        value={images[3] || ''}
-                        onChange={e => setImages([...images.slice(0, 3), e.target.value, ...images.slice(4)])}
-                        placeholder="Image URL"
-                    />
-                </label>
-                <button type="submit">Create Spot</button>
+                </div>
+
+                {errors.previewImg && <p className='error' style={{ marginBottom: '10px' }}>{errors.previewImg}</p>}
+
+                {[0, 1, 2, 3].map((index) => (
+                    <div key={index} style={{ marginBottom: '10px' }}>
+                        <InputFileUpload
+                            label={`Image #${index + 1}`}
+                            startIcon={<CloudUploadIcon />}
+                            onChange={updateImageArray(index)}
+                        />
+                    </div>
+                ))}
+
+                <Button
+                    type="submit"
+                    variant="contained"
+                >
+                    Create Spot
+                </Button>
             </form>
         </>
-
     );
 };
 

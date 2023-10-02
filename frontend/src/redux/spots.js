@@ -103,34 +103,32 @@ export const fetchSingleSpot = id => async dispatch => {
   return response;
 }
 
-export const addSpotImages = imagesData => async dispatch => {
-  const { spotId, previewImg, images, sessionUser, updating } = imagesData;
-  const formData = new FormData();
-  
-  if (updating) {
-    await csrfFetch(`/api/spot-images/${previewImg.id}`, { method: "DELETE" });
+export const addSpotImages = detailsPayload => async dispatch => {
+  const { spotId, images } = detailsPayload;
+  const imagesToReplace = images.filter(img => img && !img.url && img.id);
 
-    images.forEach(async imageFile => {
-      await csrfFetch(`/api/spot-images/${imageFile.id}`, { method: "DELETE" });
-    });
-    await dispatch(removeImages(spotId));
+  for (const image of imagesToReplace) {
+      await csrfFetch(`/api/spot-images/${image.id}`, { method: "DELETE" });
   }
 
-  // Add the preview image file to the FormData
-  formData.append("preview", previewImg);
-  images && images.forEach((imageFile, index) => {
-    formData.append(`images[${index}]`, imageFile);
-  });
+  const formData = new FormData();
+  for (const img of images) {
+    if (img && img.file) {
+        formData.append('image', img.file);
+    }
+  }
 
+  // Post the new images
   const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-    method: "POST",
-    body: formData, // Send FormData instance without setting content-type explicitly
+      method: "POST",
+      body: formData,
   });
 
   const data = await response.json();
 
   const { previewResponse, slicedImages } = data;
-  dispatch(addImages({ previewResponse, slicedImages }, sessionUser));
+  dispatch(addImages({ previewResponse, slicedImages }));
+
   return true;
 };
 

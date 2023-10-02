@@ -49,41 +49,56 @@ const UpdateSpot = () => {
 
     const updatePreviewImage = e => {
         const file = e.target.files[0];
-        if (file) setPreviewImg(file);
-        console.log(previewImg);
-        console.log(file);
+        if (file) {
+            const url = URL.createObjectURL(file);
+            const updatedImage = images[0]?.id ? { id: images[0].id, file, url } : { file, url };
+            setImages([updatedImage, ...images.slice(1)]);
+        }
     };
 
     const updateImageArray = (index) => (e) => {
         const file = e.target.files[0];
         if (file) {
+            const url = URL.createObjectURL(file);
+            const updatedImage = images[index + 1]?.id ? { id: images[index + 1].id, file, url } : { file, url };
             const newImages = [...images];
-            newImages[index] = file;
+            newImages[index + 1] = updatedImage;
             setImages(newImages);
         }
-        console.log(images);
-        console.log(file);
     };
 
     const handleSubmit = e => {
         e.preventDefault();
 
+        // Validate form
         const newErrors = validateForm();
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length > 0) return;
 
-        dispatch(
-            spotActions.fetchUpdateSpot({
-                address,
-                city,
-                state,
-                country,
-                name,
-                description,
-                price,
-                spotId,
-            }))
+        // First, update spot details
+        const detailsPayload = {
+            address,
+            city,
+            state,
+            country,
+            name,
+            description,
+            price,
+            spotId
+        };
+
+        // Generating the desired image payload format
+        const imagePayload = images.map(img => {
+            if (img && img.file) return { id: img.id, file: img.file };
+            return img && { id: img.id, url: img.url };
+        });
+
+        // Combining the two payloads
+        detailsPayload.images = imagePayload;
+
+        // Dispatch the thunk
+        dispatch(spotActions.addSpotImages(detailsPayload))
             .then(res => {
                 if (res.errors) {
                     for (const error of res.errors) {
@@ -101,16 +116,8 @@ const UpdateSpot = () => {
                 } else {
                     if (res.ok) {
                         const { id } = res;
-                        dispatch(spotActions.addSpotImages({
-                            previewImg: images[0],
-                            images: images.slice(1),
-                            spotId: id,
-                            updating: true,
-                        }))
-                            .then(() => {
-                                closeModal();
-                                history.push(`/spots/${id}`);
-                            });
+                        closeModal();
+                        history.push(`/spots/${id}`);
                     }
                 }
             });
@@ -168,11 +175,11 @@ const UpdateSpot = () => {
 
                 {/* Photo Upload Section */}
                 <h2>Liven up your spot with photos</h2>
-                <p>Submit a link to at least one photo to publish your spot.</p>
+                <p>Upload at least one photo to update your spot.</p>
 
                 {/* Preview Image section */}
                 <div style={{ marginBottom: '10px' }}>
-                    {<img src={images[0].url} alt="Preview" style={{ maxWidth: '200px', marginBottom: '10px' }} />}
+                    {images[0] && <img src={images[0].url} alt="Preview" style={{ maxWidth: '200px', marginBottom: '10px' }} />}
                     <InputFileUpload
                         label="Upload Preview Image"
                         startIcon={<CloudUploadIcon />}
@@ -184,7 +191,6 @@ const UpdateSpot = () => {
                 {/* Additional Images */}
                 {[0, 1, 2, 3].map((index) => (
                     <div key={index} style={{ marginBottom: '10px' }}>
-                        {/* Display existing image from the database, if present */}
                         {images[index + 1] && <img src={images[index + 1].url} alt={`Image ${index + 1}`} style={{ maxWidth: '200px', marginBottom: '10px' }} />}
                         <InputFileUpload
                             label={`Image #${index + 1}`}
@@ -198,6 +204,6 @@ const UpdateSpot = () => {
             </form>
         </>
     );
-}
+};
 
 export default UpdateSpot;

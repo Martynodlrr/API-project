@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
+const {
+  singleMulterUpload,
+  multipleMulterUpload,
+  singleFileUpload,
+  multipleFilesUpload  } = require("../../awsS3");
 const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
 const { Sequelize } = require('sequelize');
 const { formatDate } = require('../../utils/helperFunc.js');
@@ -395,42 +399,29 @@ router.post('/', async (req, res) => {
   return res.status(401).json({ "message": 'Invalid credentials' });
 });
 
-router.post('/:spotId/images', singleMulterUpload("image"), async (req, res) => {
-  const { user } = req;
+router.post('/:spotId/images', multipleMulterUpload("image"), async (req, res) => {
   const spotId = req.params.spotId;
-  const { preview } = req.body;
-  const profileImageUrl = req.file ?
-      await singleFileUpload({ file: req.file, public: true }) :
-      null;
 
-  const spot = await Spot.findOne({ where: { id: spotId } });
+  let imageUrls;
 
-  if (spot && spot.ownerId !== user.id) {
-    return res.status(401).json({ "message": 'Invalid credentials' });
+  if (req.files && req.files.length === 1) {
+    const url = await singleFileUpload({ file: req.files[0], public: true });
+    imageUrls = [url];
+  } else if (req.files && req.files.length > 1) {
+    imageUrls = await multipleFilesUpload({ files: req.files, public: true });
+  } else {
+    return res.status(400).json({ error: "No images provided." });
   }
 
-  if (spot) {
-    try {
-      const image = await SpotImage.create({ spotId, profileImageUrl, preview });
-      const { createdAt, updatedAt, spotId: excludedSpotId, ...imageData } = image.dataValues;
+  const images = await Promise.all(imageUrls.map(url => {
+    return SpotImage.create({ spotId, url, preview: false });
+  }));
+  const responseData = images.map(img => {
+    const { createdAt, updatedAt, spotId: excludedSpotId, ...imageData } = img.dataValues;
+    return imageData;
+  });
 
-      return res.json(imageData);
-    } catch (err) {
-      const errors = [];
-
-      for (const key in err.errors) {
-        if (err.errors[key].message.startsWith('Spot')) {
-          errors.push(err.errors[key].message.slice(10));
-        } else {
-          errors.push(err.errors[key].message);
-        }
-      }
-
-      return res.status(400).json({ errors });
-    }
-
-  }
-  return res.status(404).json({ "message": "Spot couldn't be found" });
+  return res.json(responseData);
 });
 
 router.post('/:spotId/reviews', async (req, res) => {

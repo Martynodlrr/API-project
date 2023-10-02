@@ -22,10 +22,6 @@ router.delete('/:spotImageId', async (req, res) => {
         return res.status(404).json({ "message": "Spot couldn't be found" });
     }
 
-    if (spot.ownerId !== user.id) {
-        return res.status(403).json({ "message": "Spot doesn't belong to current user" });
-    }
-
     await spotImage.destroy();
 
     return res.status(200).json({ "message": "Successfully deleted" });

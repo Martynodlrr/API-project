@@ -11,6 +11,8 @@ import OpenModalMenuItem from '../Modal/OpenModalButton/OpenModalMenuItem.js';
 import * as sessionActions from '../../redux/session';
 import * as spotActions from '../../redux/spots.js';
 
+import './Navigation.css';
+
 function ProfileButton({ user }) {
     const theme = useTheme();
     const dispatch = useDispatch();
@@ -54,7 +56,7 @@ function ProfileButton({ user }) {
     const ulClassName = `profile-dropdown${showMenu ? " show" : ""}`;
 
     return (
-        <>
+        <div className="profile-menu-wrapper">
             {user ? (
                 <AccountCircleIcon onClick={openMenu} color="secondary" />
             ) : (
@@ -100,7 +102,7 @@ function ProfileButton({ user }) {
                     )}
                 </ul>
             )}
-        </>
+        </div>
     );
 };
 

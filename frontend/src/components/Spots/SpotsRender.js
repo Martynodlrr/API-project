@@ -13,7 +13,7 @@ function SpotsRender() {
   const history = useHistory();
 
   const allSpotsObj = useSelector((state) => state.spots.allSpots);
-  const spotsPerPage = 4;
+  const spotsPerPage = 8;
   const startIndex = (currentPage - 1) * spotsPerPage;
   const allSpots = Object.values(allSpotsObj).slice(
     startIndex,

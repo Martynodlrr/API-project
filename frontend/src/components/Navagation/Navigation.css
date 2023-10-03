@@ -1,0 +1,31 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.profile-menu-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 20%;
+  left: -60px;
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.profile-dropdown > ul > li {
+  color: red;
+  cursor: pointer;
+}
+
+#logo {
+  height: 50px;
+  margin-right: 10px;
+}

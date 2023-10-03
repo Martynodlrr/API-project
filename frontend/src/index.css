@@ -1,0 +1,16 @@
+img {
+  max-width: 373px;
+  max-height: 355px;
+  min-width: 300px;
+  min-height: 300px;
+}
+
+li {
+  list-style-type: none;
+  margin: 8px;
+}
+
+ul {
+  padding: 5px;
+  border-radius: 8px;
+}

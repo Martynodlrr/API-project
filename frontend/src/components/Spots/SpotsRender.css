@@ -1,0 +1,10 @@
+.spots-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.spot {
+  flex-grow: 1;
+  flex-basis: 200px;
+  margin: 1%;
+}

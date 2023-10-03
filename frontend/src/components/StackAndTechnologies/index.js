@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 import './index.css';
@@ -35,7 +34,7 @@ const StackRender = () => {
             <img src="https://media.licdn.com/dms/image/D5603AQGPnwv4xdOy_w/profile-displayphoto-shrink_100_100/0/1695828000081?e=1701907200&v=beta&t=f9GwhnCMaOtypzydwv-ByzeXJnmZUgxLq9GIZixbT7A" alt="Your Picture" className="profile-pic"/>
         </div>
     </Box>
-);
+    );
 };
 
 export default StackRender;

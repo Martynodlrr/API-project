@@ -1,0 +1,16 @@
+#spots-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+#create-button {
+  display: flex;
+  justify-content: center;
+}
+
+.spots-grid {
+  display: flex;
+  margin-top: 20px;
+}

@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
 import React, { useEffect } from 'react';
 
 import { useModal } from '../Modal/context/Modal.js';
@@ -7,7 +10,7 @@ import ConfirmationDeleteModal from '../Modal/DeletionModal/ConfirmationDeleteMo
 import { renderAvgRating } from '../../HelperFuncs.js';
 import * as spotActions from '../../redux/spots.js';
 
-import './SpotsRender.css';
+import './UserSpotRender.css';
 
 function UserSpotsRender() {
   const history = useHistory();
@@ -33,44 +36,47 @@ function UserSpotsRender() {
 
   return (
     <>
-      <h1>Manage Spots</h1>
-      <button><NavLink to='/spots/new'>Create a Spot</NavLink></button>
-      <div className='spots-grid'>
+      <h1 className='heading'>Manage Spots</h1>
+      <div id='create-button'>
+        <IconButton href='/spots/new'>
+          <AddIcon />
+          Create a Spot
+        </IconButton>
+      </div>
+      <div id='spots-container'>
         {Object.values(userSpotsObj).map(spot => (
-          <div key={spot.id} className='spots-container'>
-            <div className='spots-grid'>
-              <div
-                className='spot'
-                title={spot.name}
-                onClick={() => handleRedirect(spot)}
-              >
-                {spot.SpotImages && spot.SpotImages.length > 0 && (
-                  <img src={spot.SpotImages[0].url} alt={spot.name} />
-                )}
-                <div className='spot-content'>
-                  <div className='spot-info'>
-                    <h2>{spot.city}, {spot.state}</h2>
-                    {spot.Reviews && spot.Reviews.length > 0 ? (
-                      <p>
-                        <span className="star">&#9733; </span>
-                        {renderAvgRating(
-                          spot.Reviews.reduce((total, review) => total + review.stars, 0) / spot.Reviews.length
-                        )}
-                      </p>
-                    ) : (
-                      <p>
-                        <span className="star">&#9733; </span>
-                        New
-                      </p>
-                    )}
-                  </div>
-                  <p className='price'>${spot.price} night</p>
+          <div key={spot.id} className='spots-grid'>
+            <div
+              className='spot'
+              title={spot.name}
+              onClick={() => handleRedirect(spot)}
+            >
+              {spot.SpotImages && spot.SpotImages.length > 0 && (
+                <img src={spot.SpotImages[0].url} alt={spot.name} />
+              )}
+              <div className='spot-content'>
+                <div className='spot-info'>
+                  <h2>{spot.city}, {spot.state}</h2>
+                  {spot.Reviews && spot.Reviews.length > 0 ? (
+                    <p>
+                      <span className="star">&#9733; </span>
+                      {renderAvgRating(
+                        spot.Reviews.reduce((total, review) => total + review.stars, 0) / spot.Reviews.length
+                      )}
+                    </p>
+                  ) : (
+                    <p>
+                      <span className="star">&#9733; </span>
+                      New
+                    </p>
+                  )}
                 </div>
+                <p className='price'>${spot.price} night</p>
               </div>
             </div>
             <div className='manageButtons'>
-            <button className='updateButton' ><NavLink to={`/spots/${spot.id}/edit`}>Update</NavLink></button>
-            <button className='deleteButton' onClick={() => handleDelete(spot.id)}>Delete</button>
+              <Button className='updateButton' variant="contained" href={`/spots/${spot.id}/edit`} >Update</Button>
+              <Button className='deleteButton' variant="outlined" onClick={() => handleDelete(spot.id)}>Delete</Button>
             </div>
           </div>
         ))}

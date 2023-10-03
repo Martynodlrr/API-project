@@ -11,20 +11,10 @@ import Button from '@mui/material/Button';
 import "./LoginForm.css";
 function LoginFormModal({ theme }) {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-  const sessionUser = useSelector(state => state.session.user);
-
-  useEffect(() => {
-    if (sessionUser) {
-      history.push("/");
-    }
-  }, [sessionUser, history]);
-
-  if (sessionUser) return <Redirect to="/" />
 
   const handleSubmit = e => {
     e.preventDefault();

@@ -1,10 +1,41 @@
+.spots-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
 .spots-grid {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .spot {
-  flex-grow: 1;
-  flex-basis: 200px;
   margin: 1%;
+  width: fit-content;
+  cursor: pointer;
+  max-height: 450px;
+}
+
+.spot > img {
+  border-radius: 10px;
+}
+
+.spot-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -10px;
+}
+
+.star {
+  color: #DFDF27;
+  font-size: 20px;
 }

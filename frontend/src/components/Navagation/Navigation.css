@@ -6,6 +6,11 @@
   margin-bottom: 10px;
 }
 
+#logo {
+  height: 50px;
+  margin-right: 10px;
+}
+
 .profile-menu-wrapper {
   position: relative;
   display: inline-block;
@@ -14,18 +19,25 @@
 .profile-dropdown {
   position: absolute;
   top: 20%;
-  left: -60px;
+  left: -160px;
   background-color: rgba(255, 255, 255, 0.9);
   overflow: hidden;
-  backdrop-filter: blur(10px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-.profile-dropdown > ul > li {
-  color: red;
+.menu-icon {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 1.25px #000;
+  border-radius: 3px;
   cursor: pointer;
 }
 
-#logo {
-  height: 50px;
-  margin-right: 10px;
+.menu-icon:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+}
+
+.menu-icon-show {
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
 }

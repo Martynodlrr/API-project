@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useTheme } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 
 import ConfirmationDeleteModal from '../Modal/DeletionModal/ConfirmationDeleteModal.js';
@@ -13,6 +14,7 @@ import './Reviews.css';
 
 const ReviewsRender = ({ spotId }) => {
     const dispatch = useDispatch();
+    const theme = useTheme();
     const [reloadKey, setReloadKey] = useState(0);
     const { setModalContent } = useModal();
     const reviews = useSelector(state => state.reviews.spot);
@@ -58,7 +60,7 @@ const ReviewsRender = ({ spotId }) => {
                         <button className='menuButton'>
                             <OpenModalMenuItem
                                 itemText="Log In to reserve"
-                                modalComponent={<LoginFormModal />}
+                                modalComponent={<LoginFormModal theme={theme} />}
                             />
                         </button>
                     )
@@ -70,7 +72,7 @@ const ReviewsRender = ({ spotId }) => {
 
             {Object.keys(reviews).length > 0 && (
                 <h1>
-                    <span className="star">&#9733; </span>{spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} {Object.keys(reviews).length > 1 ? 'Reviews' : 'Review'}
+                    <span className="stars">&#9733; </span>{spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} {Object.keys(reviews).length > 1 ? 'Reviews' : 'Review'}
                 </h1>
             )}
 
@@ -100,7 +102,7 @@ const ReviewsRender = ({ spotId }) => {
                 <>
                     <h2>
                         <p>Be the first to post a review!</p>
-                        <span className="star">&#9733; </span>
+                        <span className="stars">&#9733; </span>
                         New
                     </h2>
                 </>

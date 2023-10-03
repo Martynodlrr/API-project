@@ -1,5 +1,6 @@
 import { NavLink, useHistory, useLocation } from "react-router-dom";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from '@mui/material/styles';
@@ -58,17 +59,15 @@ function ProfileButton({ user }) {
     return (
         <div className="profile-menu-wrapper">
             {user ? (
-                <AccountCircleIcon onClick={openMenu} color="secondary" />
+                <AccountCircleIcon className={`menu-icon${showMenu ? '-show' : ''}`} onClick={openMenu} color="secondary" />
             ) : (
-                <button onClick={openMenu}>
-                    <i className="fas fa-bars" />
-                </button>
+                <MenuRoundedIcon className={`menu-icon${showMenu ? '-show' : ''}`} sx={{ fontSize: 25 }} onClick={openMenu} />
             )}
             {showMenu && (
                 <ul className={ulClassName} ref={ulRef}>
                     {user ? (
                         <ul>
-                            <li>Hello, {user.firstName}</li>
+                            <li>Hello, {user.firstName}!</li>
                             <li>{user.email}</li>
                             <div className='lineBreak'></div>
                             <li className='Links'>

@@ -1,5 +1,7 @@
-import React from 'react';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
+import IconButton from '@mui/material/IconButton';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -65,18 +67,20 @@ function SpotsRender() {
       </div>
 
       <div className='pagination'>
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
-        >
-          Previous Page
-        </button>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-        >
-          Next Page
-        </button>
+        <IconButton disabled={currentPage === 1}>
+          <ArrowBackIcon
+            onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
+          >
+            Previous Page
+          </ArrowBackIcon>
+        </IconButton>
+        <IconButton disabled={currentPage === totalPages}>
+          <ArrowForwardIcon
+            onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
+          >
+            Next Page
+          </ArrowForwardIcon>
+        </IconButton>
       </div>
     </div>
   );

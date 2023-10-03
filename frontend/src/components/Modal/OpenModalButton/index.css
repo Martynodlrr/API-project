@@ -1,0 +1,14 @@
+.item {
+  cursor: pointer;
+  width: 115px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 1.25px #000;
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.item:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
+}

@@ -11,6 +11,7 @@ import '@fontsource/roboto/700.css';
 
 import SingleSpotRender from './components/Spots/SingleSpotRender.js';
 import UserSpotsRender from "./components/Spots/UserSpotsRender.js";
+import StackRender from "./components/StackAndTechnologies/index.js";
 import SpotsRender from './components/Spots/SpotsRender.js';
 import Navigation from "./components/Navagation/index.js";
 import CreateSpot from "./components/Spots/CreateSpot.js";
@@ -67,6 +68,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <div id='content'>
       <Navigation isLoaded={isLoaded} />
       <div className='lineBreak'></div>
       {isLoaded && <Switch>
@@ -90,6 +92,8 @@ function App() {
         </Route>
       </Switch>
       }
+      </div>
+      <StackRender />
     </ThemeProvider>
   );
 };

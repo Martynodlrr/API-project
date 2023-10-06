@@ -106,16 +106,16 @@ const UpdateSpot = () => {
         detailsPayload.images = imagePayload;
 
         // Dispatch the thunk
-        dispatch(spotActions.addSpotImages(detailsPayload))
-            .then(addImageRes => {
-                // Assuming there's some error field or similar in addImageRes to check
-                if (addImageRes.errors) {
-                    console.error("Error adding spot images:", addImageRes.errors);
-                    return; // Stop the flow if there was an error adding images
-                }
+        // dispatch(spotActions.addSpotImages(detailsPayload))
+        //     .then(addImageRes => {
+        //         // Assuming there's some error field or similar in addImageRes to check
+        //         if (addImageRes.errors) {
+        //             console.error("Error adding spot images:", addImageRes.errors);
+        //             return; // Stop the flow if there was an error adding images
+        //         }
 
-                return dispatch(spotActions.fetchUpdateSpot(detailsPayload));
-            })
+        //         return dispatch(spotActions.fetchUpdateSpot(detailsPayload));
+        //     })
             .then(updateRes => {
                 if (updateRes && updateRes.errors) {
                     updateRes.errors.forEach(error => {

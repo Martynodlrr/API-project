@@ -88,17 +88,19 @@ const CreateSpot = () => {
                 } else {
                     if (res.ok) {
                         const { id } = res;
+                        const imageFiles = images.filter(image => image)
 
-                        dispatch(sessionActions.addSpotImages({
-                            previewImg,
-                            images: images.filter(image => image),
-                            spotId: id,
-                            sessionUser
-                        }))
-                            .then(() => {
-                                closeModal();
-                                history.push(`/spots/${id}`);
-                            })
+console.log(imageFiles)
+console.log(previewImg)
+                    //     dispatch(sessionActions.addImagesToSpot({
+                    //         imageFiles: {, ...previewImg},
+                    //         spotId: id,
+                    //         sessionUser
+                    //     }))
+                    //         .then(() => {
+                    //             closeModal();
+                    //             history.push(`/spots/${id}`);
+                    //         })
                     }
                 }
             });

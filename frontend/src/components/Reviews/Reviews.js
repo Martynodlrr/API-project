@@ -26,7 +26,7 @@ const ReviewsRender = ({ spotId }) => {
 
 
     const handleReviewDelete = (reviewId, spotId) => {
-        setModalContent(<ConfirmationDeleteModal spotId={spotId} reviewId={reviewId} slice={'Review'} />);
+        setModalContent(<ConfirmationDeleteModal spotId={spotId} reviewId={reviewId} slice={'Review'} theme={theme} />);
         setReloadKey(prevKey => prevKey + 1);
     }
 
@@ -39,7 +39,7 @@ const ReviewsRender = ({ spotId }) => {
     if (!spot.Owner) return null;
 
     return (
-        <div id={!Object.keys(reviews).length ? 'empty-review-container' : 'full-reviews-container' }>
+        <div id={!Object.keys(reviews).length ? 'empty-review-container' : 'full-reviews-container'}>
             {Object.keys(reviews).length === 0 && (
                 <>
                     <h2 className='heading'>

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import React, { useEffect } from 'react';
@@ -13,6 +14,7 @@ import * as spotActions from '../../redux/spots.js';
 import './UserSpotRender.css';
 
 function UserSpotsRender() {
+  const theme = useTheme();
   const history = useHistory();
   const dispatch = useDispatch();
   const { setModalContent } = useModal();
@@ -25,7 +27,7 @@ function UserSpotsRender() {
   };
 
   const handleDelete = spotId => {
-    setModalContent(<ConfirmationDeleteModal spotId={spotId} slice={'Spot'} />);
+    setModalContent(<ConfirmationDeleteModal spotId={spotId} slice={'Spot'} theme={theme} />);
   };
 
   useEffect(() => {

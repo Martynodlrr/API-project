@@ -103,33 +103,67 @@ export const fetchSingleSpot = id => async dispatch => {
   return response;
 }
 
-export const addSpotImages = detailsPayload => async dispatch => {
+export const updateSpotImages = detailsPayload => async dispatch => {
   const { spotId, images } = detailsPayload;
-  const imagesToReplace = images.filter(img => img && !img.url && img.id);
 
-  for (const image of imagesToReplace) {
-      await csrfFetch(`/api/spot-images/${image.id}`, { method: "DELETE" });
+  const imagesToUpdate = images.filter(img => img && !img.url && img.id);
+
+  for (const image of imagesToUpdate) {
+      const formData = new FormData();
+      if (image && image.file) {
+          formData.append('image', image.file);
+      }
+
+      await csrfFetch(`/api/spot-images/${image.id}`, {
+          method: "PUT",
+          body: formData,
+      });
   }
 
-  const formData = new FormData();
-  for (const img of images) {
-    if (img && img.file) {
-        formData.append('image', img.file);
-    }
+  const newImages = images.filter(img => img && img.file && !img.id);
+  if (newImages.length) {
+      const formData = new FormData();
+      for (const img of newImages) {
+          formData.append('image', img.file);
+      }
+
+      const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+          method: "POST",
+          body: formData,
+      });
+
+      const data = await response.json();
+      const { previewResponse, slicedImages } = data;
+      dispatch(addImages({ previewResponse, slicedImages }));
   }
-
-  // Post the new images
-  const response = await csrfFetch(`/api/spots/${spotId}/images`, {
-      method: "POST",
-      body: formData,
-  });
-
-  const data = await response.json();
-
-  const { previewResponse, slicedImages } = data;
-  dispatch(addImages({ previewResponse, slicedImages }));
 
   return true;
+};
+
+export const addImagesToSpot = (spotId, imageFiles) => async dispatch => {
+  const formData = new FormData();
+  imageFiles.forEach((file) => {
+      formData.append('image', file);
+  });
+
+  try {
+      const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+          method: 'POST',
+          body: formData,
+      });
+
+      if (response.ok) {
+          const images = await response.json();
+          dispatch(setImages(images));
+          return true;
+      } else {
+          const errorData = await response.json();
+          throw new Error(errorData.error);
+      }
+  } catch (error) {
+      console.error('Error uploading images:', error.message);
+      return false;
+  }
 };
 
 export const createSpot = spot => async dispatch => {

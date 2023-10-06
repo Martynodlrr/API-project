@@ -1,20 +1,15 @@
-#formBakcground {
+.btn {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
+    justify-content: space-around;
+    flex-direction: row;
 }
 
-#confirm {
-    text-align: center;
-}
-
-#confirmDeleteButtonYes button {
+#confirm-btn {
     background-color: red;
     border-radius: 5px;
 }
 
-#confirmDeleteButtonNo button {
+#deny-btn {
     background-color: darkgrey;
     border-radius: 5px;
 }

@@ -140,10 +140,13 @@ export const updateSpotImages = detailsPayload => async dispatch => {
   return true;
 };
 
-export const addImagesToSpot = (spotId, imageFiles) => async dispatch => {
+export const addImagesToSpot = ({ spotId, imageFiles }) => async dispatch => {
   const formData = new FormData();
-  imageFiles.forEach((file) => {
-      formData.append('image', file);
+
+  imageFiles.forEach((img) => {
+    console.log(img)
+    console.log(img.file)
+      formData.append('image', img);
   });
 
   try {
@@ -154,7 +157,7 @@ export const addImagesToSpot = (spotId, imageFiles) => async dispatch => {
 
       if (response.ok) {
           const images = await response.json();
-          dispatch(setImages(images));
+          dispatch(addImages(images));
           return true;
       } else {
           const errorData = await response.json();

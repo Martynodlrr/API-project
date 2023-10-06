@@ -71,6 +71,7 @@ const CreateSpot = () => {
                 price
             }))
             .then(res => {
+                console.log('we made the spot')
                 if (res.errors) {
                     for (const error of res.errors) {
                         setErrors(prevErrors => {
@@ -89,18 +90,16 @@ const CreateSpot = () => {
                     if (res.ok) {
                         const { id } = res;
                         const imageFiles = images.filter(image => image)
+                        imageFiles.unshift(previewImg)
 
-console.log(imageFiles)
-console.log(previewImg)
-                    //     dispatch(sessionActions.addImagesToSpot({
-                    //         imageFiles: {, ...previewImg},
-                    //         spotId: id,
-                    //         sessionUser
-                    //     }))
-                    //         .then(() => {
-                    //             closeModal();
-                    //             history.push(`/spots/${id}`);
-                    //         })
+                        dispatch(sessionActions.addImagesToSpot({
+                            imageFiles,
+                            spotId: id
+                        }))
+                            .then(() => {
+                                closeModal();
+                                history.push(`/spots/${id}`);
+                            })
                     }
                 }
             });

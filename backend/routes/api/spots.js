@@ -404,6 +404,8 @@ router.post('/:spotId/images', multipleMulterUpload("image"), async (req, res) =
 
   let imageUrls;
 
+  console.log('----------------------------------------------------------------------------', req.files)
+
   if (req.files && req.files.length === 1) {
     const url = await singleFileUpload({ file: req.files[0], public: true });
     imageUrls = [url];
@@ -428,7 +430,7 @@ router.post('/:spotId/reviews', async (req, res) => {
   const spotId = parseInt(req.params.spotId, 10);
   const { user } = req;
   const { review, stars } = req.body;
-  
+
   const spot = await Spot.findByPk(spotId);
 
   if (!spot) {

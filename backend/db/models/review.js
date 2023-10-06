@@ -58,11 +58,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     stars: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(10, 1),
       allowNull: false,
       validate: {
-        min: 0,
-        max: 5
+        min: 0.5,
+        max: 5,
+        isHalfIncrement(value) {
+          if (value * 2 !== Math.floor(value * 2)) {
+            throw new Error('Star rating must be in increments of 0.5.');
+          }
+        }
       }
     }
   }, {

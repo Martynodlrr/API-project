@@ -328,8 +328,6 @@ router.get('/:spotId', async (req, res) => {
     if (reviews.length > 0) {
       let totalStars = 0;
       for (const review of reviews) {
-        console.log(review.dataValues.stars)
-        console.log(review)
         totalStars += review.dataValues.stars;
       }
       avgRating = totalStars / reviews.length;
@@ -430,7 +428,7 @@ router.post('/:spotId/reviews', async (req, res) => {
   const spotId = parseInt(req.params.spotId, 10);
   const { user } = req;
   const { review, stars } = req.body;
-
+  
   const spot = await Spot.findByPk(spotId);
 
   if (!spot) {
@@ -451,7 +449,6 @@ router.post('/:spotId/reviews', async (req, res) => {
     res.status(500).json({ "message": "User already has a review for this spot" });
     return;
   }
-
   try {
     const newReview = await Review.create({
       userId: user.id,

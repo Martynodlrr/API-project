@@ -33,7 +33,6 @@ const CreateReview = ({ spotId, theme }) => {
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length > 0) return;
-console.log(stars)
         const res = await dispatch(
             sessionActions.thunkPostReveiw({
                 review,

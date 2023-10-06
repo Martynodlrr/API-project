@@ -84,7 +84,7 @@ export const thunkPostReveiw = reviewData => async dispatch => {
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ review, stars: parseInt(stars) })
+    body: { review: JSON.stringify(review), stars }
   };
 
   const payload = await csrfFetch(`/api/spots/${spotId}/reviews`, options);

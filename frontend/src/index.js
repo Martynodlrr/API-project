@@ -1,16 +1,15 @@
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import ReactDOM from "react-dom";
 import React from "react";
 
-import "./index.css";
-
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
 import { ModalProvider, Modal } from './components/Modal/context/Modal.js';
-import App from "./App";
-
-import configureStore from "./redux/index.js";
 import { restoreCSRF, csrfFetch } from "./redux/csrf";
 import * as sessionActions from "./redux/session";
+import configureStore from "./redux/index.js";
+import App from "./App";
+
+import "./index.css";
 
 const store = configureStore();
 

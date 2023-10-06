@@ -31,6 +31,14 @@ const UpdateSpot = () => {
     const { closeModal } = useModal();
     const history = useHistory();
 
+    const handleDescriptionChange = (e) => {
+        const value = e.target.value;
+
+        if (value.length <= 300 || (value.length < description.length)) {
+            setDescription(value);
+        }
+    };
+
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId));
     }, [dispatch, spotId]);
@@ -114,8 +122,8 @@ const UpdateSpot = () => {
                         });
                     }
                 } else {
-                    if (res.ok) {
-                        const { id } = res;
+                    if (res) {
+                        const { id } = spot;
                         closeModal();
                         history.push(`/spots/${id}`);
                     }
@@ -141,66 +149,104 @@ const UpdateSpot = () => {
 
     return (
         <>
-            <h1 className='formTitle'>Update Spot</h1>
-            <form onSubmit={handleSubmit} className='formContainer'>
+            <h1 className='heading'>Update Spot</h1>
+            <form onSubmit={handleSubmit} id='form-container'>
+
                 {/* Location Section */}
-                <h2>Where's your place located?</h2>
-                <p>Guests will only get your exact address once they book a reservation.</p>
-                <TextField value={address} onChange={e => setAddress(e.target.value)} label="Street Address" variant="standard" required />
+                <h2 className='heading'>Where's your place located?</h2>
+                <p className='heading'>Guests will only get your exact address once they book a reservation.</p>
+
+                <div id='input-container'>
+                    <TextField value={address} onChange={e => setAddress(e.target.value)} label="Street Address" variant="standard" required />
+                </div>
+
                 {errors.address && <p className='error'>{errors.address}</p>}
-                <TextField value={city} onChange={e => setCity(e.target.value)} label="City" variant="standard" required />
+
+                <div id='input-container'>
+                    <TextField value={city} onChange={e => setCity(e.target.value)} label="City" variant="standard" required />
+                </div>
+
                 {errors.city && <p className='error'>{errors.city}</p>}
-                <TextField value={state} onChange={e => setState(e.target.value)} label="State" variant="standard" required />
+
+                <div id='input-container'>
+                    <TextField value={state} onChange={e => setState(e.target.value)} label="State" variant="standard" required />
+                </div>
+
                 {errors.state && <p className='error'>{errors.state}</p>}
-                <TextField value={country} onChange={e => setCountry(e.target.value)} label="Country" variant="standard" required />
+
+                <div id='input-container'>
+                    <TextField value={country} onChange={e => setCountry(e.target.value)} label="Country" variant="standard" required />
+                </div>
+
                 {errors.country && <p className='error'>{errors.country}</p>}
 
                 {/* Description Section */}
-                <h2>Describe your place to guest</h2>
-                <p>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
-                <TextareaAutosize minRows={3} value={description} onChange={e => setDescription(e.target.value)} required style={{ minWidth: "300px", minHeight: "75px", maxWidth: "500px", maxHeight: "150px" }} placeholder="Please write at least 30 characters, up to 300." />
+                <h2 className='heading'>Describe your place to guest</h2>
+                <p className='heading'>Mention the best features of your space, any special amenities like fast wifi or parking, and what you love about the neighborhood.</p>
+
+                <div id='input-container'>
+                    <TextareaAutosize
+                        minRows={3}
+                        value={description}
+                        onChange={handleDescriptionChange}
+                        required style={{ minWidth: "300px", minHeight: "75px", maxWidth: "500px", maxHeight: "150px" }} placeholder="Please write at least 30 characters, up to 300." />
+                </div>
+
                 {errors.description && <p className='error'>{errors.description}</p>}
 
                 {/* Title Section */}
-                <h2>Create a title for your Spot</h2>
-                <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
-                <TextField value={name} onChange={e => setName(e.target.value)} label="Name of your Spot" variant="standard" required />
+                <h2 className='heading'>Create a title for your Spot</h2>
+                <p className='heading'>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+
+                <div id='input-container'>
+                    <TextField value={name} onChange={e => setName(e.target.value)} label="Name of your Spot" variant="standard" required />
+                </div>
+
                 {errors.name && <p className='error'>{errors.name}</p>}
 
                 {/* Price Section */}
-                <h2>Set a base price for your spot</h2>
-                <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                <TextField type="number" value={price} onChange={e => setPrice(e.target.value)} label="Price (USD)" variant="standard" required placeholder="Per Night" inputProps={{ min: 1, max: 9999999999.99, step: "0.01" }} />
+                <h2 className='heading'>Set a base price for your spot</h2>
+                <p className='heading'>Competitive pricing can help your listing stand out and rank higher in search results.</p>
+
+                <div id='input-container'>
+                    <TextField type="number" value={price} onChange={e => setPrice(e.target.value)} label="Price (USD)" variant="standard" required placeholder="Per Night" inputProps={{ min: 1, max: 9999999999.99, step: "0.01" }} />
+                </div>
+
                 {errors.price && <p className='error'>{errors.price}</p>}
 
                 {/* Photo Upload Section */}
-                <h2>Liven up your spot with photos</h2>
-                <p>Upload at least one photo to update your spot.</p>
+                <h2 className='heading'>Liven up your spot with photos</h2>
+                <p className='heading'>Upload at least one photo to update your spot.</p>
 
-                {/* Preview Image section */}
-                <div style={{ marginBottom: '10px' }}>
-                    {images[0] && <img src={images[0].url} alt="Preview" style={{ maxWidth: '200px', marginBottom: '10px' }} />}
-                    <InputFileUpload
-                        label="Upload Preview Image"
-                        startIcon={<CloudUploadIcon />}
-                        onChange={updatePreviewImage}
-                    />
-                </div>
-                {errors.previewImg && <p className='error' style={{ marginBottom: '10px' }}>{errors.previewImg}</p>}
-
-                {/* Additional Images */}
-                {[0, 1, 2, 3].map((index) => (
-                    <div key={index} style={{ marginBottom: '10px' }}>
-                        {images[index + 1] && <img src={images[index + 1].url} alt={`Image ${index + 1}`} style={{ maxWidth: '200px', marginBottom: '10px' }} />}
+                <div id='image-container'>
+                    {/* Preview Image section */}
+                    <div className='image-input-container' style={{ marginBottom: '10px' }}>
+                        {images[0] && <img className='image-previews' src={images[0].url} alt="Preview" style={{ maxWidth: '200px', marginBottom: '10px' }} />}
                         <InputFileUpload
-                            label={`Image #${index + 1}`}
+                            label="Upload Preview Image"
                             startIcon={<CloudUploadIcon />}
-                            onChange={updateImageArray(index)}
+                            onChange={updatePreviewImage}
                         />
                     </div>
-                ))}
 
-                <Button type="submit" variant="contained">Update Spot</Button>
+                    {errors.previewImg && <p className='error' style={{ marginBottom: '10px' }}>{errors.previewImg}</p>}
+
+                    {/* Additional Images */}
+                    {[0, 1, 2, 3].map((index) => (
+                        <div className='image-input-container' key={index} style={{ marginBottom: '10px' }}>
+                            {images[index + 1] && <img className='image-previews' src={images[index + 1].url} alt={`Image ${index + 1}`} style={{ maxWidth: '200px', marginBottom: '10px' }} />}
+                            <InputFileUpload
+                                label={`Image #${index + 1}`}
+                                startIcon={<CloudUploadIcon />}
+                                onChange={updateImageArray(index)}
+                            />
+                        </div>
+                    ))}
+                </div>
+
+                <div id='action-container'>
+                    <Button type="submit" variant="contained">Update Spot</Button>
+                </div>
             </form>
         </>
     );

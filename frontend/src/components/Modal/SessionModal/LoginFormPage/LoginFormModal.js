@@ -9,6 +9,7 @@ import { useModal } from '../../context/Modal.js';
 import Button from '@mui/material/Button';
 
 import "./LoginForm.css";
+
 function LoginFormModal({ theme }) {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
@@ -45,65 +46,72 @@ function LoginFormModal({ theme }) {
 
   return (
     <>
-      <h1 className='formTitle'>Log In</h1>
+      <h1 className='heading'>Log In</h1>
       <form onSubmit={handleSubmit}>
-        <div className='formContainer'>
-          <TextField
-            type="text"
-            value={credential}
-            onChange={e => setCredential(e.target.value)}
-            label="UserName or Email"
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '& label.Mui-focused': {
-                color: '#000000',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: '#000000',
-              },
-            }}
-          />
+        <div className='form-container'>
+          <div className='input-container'>
+            <TextField
+              type="text"
+              value={credential}
+              onChange={e => setCredential(e.target.value)}
+              label="UserName or Email"
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '& label.Mui-focused': {
+                  color: '#000000',
+                },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: '#000000',
+                },
+              }}
+            />
 
-          <TextField
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            label="Password"
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '& label.Mui-focused': {
-                color: '#000000',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: '#000000',
-              },
-            }}
-          />
-          {errors.message && (
-            <p className='error'>The provided credentials were invalid</p>
-          )}
-          <Button
-            type="submit"
-            disabled={credential.length < 4 || password.length < 6}
-            variant="contained"
-            style={{ backgroundColor: theme.palette.primary.main }}
-          >
-            Log In
-          </Button>
-          <Button
-            onClick={signInDemo}
-            variant="outlined"
-            style={{
-              color: theme.palette.primary.main,
-              borderColor: theme.palette.primary.main
-            }}
-          >
-            Demo Sign In
-          </Button>
+            <TextField
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              label="Password"
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '& label.Mui-focused': {
+                  color: '#000000',
+                },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: '#000000',
+                },
+              }}
+            />
+          </div>
+          <div className='error-container'>
+            {errors.message && (
+              <p className='error'>The provided credentials were invalid</p>
+            )}
+          </div>
+          <div className='action-container'>
+            <Button
+              type="submit"
+              disabled={credential.length < 4 || password.length < 6}
+              variant="contained"
+              style={{ backgroundColor: theme.palette.primary.main, }}
+            >
+              Log In
+            </Button>
+            <Button
+              onClick={signInDemo}
+              variant="outlined"
+              id='demo-button'
+              style={{
+                color: theme.palette.primary.main,
+                borderColor: theme.palette.primary.main
+              }}
+            >
+              Demo Sign In
+            </Button>
+          </div>
         </div>
       </form>
     </>

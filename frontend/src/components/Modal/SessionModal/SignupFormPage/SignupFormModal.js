@@ -6,8 +6,6 @@ import { useState } from "react";
 
 import * as sessionActions from "../../../../redux/session.js";
 
-import "./SignupForm.css";
-
 function SignupFormModal({ theme }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -61,126 +59,131 @@ function SignupFormModal({ theme }) {
 
   return (
     <>
-      <h1 className="formTitle">Sign Up</h1>
+      <h1 className="heading">Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <div className="formContainer">
-          {errors.user && <p className="error">{errors.user}</p>}
+        <div className='form-container'>
+          <div className='input-container'>
+            {errors.user && <p className="error">{errors.user}</p>}
+            {errors.emailValid && <p className="error">{errors.emailValid}</p>}
 
-          <TextField
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            label="Email"
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '& label.Mui-focused': {
-                color: '#000000',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: '#000000',
-              },
-            }}
-          />
-          {errors.emailValid && <p className="error">{errors.emailValid}</p>}
+            <TextField
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              label="Email"
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '& label.Mui-focused': {
+                  color: '#000000',
+                },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: '#000000',
+                },
+              }}
+            />
 
-          <TextField
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            label="Username"
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '& label.Mui-focused': {
-                color: '#000000',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: '#000000',
-              },
-            }}
-          />
+            <TextField
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              label="Username"
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '& label.Mui-focused': {
+                  color: '#000000',
+                },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: '#000000',
+                },
+              }}
+            />
 
-          <TextField
-            value={firstName}
-            onChange={e => setFirstName(e.target.value)}
-            label="First Name"
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '& label.Mui-focused': {
-                color: '#000000',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: '#000000',
-              },
-            }}
-          />
+            <TextField
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              label="First Name"
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '& label.Mui-focused': {
+                  color: '#000000',
+                },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: '#000000',
+                },
+              }}
+            />
 
-          <TextField
-            value={lastName}
-            onChange={e => setLastName(e.target.value)}
-            label="Last Name"
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '& label.Mui-focused': {
-                color: '#000000',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: '#000000',
-              },
-            }}
-          />
+            <TextField
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+              label="Last Name"
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '& label.Mui-focused': {
+                  color: '#000000',
+                },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: '#000000',
+                },
+              }}
+            />
 
-          <TextField
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            label="Password"
-            type="password"
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '& label.Mui-focused': {
-                color: '#000000',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: '#000000',
-              },
-            }}
-          />
-          {errors.password && <p className="error">{errors.password}</p>}
+            <TextField
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              label="Password"
+              type="password"
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '& label.Mui-focused': {
+                  color: '#000000',
+                },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: '#000000',
+                },
+              }}
+            />
+            {errors.password && <p className="error">{errors.password}</p>}
 
-          <TextField
-            value={confirmPassword}
-            onChange={e => setConfirmPassword(e.target.value)}
-            label="Confirm Password"
-            type="password"
-            variant="standard"
-            required
-            fullWidth
-            sx={{
-              '& label.Mui-focused': {
-                color: '#000000',
-              },
-              '& .MuiInput-underline:after': {
-                borderBottomColor: '#000000',
-              },
-            }}
-          />
-          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+            <TextField
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
+              label="Confirm Password"
+              type="password"
+              variant="standard"
+              required
+              fullWidth
+              sx={{
+                '& label.Mui-focused': {
+                  color: '#000000',
+                },
+                '& .MuiInput-underline:after': {
+                  borderBottomColor: '#000000',
+                },
+              }}
+            />
+            {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
 
-          <Button
-            type="submit"
-            disabled={!email || !username || !firstName || !lastName || !password || username.length < 4 || password.length < 6}
-            variant="contained"
-            style={{ backgroundColor: theme.palette.primary.main }}
-          >
-            Sign Up
-          </Button>
+            <div className='action-container'>
+
+              <Button
+                type="submit"
+                disabled={!email || !username || !firstName || !lastName || !password || username.length < 4 || password.length < 6}
+                variant="contained"
+                style={{ backgroundColor: theme.palette.primary.main }}
+              >
+                Sign Up
+              </Button>
+            </div>
+          </div>
         </div>
       </form>
     </>

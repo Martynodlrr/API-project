@@ -69,29 +69,31 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div id='content'>
-      <Navigation isLoaded={isLoaded} />
-      <div className='lineBreak'></div>
-      {isLoaded && <Switch>
-        <Route exact path='/'>
-          <SpotsRender />
-        </Route>
-        <Route exact path='/spots/current'>
-          <UserSpotsRender />
-        </Route>
-        <Route exact path='/spots/new'>
-          <CreateSpot />
-        </Route>
-        <Route exact path='/spots/:spotId/edit'>
-          <UpdateSpot />
-        </Route>
-        <Route exact path='/spots/:spotId'>
-          <SingleSpotRender />
-        </Route>
-        <Route path='*'>
-          404 Page Not Found
-        </Route>
-      </Switch>
-      }
+        <Navigation isLoaded={isLoaded} />
+        <div className='lineBreak'></div>
+        {isLoaded && <Switch>
+          <Route exact path='/'>
+            <SpotsRender />
+          </Route>
+          <Route exact path='/spots/current'>
+            <UserSpotsRender />
+          </Route>
+          <Route exact path='/spots/new'>
+            <CreateSpot />
+          </Route>
+          <Route exact path='/spots/:spotId/edit'>
+            <UpdateSpot />
+          </Route>
+          <Route exact path='/spots/:spotId'>
+            <SingleSpotRender />
+          </Route>
+          <Route path='*'>
+            <h1 id="page-not-found-heading">
+              404 Page Not Found
+            </h1>
+          </Route>
+        </Switch>
+        }
       </div>
       <StackRender />
     </ThemeProvider>

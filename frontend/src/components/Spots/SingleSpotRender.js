@@ -1,6 +1,9 @@
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
+import IconButton from '@mui/material/IconButton';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import * as spotActions from '../../redux/spots.js';
 import ReviewsRender from '../Reviews/Reviews.js';
@@ -12,38 +15,52 @@ function SingleSpotRender() {
     const dispatch = useDispatch();
     const { spot } = useSelector(state => state.spots.singleSpot);
 
-    const previewImageObj = spot && spot.SpotImages ? spot.SpotImages.find(image => image.preview === true) : null;
-    const previewImageUrl = previewImageObj ? previewImageObj.url : null;
-
-    const notPreviewImages = spot && spot.SpotImages ? spot.SpotImages.filter(image => image.preview !== true) : null;
-    const images = [];
-
-    if (notPreviewImages) notPreviewImages.map(image => (
-        images.length === 4 ? null : !image.previewImage ? images.push(image) : null
-    ));
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId));
-    }, [dispatch]);
-    
+    }, [dispatch, spotId]);
+
+    if (spot && spot.id !== parseInt(spotId)) return null;
+
+    const allImages = spot && spot.SpotImages ? spot.SpotImages : [];
+
+    const nextImage = () => {
+        if (currentImageIndex < allImages.length - 1) {
+            setCurrentImageIndex(prev => prev + 1);
+        }
+    };
+
+    const prevImage = () => {
+        if (currentImageIndex > 0) {
+            setCurrentImageIndex(prev => prev - 1);
+        }
+    };
+
     return spot ? (
         <div id='spot'>
-            <h1>{spot.name}</h1>
-            <h5>{spot.city}, {spot.state}, {spot.country}</h5>
-            <div className='imgContainer'>
-                {previewImageUrl && <img src={previewImageUrl} alt={spot.name} className='previewImg' />}
-                <div id='regularImgs'>
-                    {images && images.map(image => (
-                        image.url &&
-                        < img key={image.id} src={image.url} alt={spot.name} className='notPreviewImg' />
-                    ))}
-                </div>
+            <h1 className='heading'>{spot.name}</h1>
+            <h5 className='heading'>{spot.city}, {spot.state}, {spot.country}</h5>
+            <div className='img-container'>
+                {allImages.length > 0 &&
+                    <>
+                        <img src={allImages[currentImageIndex].url} alt={spot.name} className='current-img' />
+                        {allImages.length > 1 && (
+                        <div id='pagination-buttons'>
+                            <IconButton disabled={currentImageIndex === 0}>
+                                <ArrowBackIcon fontSize='small' onClick={prevImage} className='buttons'/>
+                            </IconButton>
+                            <IconButton disabled={currentImageIndex === allImages.length - 1}>
+                                <ArrowForwardIcon fontSize='small' onClick={nextImage} className='buttons'/>
+                            </IconButton>
+                        </div>
+                        )}
+                    </>
+                }
             </div>
-            {spot.Owner && <p>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>}
+            <p id='spot-owner-info'>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>
             <p id='description'>Description: {spot.description}</p>
-            <div id='price'>
-                <p>${spot.price} a night</p>
-            </div>
+            <p id='price'>${spot.price} a night</p>
             <ReviewsRender spotId={spotId} />
         </div>
     ) : (

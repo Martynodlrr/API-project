@@ -328,6 +328,8 @@ router.get('/:spotId', async (req, res) => {
     if (reviews.length > 0) {
       let totalStars = 0;
       for (const review of reviews) {
+        console.log(review.dataValues.stars)
+        console.log(review)
         totalStars += review.dataValues.stars;
       }
       avgRating = totalStars / reviews.length;

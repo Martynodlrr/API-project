@@ -16,3 +16,20 @@
 #review {
   max-width: 800px;
 }
+
+#empty-review-container {
+  display: flex;
+  gap: 50px;
+}
+
+#full-reviews-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#create-review-form {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 20px;
+}

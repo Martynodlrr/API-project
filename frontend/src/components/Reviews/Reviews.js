@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useTheme } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 
@@ -12,6 +13,7 @@ import CreateReview from './CreateReviewForm.js';
 import './Reviews.css';
 
 const ReviewsRender = ({ spotId }) => {
+    const theme = useTheme();
     const dispatch = useDispatch();
     const [reloadKey, setReloadKey] = useState(0);
     const { setModalContent } = useModal();
@@ -37,7 +39,7 @@ const ReviewsRender = ({ spotId }) => {
     if (!spot.Owner) return null;
 
     return (
-        <>
+        <div id={!Object.keys(reviews).length ? 'empty-review-container' : 'full-reviews-container' }>
             {Object.keys(reviews).length === 0 && (
                 <>
                     <h2 className='heading'>
@@ -56,7 +58,7 @@ const ReviewsRender = ({ spotId }) => {
                     <Button variant="outlined">
                         <OpenModalMenuItem
                             itemText="Post a review"
-                            modalComponent={<CreateReview spotId={spotId} />}
+                            modalComponent={<CreateReview spotId={spotId} theme={theme} />}
                         />
                     </Button>
                 }
@@ -82,7 +84,7 @@ const ReviewsRender = ({ spotId }) => {
                     ))}
                 </div>
             )}
-        </>
+        </div>
     )
 };
 

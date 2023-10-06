@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 
+import GoogleMapRender from '../GoogleMapsRender/index.js'
 import { renderAvgRating } from '../../HelperFuncs.js';
 import * as spotActions from '../../redux/spots.js';
 import ReviewsRender from '../Reviews/Reviews.js';
@@ -107,8 +108,11 @@ function SingleSpotRender() {
                 </div>
             </div>
             <div id='reviewLinebreak' className='lineBreak'></div>
-            <div id='review-container'>
+            <div id={!spot.numReviews ? 'review-container' : 'reviews-container'}>
                 <ReviewsRender spotId={spotId} />
+            <div id='google-maps-container'>
+                <GoogleMapRender spot={ spot } />
+            </div>
             </div>
         </div>
     ) : (

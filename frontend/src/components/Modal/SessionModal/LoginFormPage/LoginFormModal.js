@@ -1,12 +1,11 @@
-import { useHistory, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 import TextField from '@mui/material/TextField';
-import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import Button from '@mui/material/Button';
+import { useState } from "react";
 
 import * as sessionActions from '../../../../redux/session.js';
 import * as spotActions from '../../../../redux/spots.js';
 import { useModal } from '../../context/Modal.js';
-import Button from '@mui/material/Button';
 
 import "./LoginForm.css";
 

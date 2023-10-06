@@ -107,9 +107,9 @@ export const updateSpotImages = detailsPayload => async dispatch => {
   const { spotId, images } = detailsPayload;
 
   const imagesToUpdate = images.filter(img => img && !img.url && img.id);
+  const formData = new FormData();
 
   for (const image of imagesToUpdate) {
-      const formData = new FormData();
       if (image && image.file) {
           formData.append('image', image.file);
       }
@@ -144,8 +144,6 @@ export const addImagesToSpot = ({ spotId, imageFiles }) => async dispatch => {
   const formData = new FormData();
 
   imageFiles.forEach((img) => {
-    console.log(img)
-    console.log(img.file)
       formData.append('image', img);
   });
 

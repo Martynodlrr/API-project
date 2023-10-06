@@ -72,6 +72,7 @@ const UpdateSpot = () => {
             const newImages = [...images];
             newImages[index + 1] = updatedImage;
             setImages(newImages);
+            console.log(newImages)
         }
     };
 

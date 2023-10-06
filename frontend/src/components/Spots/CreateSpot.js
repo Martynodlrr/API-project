@@ -46,7 +46,7 @@ const CreateSpot = () => {
         if (!country) newErrors.country = "Country is required";
         if (!description) newErrors.description = "Description needs a minimum of 30 characters";
         if (!price) newErrors.price = "Price is required";
-        if (!previewImg) newErrors.previewImg = "Preview Image is required";
+        if (!images[0] || !images[0].url) newErrors.previewImg = "Preview Image is required";
         return newErrors;
     };
 
@@ -58,39 +58,45 @@ const CreateSpot = () => {
 
         if (Object.keys(newErrors).length > 0) return;
 
-        dispatch(
-            sessionActions.createSpot({
-                address,
-                city,
-                state,
-                country,
-                lat,
-                lng,
-                name,
-                description,
-                price
-            }))
+        const imagePayload = images.map(img => {
+            if (img && img.file) return { file: img.file };
+            return img && { url: img.url };
+        });
+
+        const detailsPayload = {
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price,
+            images: imagePayload
+        };
+
+        dispatch(sessionActions.createSpot(detailsPayload))
             .then(res => {
-                console.log('we made the spot')
                 if (res.errors) {
                     for (const error of res.errors) {
                         setErrors(prevErrors => {
-
-                            if (error.startsWith('Name must be between 1 and 50')) return {
-                                ...prevErrors, nameLen: 'Name must be between 1 and 50 charaters long.'
+                            if (error.startsWith('Name must be between 1 and 50')) {
+                                return { ...prevErrors, nameLen: 'Name must be between 1 and 50 charaters long.' };
                             }
-                            if (error.startsWith('address must be unique')) return {
-                                ...prevErrors, uniqueAddress: 'address must be unique'
-                            };
-                            if (description && description.length < 30) return { ...prevErrors, description: 'Description needs 30 or more characters' };
+                            if (error.startsWith('address must be unique')) {
+                                return { ...prevErrors, uniqueAddress: 'address must be unique' };
+                            }
+                            if (description && description.length < 30) {
+                                return { ...prevErrors, description: 'Description needs 30 or more characters' };
+                            }
                             return prevErrors;
-                        })
+                        });
                     }
                 } else {
                     if (res.ok) {
                         const { id } = res;
-                        const imageFiles = images.filter(image => image)
-                        imageFiles.unshift(previewImg)
+                        const imageFiles = images.filter(image => image.file);
 
                         dispatch(sessionActions.addImagesToSpot({
                             imageFiles,
@@ -99,7 +105,7 @@ const CreateSpot = () => {
                             .then(() => {
                                 closeModal();
                                 history.push(`/spots/${id}`);
-                            })
+                            });
                     }
                 }
             });
@@ -116,7 +122,8 @@ const CreateSpot = () => {
         const file = e.target.files[0];
         if (file) {
             const url = URL.createObjectURL(file);
-            setPreviewImg(url);
+            const updatedImage = { file, url };
+            setImages([updatedImage, ...images.slice(1)]);
         }
     };
 
@@ -124,8 +131,9 @@ const CreateSpot = () => {
         const file = e.target.files[0];
         if (file) {
             const url = URL.createObjectURL(file);
+            const updatedImage = { file, url };
             const newImages = [...images];
-            newImages[index] = url;
+            newImages[index + 1] = updatedImage;
             setImages(newImages);
         }
     };
@@ -237,19 +245,19 @@ const CreateSpot = () => {
                 <p className='heading'>Upload at least a preview image to publish your spot, extra are optional but encouraged.</p>
 
                 <div id='image-container'>
+                    {/* Preview Image section */}
                     <div className='image-input-container' style={{ marginBottom: '10px' }}>
-                        {previewImg && <img className='image-previews' src={previewImg} alt="Preview" style={{ maxWidth: '200px', marginBottom: '10px' }} />}
+                        {images[0] && <img className='image-previews' src={images[0].url} alt="Preview" style={{ maxWidth: '200px', marginBottom: '10px' }} />}
                         <InputFileUpload
                             label="Upload Preview Image"
                             startIcon={<CloudUploadIcon />}
                             onChange={updatePreviewImage}
                         />
                     </div>
-                    {errors.previewImg && <p className='error' style={{ marginBottom: '10px' }}>{errors.previewImg}</p>}
 
                     {[0, 1, 2, 3].map((index) => (
                         <div className='image-input-container' key={index} style={{ marginBottom: '10px' }}>
-                            {images[index] && <img className='image-previews' src={images[index]} alt={`Image ${index + 1}`} style={{ maxWidth: '200px', marginBottom: '10px' }} />}
+                            {images[index + 1] && <img className='image-previews' src={images[index + 1].url} alt={`Image ${index + 1}`} style={{ maxWidth: '200px', marginBottom: '10px' }} />}
                             <InputFileUpload
                                 label={`Image #${index + 1}`}
                                 startIcon={<CloudUploadIcon />}

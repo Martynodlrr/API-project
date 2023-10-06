@@ -53,7 +53,7 @@ const ReviewsRender = ({ spotId }) => {
                 )}
 
                 {sessionUser && Object.keys(sessionUser).length > 0 && sessionUser.id !== spot.Owner.id && !spotReview &&
-                    <Button>
+                    <Button variant="outlined">
                         <OpenModalMenuItem
                             itemText="Post a review"
                             modalComponent={<CreateReview spotId={spotId} />}
@@ -63,15 +63,21 @@ const ReviewsRender = ({ spotId }) => {
             </div>
 
             {Object.keys(reviews).length > 0 && (
-                <div>
+                <div className='reviews'>
                     {Object.values(reviews).sort((oldest, newest) => {
                         return new Date(newest.createdAt) - new Date(oldest.createdAt);
                     }).map(review => (
                         <div key={review.id}>
                             <h2>{review.User.firstName}</h2>
                             <p>{review.createdAt.slice(0, 10)}</p>
-                            <p>{review.review}</p>
-                            {sessionUser && review.userId === sessionUser.id && <button onClick={() => handleReviewDelete(review.id, spotId)}>delete</button>}
+                            <p id='review'>{review.review}</p>
+                            {sessionUser && review.userId === sessionUser.id &&
+                                <Button
+                                    onClick={() => handleReviewDelete(review.id, spotId)}
+                                    variant="contained"
+                                    size='small'>
+                                    delete
+                                </Button>}
                         </div>
                     ))}
                 </div>

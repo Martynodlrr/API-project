@@ -91,11 +91,13 @@ function ProfileButton({ user }) {
                                 itemText="Log In"
                                 modalComponent={<LoginFormModal theme={theme} />}
                                 onItemClick={() => setShowMenu(false)}
-                            />
+                                styleName={'item'}
+                                />
                             <OpenModalMenuItem
                                 itemText="Sign Up"
                                 modalComponent={<SignupFormModal theme={theme} />}
                                 onItemClick={() => setShowMenu(false)}
+                                styleName={'item'}
                             />
                         </ul>
                     )}

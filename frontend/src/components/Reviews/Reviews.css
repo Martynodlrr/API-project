@@ -3,8 +3,16 @@
   font-size: 40px;
 }
 
+.reviews {
+  padding: 0px 100px;
+}
+
 #star-review-btn{
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+#review {
+  max-width: 800px;
 }

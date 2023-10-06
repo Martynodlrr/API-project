@@ -189,7 +189,7 @@ const CreateSpot = () => {
                         value={description}
                         onChange={handleDescriptionChange}
                         required
-                        style={{ minWidth: "300px", minHeight: "75px", maxWidth: "500px", maxHeight: "150px" }}
+                        style={{ minWidth: "450px", minHeight: "75px", maxWidth: "500px", maxHeight: "150px" }}
                         placeholder="Please write at least 30 characters, up to 300."
                     />
                 </div>

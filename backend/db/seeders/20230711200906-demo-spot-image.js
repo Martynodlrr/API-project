@@ -17,22 +17,22 @@ module.exports = {
       },
       {
         spotId: 1,
-        url: "https://thumbs.dreamstime.com/b/beautiful-house-tree-against-cloudy-blue-sky-background-54044451.jpg",
+        url: "https://image.cnbcfm.com/api/v1/image/106758801-1603459526384-picture-perfect-beautiful-house-on-the-island-of-coronado-in-sunny-california-beautifully-landscaped_t20_6lJOrv.jpg",
         preview: false
       },
       {
         spotId: 1,
-        url: "https://thumbs.dreamstime.com/b/beautiful-house-tree-against-cloudy-blue-sky-background-54044451.jpg",
+        url: "https://cdn.captivatinghouses.com/wp-content/uploads/2022/12/AC622C7C-2E39-4624-BE87-D7D6ECE374C3.jpeg",
         preview: false
       },
       {
         spotId: 1,
-        url: "https://thumbs.dreamstime.com/b/beautiful-house-tree-against-cloudy-blue-sky-background-54044451.jpg",
+        url: "https://mygate.com/wp-content/uploads/2023/07/110.jpg",
         preview: false
       },
       {
         spotId: 1,
-        url: "https://thumbs.dreamstime.com/b/beautiful-house-tree-against-cloudy-blue-sky-background-54044451.jpg",
+        url: "https://assets.newatlas.com/dims4/default/3d94d96/2147483647/strip/true/crop/4461x2974+0+0/resize/1200x800!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F38%2Fcc%2Fcb4aa02c4b0ab31f1e5a126d8c9b%2F01-5563-gawthorneshut-caarch-ambercreative.jpg",
         preview: false
       },
       {
@@ -41,9 +41,49 @@ module.exports = {
         preview: true
       },
       {
+        spotId: 2,
+        url: "https://image.cnbcfm.com/api/v1/image/106758801-1603459526384-picture-perfect-beautiful-house-on-the-island-of-coronado-in-sunny-california-beautifully-landscaped_t20_6lJOrv.jpg",
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: "https://cdn.captivatinghouses.com/wp-content/uploads/2022/12/AC622C7C-2E39-4624-BE87-D7D6ECE374C3.jpeg",
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: "https://mygate.com/wp-content/uploads/2023/07/110.jpg",
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: "https://assets.newatlas.com/dims4/default/3d94d96/2147483647/strip/true/crop/4461x2974+0+0/resize/1200x800!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F38%2Fcc%2Fcb4aa02c4b0ab31f1e5a126d8c9b%2F01-5563-gawthorneshut-caarch-ambercreative.jpg",
+        preview: false
+      },
+      {
         spotId: 3,
         url: "https://t3.ftcdn.net/jpg/01/62/06/40/360_F_162064034_HI2YEgV7km3HMy0rccQczKH2vvpI4OnB.jpg",
         preview: true
+      },
+      {
+        spotId: 3,
+        url: "https://image.cnbcfm.com/api/v1/image/106758801-1603459526384-picture-perfect-beautiful-house-on-the-island-of-coronado-in-sunny-california-beautifully-landscaped_t20_6lJOrv.jpg",
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: "https://cdn.captivatinghouses.com/wp-content/uploads/2022/12/AC622C7C-2E39-4624-BE87-D7D6ECE374C3.jpeg",
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: "https://mygate.com/wp-content/uploads/2023/07/110.jpg",
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: "https://assets.newatlas.com/dims4/default/3d94d96/2147483647/strip/true/crop/4461x2974+0+0/resize/1200x800!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F38%2Fcc%2Fcb4aa02c4b0ab31f1e5a126d8c9b%2F01-5563-gawthorneshut-caarch-ambercreative.jpg",
+        preview: false
       },
       {
         spotId: 4,
@@ -51,9 +91,49 @@ module.exports = {
         preview: true
       },
       {
+        spotId: 4,
+        url: "https://image.cnbcfm.com/api/v1/image/106758801-1603459526384-picture-perfect-beautiful-house-on-the-island-of-coronado-in-sunny-california-beautifully-landscaped_t20_6lJOrv.jpg",
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: "https://cdn.captivatinghouses.com/wp-content/uploads/2022/12/AC622C7C-2E39-4624-BE87-D7D6ECE374C3.jpeg",
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: "https://mygate.com/wp-content/uploads/2023/07/110.jpg",
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: "https://assets.newatlas.com/dims4/default/3d94d96/2147483647/strip/true/crop/4461x2974+0+0/resize/1200x800!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F38%2Fcc%2Fcb4aa02c4b0ab31f1e5a126d8c9b%2F01-5563-gawthorneshut-caarch-ambercreative.jpg",
+        preview: false
+      },
+      {
         spotId: 5,
         url: "https://thumbs.dreamstime.com/b/beautiful-modern-house-cement-view-garden-loft-beautiful-modern-house-cement-view-garden-125945530.jpg",
         preview: true
+      },
+      {
+        spotId: 5,
+        url: "https://image.cnbcfm.com/api/v1/image/106758801-1603459526384-picture-perfect-beautiful-house-on-the-island-of-coronado-in-sunny-california-beautifully-landscaped_t20_6lJOrv.jpg",
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: "https://cdn.captivatinghouses.com/wp-content/uploads/2022/12/AC622C7C-2E39-4624-BE87-D7D6ECE374C3.jpeg",
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: "https://mygate.com/wp-content/uploads/2023/07/110.jpg",
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: "https://assets.newatlas.com/dims4/default/3d94d96/2147483647/strip/true/crop/4461x2974+0+0/resize/1200x800!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F38%2Fcc%2Fcb4aa02c4b0ab31f1e5a126d8c9b%2F01-5563-gawthorneshut-caarch-ambercreative.jpg",
+        preview: false
       },
       {
         spotId: 6,
@@ -61,14 +141,74 @@ module.exports = {
         preview: true
       },
       {
+        spotId: 6,
+        url: "https://image.cnbcfm.com/api/v1/image/106758801-1603459526384-picture-perfect-beautiful-house-on-the-island-of-coronado-in-sunny-california-beautifully-landscaped_t20_6lJOrv.jpg",
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: "https://cdn.captivatinghouses.com/wp-content/uploads/2022/12/AC622C7C-2E39-4624-BE87-D7D6ECE374C3.jpeg",
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: "https://mygate.com/wp-content/uploads/2023/07/110.jpg",
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: "https://assets.newatlas.com/dims4/default/3d94d96/2147483647/strip/true/crop/4461x2974+0+0/resize/1200x800!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F38%2Fcc%2Fcb4aa02c4b0ab31f1e5a126d8c9b%2F01-5563-gawthorneshut-caarch-ambercreative.jpg",
+        preview: false
+      },
+      {
         spotId: 7,
         url: "https://assets-us-01.kc-usercontent.com/0542d611-b6d8-4320-a4f4-35ac5cbf43a6/57134553-0077-4e93-8cfd-58895d271ef8/homeowners-insurance-facebook.jpg",
         preview: true
       },
       {
+        spotId: 7,
+        url: "https://image.cnbcfm.com/api/v1/image/106758801-1603459526384-picture-perfect-beautiful-house-on-the-island-of-coronado-in-sunny-california-beautifully-landscaped_t20_6lJOrv.jpg",
+        preview: false
+      },
+      {
+        spotId: 7,
+        url: "https://cdn.captivatinghouses.com/wp-content/uploads/2022/12/AC622C7C-2E39-4624-BE87-D7D6ECE374C3.jpeg",
+        preview: false
+      },
+      {
+        spotId: 7,
+        url: "https://mygate.com/wp-content/uploads/2023/07/110.jpg",
+        preview: false
+      },
+      {
+        spotId: 7,
+        url: "https://assets.newatlas.com/dims4/default/3d94d96/2147483647/strip/true/crop/4461x2974+0+0/resize/1200x800!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F38%2Fcc%2Fcb4aa02c4b0ab31f1e5a126d8c9b%2F01-5563-gawthorneshut-caarch-ambercreative.jpg",
+        preview: false
+      },
+      {
         spotId: 8,
         url: "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg",
         preview: true
+      },
+      {
+        spotId: 8,
+        url: "https://image.cnbcfm.com/api/v1/image/106758801-1603459526384-picture-perfect-beautiful-house-on-the-island-of-coronado-in-sunny-california-beautifully-landscaped_t20_6lJOrv.jpg",
+        preview: false
+      },
+      {
+        spotId: 8,
+        url: "https://cdn.captivatinghouses.com/wp-content/uploads/2022/12/AC622C7C-2E39-4624-BE87-D7D6ECE374C3.jpeg",
+        preview: false
+      },
+      {
+        spotId: 8,
+        url: "https://mygate.com/wp-content/uploads/2023/07/110.jpg",
+        preview: false
+      },
+      {
+        spotId: 8,
+        url: "https://assets.newatlas.com/dims4/default/3d94d96/2147483647/strip/true/crop/4461x2974+0+0/resize/1200x800!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2F38%2Fcc%2Fcb4aa02c4b0ab31f1e5a126d8c9b%2F01-5563-gawthorneshut-caarch-ambercreative.jpg",
+        preview: false
       },
       //the best house imo
       {

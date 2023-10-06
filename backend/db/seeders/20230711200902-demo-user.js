@@ -20,17 +20,17 @@ module.exports = {
         hashedPassword: bcrypt.hashSync('password')
       },
       {
-        firstName: 'Fake',
-        lastName: 'User1',
-        email: 'user1@user.io',
-        username: 'FakeUser1',
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@user.io',
+        username: 'JohnDoe1',
         hashedPassword: bcrypt.hashSync('password2')
       },
       {
-        firstName: 'Fake',
-        lastName: 'User2',
-        email: 'user2@user.io',
-        username: 'FakeUser2',
+        firstName: 'Jane',
+        lastName: 'Smith',
+        email: 'jane.smith@user.io',
+        username: 'JaneSmith2',
         hashedPassword: bcrypt.hashSync('password3')
       },
       {
@@ -41,10 +41,10 @@ module.exports = {
         hashedPassword: bcrypt.hashSync('password4')
       },
       {
-        firstName: 'odlrr',
-        lastName: 'Martyn',
-        email: 'user5@user.io',
-        username: 'FakeUser5',
+        firstName: 'Lucas',
+        lastName: 'Bennett',
+        email: 'lucas.bennett@user.io',
+        username: 'LucasBennett6',
         hashedPassword: bcrypt.hashSync('password5')
       }
     ], { validate: true });

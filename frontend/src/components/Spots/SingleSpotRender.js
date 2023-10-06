@@ -1,10 +1,15 @@
+import LoginFormModal from '../Modal/SessionModal/LoginFormPage/LoginFormModal.js';
+import OpenModalMenuItem from '../Modal/OpenModalButton/OpenModalMenuItem.js';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import Button from '@mui/material/Button';
 
+import { renderAvgRating } from '../../HelperFuncs.js';
 import * as spotActions from '../../redux/spots.js';
 import ReviewsRender from '../Reviews/Reviews.js';
 
@@ -13,6 +18,10 @@ import './SingleSpotRender.css';
 function SingleSpotRender() {
     const { spotId } = useParams();
     const dispatch = useDispatch();
+    const theme = useTheme();
+
+    const reviews = useSelector(state => state.reviews.spot);
+    const sessionUser = useSelector(state => state.session.user);
     const { spot } = useSelector(state => state.spots.singleSpot);
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -46,22 +55,61 @@ function SingleSpotRender() {
                     <>
                         <img src={allImages[currentImageIndex].url} alt={spot.name} className='current-img' />
                         {allImages.length > 1 && (
-                        <div id='pagination-buttons'>
-                            <IconButton disabled={currentImageIndex === 0}>
-                                <ArrowBackIcon fontSize='small' onClick={prevImage} className='buttons'/>
-                            </IconButton>
-                            <IconButton disabled={currentImageIndex === allImages.length - 1}>
-                                <ArrowForwardIcon fontSize='small' onClick={nextImage} className='buttons'/>
-                            </IconButton>
-                        </div>
+                            <div id='pagination-buttons'>
+                                <IconButton disabled={currentImageIndex === 0} onClick={prevImage}>
+                                    <ArrowBackIcon fontSize='small' className='buttons' />
+                                </IconButton>
+                                <IconButton disabled={currentImageIndex === allImages.length - 1} onClick={nextImage}>
+                                    <ArrowForwardIcon fontSize='small' className='buttons' />
+                                </IconButton>
+                            </div>
                         )}
                     </>
                 }
+                <div id='spot-info'>
+                    <div>
+                        <p id='spot-owner-info'>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>
+                        <p id='description'>Description: {spot.description}</p>
+                    </div>
+                    <div id='price-review-reserve'>
+                        <div id='price-review'>
+                            <p id='price'>${spot.price} a night</p>
+                            {reviews && Object.keys(reviews).length > 0 ? (
+                                <p>
+                                    <span className="star">&#9733; </span>
+                                    {spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} Reviews
+                                </p>
+                            ) : (
+                                <p>
+                                    <span className="star">&#9733; </span>
+                                    New
+                                </p>
+                            )}
+                        </div>
+
+                        <div id='reserve-btn'>
+                            {
+                                sessionUser && sessionUser.id !== spot.ownerId ? (
+                                    <Button className="reserve-button" onClick={() => alert("Feature coming soon")} variant="contained">Reserve</Button>
+                                ) : !sessionUser ? (
+                                    <Button className='menuButton' variant="contained">
+                                        <OpenModalMenuItem
+                                            itemText="Log In to reserve"
+                                            modalComponent={<LoginFormModal theme={theme} />}
+                                        />
+                                    </Button>
+                                ) : (
+                                    <Button className='updateButton' variant="contained" href={`/spots/${spot.id}/edit`}>Update</Button>
+                                )
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p id='spot-owner-info'>Hosted by {spot.Owner.firstName} {spot.Owner.lastName}</p>
-            <p id='description'>Description: {spot.description}</p>
-            <p id='price'>${spot.price} a night</p>
-            <ReviewsRender spotId={spotId} />
+            <div id='reviewLinebreak' className='lineBreak'></div>
+            <div id='review-container'>
+                <ReviewsRender spotId={spotId} />
+            </div>
         </div>
     ) : (
         <>Loading...</>

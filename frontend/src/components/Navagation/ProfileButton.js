@@ -70,7 +70,7 @@ function ProfileButton({ user }) {
                             <li>Hello, {user.firstName}!</li>
                             <li>{user.email}</li>
                             <div className='lineBreak'></div>
-                            <li className='Links'>
+                            <li>
                                 <Button
                                     to='/spots/current'
                                     component={NavLink}

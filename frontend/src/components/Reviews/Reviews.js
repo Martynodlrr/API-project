@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
+import Button from '@mui/material/Button';
 
 import ConfirmationDeleteModal from '../Modal/DeletionModal/ConfirmationDeleteModal.js';
-import LoginFormModal from '../Modal/SessionModal/LoginFormPage/LoginFormModal.js';
 import OpenModalMenuItem from '../Modal/OpenModalButton/OpenModalMenuItem.js';
 import * as reviewActions from '../../redux/reviews.js';
 import { renderAvgRating } from '../../HelperFuncs.js';
@@ -14,13 +13,13 @@ import './Reviews.css';
 
 const ReviewsRender = ({ spotId }) => {
     const dispatch = useDispatch();
-    const theme = useTheme();
     const [reloadKey, setReloadKey] = useState(0);
     const { setModalContent } = useModal();
     const reviews = useSelector(state => state.reviews.spot);
     const ownReviews = useSelector(state => state.reviews.user);
-    const { spot } = useSelector(state => state.spots.singleSpot);
     const sessionUser = useSelector(state => state.session.user);
+    const { spot } = useSelector(state => state.spots.singleSpot);
+
     const spotReview = ownReviews[spotId];
 
 
@@ -39,53 +38,31 @@ const ReviewsRender = ({ spotId }) => {
 
     return (
         <>
-        <div className="reserve-container">
-            <div className="reserve-info">
-                {reviews && Object.keys(reviews).length > 0 ? (
-                    <p>
-                        <span className="star">&#9733; </span>
-                        {spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} Reviews
-                    </p>
-                ) : (
-                    <p>
-                        <span className="star">&#9733; </span>
-                        New
-                    </p>
+            {Object.keys(reviews).length === 0 && (
+                <>
+                    <h2 className='heading'>
+                        <p><span className="stars">&#9733;</span> New &middot; Be the first to post a review! </p>
+                    </h2>
+                </>
+            )}
+            <div id='star-review-btn'>
+                {Object.keys(reviews).length > 0 && (
+                    <h1>
+                        <span className="stars">&#9733; </span>{spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} {Object.keys(reviews).length > 1 ? 'Reviews' : 'Review'}
+                    </h1>
                 )}
 
-                {sessionUser && sessionUser.id !== spot.ownerId ? (
-                    <button className="reserve-button" onClick={() => alert("Feature coming soon")}>Reserve</button>
-                ) : (
-                    !sessionUser && (
-                        <button className='menuButton'>
-                            <OpenModalMenuItem
-                                itemText="Log In to reserve"
-                                modalComponent={<LoginFormModal theme={theme} />}
-                            />
-                        </button>
-                    )
-                )}
+                {sessionUser && Object.keys(sessionUser).length > 0 && sessionUser.id !== spot.Owner.id && !spotReview &&
+                    <Button>
+                        <OpenModalMenuItem
+                            itemText="Post a review"
+                            modalComponent={<CreateReview spotId={spotId} />}
+                        />
+                    </Button>
+                }
             </div>
-        </div>
-
-            <div id='reviewLinebreak' className='lineBreak'></div>
 
             {Object.keys(reviews).length > 0 && (
-                <h1>
-                    <span className="stars">&#9733; </span>{spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} {Object.keys(reviews).length > 1 ? 'Reviews' : 'Review'}
-                </h1>
-            )}
-
-            {sessionUser && Object.keys(sessionUser).length > 0 && sessionUser.id !== spot.Owner.id && !spotReview &&
-                <button className='menuButton'>
-                    <OpenModalMenuItem
-                        itemText="Post a review"
-                        modalComponent={<CreateReview spotId={spotId} />}
-                    />
-                </button>
-            }
-
-            {Object.keys(reviews).length > 0 ? (
                 <div>
                     {Object.values(reviews).sort((oldest, newest) => {
                         return new Date(newest.createdAt) - new Date(oldest.createdAt);
@@ -98,14 +75,6 @@ const ReviewsRender = ({ spotId }) => {
                         </div>
                     ))}
                 </div>
-            ) : (
-                <>
-                    <h2>
-                        <p>Be the first to post a review!</p>
-                        <span className="stars">&#9733; </span>
-                        New
-                    </h2>
-                </>
             )}
         </>
     )

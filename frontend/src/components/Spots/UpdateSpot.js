@@ -107,27 +107,40 @@ const UpdateSpot = () => {
 
         // Dispatch the thunk
         dispatch(spotActions.addSpotImages(detailsPayload))
-            .then(res => {
-                if (res.errors) {
-                    for (const error of res.errors) {
+            .then(addImageRes => {
+                // Assuming there's some error field or similar in addImageRes to check
+                if (addImageRes.errors) {
+                    console.error("Error adding spot images:", addImageRes.errors);
+                    return; // Stop the flow if there was an error adding images
+                }
+
+                return dispatch(spotActions.fetchUpdateSpot(detailsPayload));
+            })
+            .then(updateRes => {
+                if (updateRes && updateRes.errors) {
+                    updateRes.errors.forEach(error => {
                         setErrors(prevErrors => {
-                            if (error.startsWith('Name')) return {
-                                ...prevErrors, nameLen: 'Name must be between 1 and 50 characters long.'
-                            };
-                            if (error.startsWith('address')) return {
-                                ...prevErrors, uniqueAddress: 'Address must be unique'
-                            };
-                            if (description && description.length < 30) return { ...prevErrors, description: 'Description' };
+                            if (error.startsWith('Name')) {
+                                return { ...prevErrors, nameLen: 'Name must be between 1 and 50 characters long.' };
+                            }
+                            if (error.startsWith('address')) {
+                                return { ...prevErrors, uniqueAddress: 'Address must be unique' };
+                            }
+                            if (description && description.length < 30) {
+                                return { ...prevErrors, description: 'Description' };
+                            }
                             return prevErrors;
                         });
-                    }
-                } else {
-                    if (res) {
-                        const { id } = spot;
-                        closeModal();
-                        history.push(`/spots/${id}`);
-                    }
+                    });
+                } else if (updateRes) {
+                    // Ensure 'spot' is defined in the outer scope
+                    const { id } = spot;
+                    closeModal();
+                    history.push(`/spots/${id}`);
                 }
+            })
+            .catch(error => {
+                console.error("Error updating the spot:", error);
             });
     };
 
@@ -189,7 +202,7 @@ const UpdateSpot = () => {
                         minRows={3}
                         value={description}
                         onChange={handleDescriptionChange}
-                        required style={{ minWidth: "300px", minHeight: "75px", maxWidth: "500px", maxHeight: "150px" }} placeholder="Please write at least 30 characters, up to 300." />
+                        required style={{ minWidth: '450px', minHeight: "75px", maxWidth: "500px", maxHeight: "150px" }} placeholder="Please write at least 30 characters, up to 300." />
                 </div>
 
                 {errors.description && <p className='error'>{errors.description}</p>}
@@ -216,7 +229,7 @@ const UpdateSpot = () => {
 
                 {/* Photo Upload Section */}
                 <h2 className='heading'>Liven up your spot with photos</h2>
-                <p className='heading'>Upload at least one photo to update your spot.</p>
+                <p className='heading'>Upload new or update existing photos.</p>
 
                 <div id='image-container'>
                     {/* Preview Image section */}

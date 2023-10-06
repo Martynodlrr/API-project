@@ -16,7 +16,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "First Spot",
-    description: "This is the first spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 100.00
   },
   {
@@ -28,7 +28,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Second Spot",
-    description: "This is the second spot",
+    description: "Delightful 2-bedroom urban oasis in the city's core! Relax in an elegantly appointed sanctuary boasting contemporary comforts, tranquil courtyard vistas, and a warm hearth. Just a short stroll to quaint coffee spots, rich heritage landmarks, and picturesque green spaces. Dive into genuine local culture with an added dash of opulence. Ideal for intimate escapes or family adventures. Reserve today for an unforgettable experience!",
     price: 150.00
   },
   {
@@ -40,7 +40,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Third Spot",
-    description: "This is the third spot",
+    description: "Stylish 2-bedroom city gem! Modern comfort meets serene views. Near cafes, landmarks & parks. Dive into local culture with luxury. Book for a unique stay!",
     price: 200.00
   },
   {
@@ -52,7 +52,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Fourth Spot",
-    description: "This is the fourth spot",
+    description: "Enchanting 2-bedroom urban sanctuary! Relish in a blend of chic decor, modern conveniences, and peaceful garden scenes. Wander to nearby cafes, historic treasures, and lush parks. Immerse in the city's charm with a splash of sophistication. Ideal for couples' escapes or family trips. Secure your spot for an unparalleled getaway!",
     price: 80.00
   },
   {
@@ -64,7 +64,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Fifth Spot",
-    description: "This is the fifth spot",
+    description: "Luxe 2-bed city hideaway! Elegant interiors, garden views. Steps to cafes & historic spots. A blend of culture & comfort. Book for an unmatched stay!",
     price: 110.00
   },
   {
@@ -76,7 +76,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Sixth Spot",
-    description: "This is the sixth spot",
+    description: "Luxe 2-bed in the city. Chic décor, near cafes & history. Book a unique escape!",
     price: 120.00
   },
   {
@@ -88,7 +88,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Seventh Spot",
-    description: "This is the seventh spot",
+    description: "Discover an urban 2-bedroom masterpiece! Nestled amidst the city's heartbeat, this haven merges sleek design with modern comforts. Gaze upon tranquil garden landscapes from your window, while being a leisurely walk away from trendy cafes, revered landmarks, and vibrant parks. A fusion of city vibrancy and peaceful retreat. Perfect for couples' escapes or cherished family moments. Reserve your unforgettable journey now!",
     price: 180.00
   },
   {
@@ -100,7 +100,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Eighth Spot",
-    description: "This is the eighth spot",
+    description: "Step into a 2-bedroom city dream! This refined retreat, tucked within the city's pulse, boasts elegant touches and state-of-the-art amenities. Wake up to serene garden vistas, and find yourself moments from artisanal coffee shops, storied monuments, and lively green expanses. Mingle tradition with contemporary elegance. Whether a romantic interlude or family bonding, this is your spot. Secure your special sojourn today!",
     price: 250.00
   },
   {
@@ -112,7 +112,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Ninth Spot",
-    description: "This is the ninth spot",
+    description: "Experience city living in a 2-bedroom haven of elegance! Draped in sophisticated décor and equipped with all modern luxuries, it's a slice of paradise amid urban buzz. Revel in calming garden views and find yourself in close proximity to atmospheric cafes, historic gems, and inviting parks. A tasteful merge of local spirit and plush comfort. Ideal for lovebirds or family vacations. Book today for a journey to remember!",
     price: 9999999999.99
   },
   {
@@ -124,7 +124,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Tenth Spot",
-    description: "This is the tenth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 130.00
   },
   {
@@ -136,7 +136,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Eleventh Spot",
-    description: "This is the eleventh spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 180.00
   },
   {
@@ -148,7 +148,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Twelfth Spot",
-    description: "This is the twelfth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 200.00
   },
   {
@@ -160,7 +160,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Thirteenth Spot",
-    description: "This is the thirteenth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 220.00
   },
   {
@@ -172,7 +172,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Fourteenth Spot",
-    description: "This is the fourteenth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 130.00
   },
   {
@@ -184,7 +184,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Fifteenth Spot",
-    description: "This is the fifteenth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 160.00
   },
   {
@@ -196,7 +196,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Sixteenth Spot",
-    description: "This is the sixteenth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 110.00
   },
   {
@@ -208,7 +208,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Seventeenth Spot",
-    description: "This is the seventeenth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 140.00
   },
   {
@@ -220,7 +220,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Eighteenth Spot",
-    description: "This is the eighteenth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 190.00
   },
   {
@@ -232,7 +232,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Nineteenth Spot",
-    description: "This is the nineteenth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 85.00
   },
   {
@@ -244,7 +244,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Twentieth Spot",
-    description: "This is the twentieth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 120.00
   },
   {
@@ -256,7 +256,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Twenty-First Spot",
-    description: "This is the twenty-first spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 120.00
   },
   {
@@ -268,7 +268,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Twenty-Second Spot",
-    description: "This is the twenty-second spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 170.00
   },
   {
@@ -280,7 +280,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Twenty-Third Spot",
-    description: "This is the twenty-third spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 210.00
   },
   {
@@ -292,7 +292,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Twenty-Fourth Spot",
-    description: "This is the twenty-fourth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 75.00
   },
   {
@@ -304,7 +304,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Twenty-Fifth Spot",
-    description: "This is the twenty-fifth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 140.00
   },
   {
@@ -316,7 +316,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Twenty-Sixth Spot",
-    description: "This is the twenty-sixth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 115.00
   },
   {
@@ -328,7 +328,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Twenty-Seventh Spot",
-    description: "This is the twenty-seventh spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 190.00
   },
   {
@@ -340,7 +340,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Twenty-Eighth Spot",
-    description: "This is the twenty-eighth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 230.00
   },
   {
@@ -352,7 +352,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Twenty-Ninth Spot",
-    description: "This is the twenty-ninth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 90.00
   },
   {
@@ -364,7 +364,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Thirtieth Spot",
-    description: "This is the thirtieth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 120.00
   },
   {
@@ -376,7 +376,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Thirty-First Spot",
-    description: "This is the thirty-first spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 190.00
   },
   {
@@ -388,7 +388,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Thirty-Second Spot",
-    description: "This is the thirty-second spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 210.00
   },
   {
@@ -400,7 +400,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Thirty-Third Spot",
-    description: "This is the thirty-third spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 240.00
   },
   {
@@ -412,7 +412,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Thirty-Fourth Spot",
-    description: "This is the thirty-fourth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 110.00
   },
   {
@@ -424,7 +424,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Thirty-Fifth Spot",
-    description: "This is the thirty-fifth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 160.00
   },
   {
@@ -436,7 +436,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Thirty-Sixth Spot",
-    description: "This is the thirty-sixth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 130.00
   },
   {
@@ -448,7 +448,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Thirty-Seventh Spot",
-    description: "This is the thirty-seventh spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 165.00
   },
   {
@@ -460,7 +460,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Thirty-Eighth Spot",
-    description: "This is the thirty-eighth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 215.00
   },
   {
@@ -472,7 +472,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Thirty-Ninth Spot",
-    description: "This is the thirty-ninth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 95.00
   },
   {
@@ -484,7 +484,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Fortieth Spot",
-    description: "This is the fortieth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 125.00
   },
   {
@@ -496,7 +496,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Forty-First Spot",
-    description: "This is the forty-first spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 170.00
   },
   {
@@ -508,7 +508,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Forty-Second Spot",
-    description: "This is the forty-second spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 190.00
   },
   {
@@ -520,7 +520,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Forty-Third Spot",
-    description: "This is the forty-third spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 230.00
   },
   {
@@ -532,7 +532,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Forty-Fourth Spot",
-    description: "This is the forty-fourth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 110.00
   },
   {
@@ -544,7 +544,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Forty-Fifth Spot",
-    description: "This is the forty-fifth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 160.00
   },
   {
@@ -556,7 +556,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Forty-Sixth Spot",
-    description: "This is the forty-sixth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 135.00
   },
   {
@@ -568,7 +568,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Forty-Seventh Spot",
-    description: "This is the forty-seventh spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 180.00
   },
   {
@@ -580,7 +580,7 @@ const data = [
     lat: 40.712776,
     lng: -74.005974,
     name: "Forty-Eighth Spot",
-    description: "This is the forty-eighth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 210.00
   },
   {
@@ -592,7 +592,7 @@ const data = [
     lat: 41.878113,
     lng: -87.629799,
     name: "Forty-Ninth Spot",
-    description: "This is the forty-ninth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 80.00
   },
   {
@@ -604,7 +604,7 @@ const data = [
     lat: 29.760427,
     lng: -95.369804,
     name: "Fiftieth Spot",
-    description: "This is the fiftieth spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 140.00
   },
   {
@@ -616,7 +616,7 @@ const data = [
     lat: 37.7749295,
     lng: -122.4194183,
     name: "Fifty-First Spot",
-    description: "This is the fifty-first spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 185.00
   },
   {
@@ -628,7 +628,7 @@ const data = [
     lat: 34.052235,
     lng: -118.243683,
     name: "Fifty-Second Spot",
-    description: "This is the fifty-second spot",
+    description: "Charming 2-bedroom retreat nestled in the heart of the city! Unwind in a tastefully decorated haven with modern amenities, a serene garden view, and a cozy fireplace. Steps away from local cafes, historic sites, and scenic parks. Experience authentic local living with a touch of luxury. Perfect for romantic getaways or family vacations. Book now for a memorable stay!",
     price: 205.00
   }
 ];

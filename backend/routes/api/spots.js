@@ -404,20 +404,21 @@ router.post('/:spotId/images', multipleMulterUpload("image"), async (req, res) =
 
   let imageUrls;
 
-  console.log('----------------------------------------------------------------------------', req.files)
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ error: "No images provided." });
+  }
 
-  if (req.files && req.files.length === 1) {
+  if (req.files.length === 1) {
     const url = await singleFileUpload({ file: req.files[0], public: true });
     imageUrls = [url];
-  } else if (req.files && req.files.length > 1) {
+  } else if (req.files.length > 1) {
     imageUrls = await multipleFilesUpload({ files: req.files, public: true });
-  } else {
-    return res.status(400).json({ error: "No images provided." });
   }
 
   const images = await Promise.all(imageUrls.map(url => {
     return SpotImage.create({ spotId, url, preview: false });
   }));
+
   const responseData = images.map(img => {
     const { createdAt, updatedAt, spotId: excludedSpotId, ...imageData } = img.dataValues;
     return imageData;

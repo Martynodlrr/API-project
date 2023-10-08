@@ -5,10 +5,6 @@ options.tableName = 'Reviews'
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 };
-
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
     const data = [
       {
         spotId: 3,
@@ -329,6 +325,10 @@ module.exports = {
         stars: 3,
       }
     ];
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
 
 
     await queryInterface.bulkInsert(options, data, { validate: true });

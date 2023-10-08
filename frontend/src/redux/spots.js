@@ -143,14 +143,11 @@ export const updateSpotImages = detailsPayload => async dispatch => {
 export const addImagesToSpot = ({ spotId, imageFiles }) => async dispatch => {
   const newImages = imageFiles.filter(img => img);
   const formData = new FormData();
-  console.log('------------------------------------', imageFiles)
-  console.log('------------------------------------', newImages)
 
   for (const img of newImages) {
-    console.log('===========', img)
       formData.append('image', img.file);
   }
-console.log('------------------------------------', formData)
+  
   try {
       const response = await csrfFetch(`/api/spots/${spotId}/images`, {
           method: 'POST',

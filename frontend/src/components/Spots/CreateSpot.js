@@ -59,7 +59,6 @@ const CreateSpot = () => {
         if (Object.keys(newErrors).length > 0) return;
 
         const imagePayload = images.map(img => {
-            console.log('....................................', img)
             if (img && img.file) return {  file: img.file };
         });
 

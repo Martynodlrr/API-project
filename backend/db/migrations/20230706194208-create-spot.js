@@ -53,7 +53,7 @@ module.exports = {
         allowNull: false
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(300)
       },
       price: {
         type: Sequelize.DECIMAL,

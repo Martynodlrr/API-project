@@ -110,13 +110,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: {
-          args: [30],
-          msg: 'description must be between 30 and 300 degrees.',
-        },
-        max: {
-          args: [300],
-          msg: 'description must be between 30 and 300 degrees.',
+        len: {
+          args: [30, 300],
+          msg: "description must be between 30 and 300 characters long."
         }
       }
     },

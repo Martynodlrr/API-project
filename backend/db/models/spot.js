@@ -107,7 +107,18 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     description: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        min: {
+          args: [30],
+          msg: 'description must be between 30 and 300 degrees.',
+        },
+        max: {
+          args: [300],
+          msg: 'description must be between 30 and 300 degrees.',
+        }
+      }
     },
     price: {
       type: DataTypes.DECIMAL(10, 2),

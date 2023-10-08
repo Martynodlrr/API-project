@@ -107,11 +107,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     description: {
-      type: DataTypes.STRING(300),
+      type: DataTypes.STRING(350),
       allowNull: false,
       validate: {
         len: {
-          args: [30, 300],
+          args: [30, 350],
           msg: "description must be between 30 and 300 characters long."
         }
       }

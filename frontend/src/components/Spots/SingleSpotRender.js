@@ -75,15 +75,11 @@ function SingleSpotRender() {
                     <div id='price-review-reserve'>
                         <div id='price-review'>
                             <p id='price'>${spot.price} a night</p>
-                            {reviews && Object.keys(reviews).length > 1 ? (
-                                <p>
+                            {reviews && Object.keys(reviews).length > 0 ? (
+                                <p style={{ marginRight: '-25px' }}>
                                     <span className="star">&#9733; </span>
-                                    {spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} Reviews
-                                </p>
-                            ) : reviews && Object.keys(reviews).length === 1 ? (
-                                <p>
-                                    <span className="star">&#9733; </span>
-                                    {spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} Reviews
+                                    {spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot;
+                                    {Object.keys(reviews).length} {Object.keys(reviews).length > 1 ? 'Reviews' : 'Review'}
                                 </p>
                             ) : (
                                 <p>
@@ -112,12 +108,12 @@ function SingleSpotRender() {
                     </div>
                 </div>
             </div>
-            <div id='reviewLinebreak' className='lineBreak'></div>
+            <div id='reviewline-break' className='line-break'></div>
             <div id={!spot.numReviews ? 'review-container' : 'reviews-container'}>
                 <ReviewsRender spotId={spotId} />
-            <div id='google-maps-container'>
-                <GoogleMapRender spot={ spot } />
-            </div>
+                <div id='google-maps-container'>
+                    <GoogleMapRender spot={spot} />
+                </div>
             </div>
         </div>
     ) : (

@@ -70,7 +70,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div id='content'>
         <Navigation isLoaded={isLoaded} />
-        <div className='lineBreak'></div>
+        <div className='line-break'></div>
         {isLoaded && <Switch>
           <Route exact path='/'>
             <SpotsRender />

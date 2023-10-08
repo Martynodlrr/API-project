@@ -47,7 +47,6 @@ function ProfileButton({ user }) {
     }, [userSpotsObj]);
 
     const logout = e => {
-        e.preventDefault();
         dispatch(sessionActions.resetUser());
         dispatch(spotActions.thunkResetUserSpots());
         setShowMenu(false);
@@ -69,7 +68,7 @@ function ProfileButton({ user }) {
                         <ul>
                             <li>Hello, {user.firstName}!</li>
                             <li>{user.email}</li>
-                            <div className='lineBreak'></div>
+                            <div className='line-break'></div>
                             <li>
                                 <Button
                                     to='/spots/current'
@@ -80,9 +79,14 @@ function ProfileButton({ user }) {
                                     Manage Spots
                                 </Button>
                             </li>
-                            <div className='lineBreak'></div>
+                            <div className='line-break'></div>
                             <li>
-                                <Button onClick={logout} variant="contained">Log Out</Button>
+                                <Button
+                                    onClick={logout}
+                                    variant="contained"
+                                    style={{ zIndex: 1 }}>
+                                    Log Out
+                                </Button>
                             </li>
                         </ul>
                     ) : (
@@ -92,7 +96,7 @@ function ProfileButton({ user }) {
                                 modalComponent={<LoginFormModal theme={theme} />}
                                 onItemClick={() => setShowMenu(false)}
                                 styleName={'item'}
-                                />
+                            />
                             <OpenModalMenuItem
                                 itemText="Sign Up"
                                 modalComponent={<SignupFormModal theme={theme} />}

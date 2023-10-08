@@ -50,7 +50,7 @@ const CreateSpot = () => {
         return newErrors;
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newErrors = validateForm();
@@ -59,8 +59,8 @@ const CreateSpot = () => {
         if (Object.keys(newErrors).length > 0) return;
 
         const imagePayload = images.map(img => {
-            if (img && img.file) return { file: img.file };
-            return img && { url: img.url };
+            console.log('....................................', img)
+            if (img && img.file) return {  file: img.file };
         });
 
         const detailsPayload = {
@@ -72,8 +72,7 @@ const CreateSpot = () => {
             lng,
             name,
             description,
-            price,
-            images: imagePayload
+            price
         };
 
         dispatch(sessionActions.createSpot(detailsPayload))
@@ -96,10 +95,9 @@ const CreateSpot = () => {
                 } else {
                     if (res.ok) {
                         const { id } = res;
-                        const imageFiles = images.filter(image => image.file);
 
                         dispatch(sessionActions.addImagesToSpot({
-                            imageFiles,
+                            imageFiles: imagePayload,
                             spotId: id
                         }))
                             .then(() => {

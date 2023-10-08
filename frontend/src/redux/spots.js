@@ -77,11 +77,11 @@ export const loadSpots = () => async dispatch => {
     const response = await payload.json();
     const spots = response.spots;
 
-    spots.forEach(spot => {
+    spots && spots.forEach(spot => {
       allSpots[spot.id] = spot;
     });
 
-    if (spots.length !== 20) {
+    if (spots && spots.length !== 20) {
       break;
     }
 
@@ -141,12 +141,16 @@ export const updateSpotImages = detailsPayload => async dispatch => {
 };
 
 export const addImagesToSpot = ({ spotId, imageFiles }) => async dispatch => {
+  const newImages = imageFiles.filter(img => img);
   const formData = new FormData();
+  console.log('------------------------------------', imageFiles)
+  console.log('------------------------------------', newImages)
 
-  imageFiles.forEach((img) => {
-      formData.append('image', img);
-  });
-
+  for (const img of newImages) {
+    console.log('===========', img)
+      formData.append('image', img.file);
+  }
+console.log('------------------------------------', formData)
   try {
       const response = await csrfFetch(`/api/spots/${spotId}/images`, {
           method: 'POST',

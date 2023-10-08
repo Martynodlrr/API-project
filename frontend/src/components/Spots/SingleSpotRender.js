@@ -75,7 +75,12 @@ function SingleSpotRender() {
                     <div id='price-review-reserve'>
                         <div id='price-review'>
                             <p id='price'>${spot.price} a night</p>
-                            {reviews && Object.keys(reviews).length > 0 ? (
+                            {reviews && Object.keys(reviews).length > 1 ? (
+                                <p>
+                                    <span className="star">&#9733; </span>
+                                    {spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} Reviews
+                                </p>
+                            ) : reviews && Object.keys(reviews).length === 1 ? (
                                 <p>
                                     <span className="star">&#9733; </span>
                                     {spot.avgStarRating && renderAvgRating(spot.avgStarRating)} &middot; {Object.keys(reviews).length} Reviews

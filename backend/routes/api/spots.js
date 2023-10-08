@@ -1,14 +1,14 @@
+const { Sequelize } = require('sequelize');
+const { Op } = require('sequelize');
 const express = require('express');
 const router = express.Router();
+
+const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
+const { formatDate } = require('../../utils/helperFunc.js');
 const {
-  singleMulterUpload,
   multipleMulterUpload,
   singleFileUpload,
   multipleFilesUpload  } = require("../../awsS3");
-const { Spot, Review, SpotImage, User, ReviewImage, Booking } = require('../../db/models');
-const { Sequelize } = require('sequelize');
-const { formatDate } = require('../../utils/helperFunc.js');
-const { Op } = require('sequelize');
 
 const transformSpotDataWithoutSpotId = (spots) => {
   const spotData = spots.map(spot => {

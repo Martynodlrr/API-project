@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { SpotImage, Spot } = require('../../db/models');
 
-router.put('/:spotImageId', async (req, res) => {
+const { SpotImage, Spot } = require('../../db/models');
+const {
+    multipleMulterUpload,
+    singleFileUpload  } = require("../../awsS3");
+
+router.put('/:spotImageId', multipleMulterUpload("image"), async (req, res) => {
     const { spotImageId } = req.params;
-    const { user, url } = req;
+    const { user } = req;
 
     if (!user) {
         return res.status(401).json({ "message": "Authentication required" });
@@ -16,11 +20,13 @@ router.put('/:spotImageId', async (req, res) => {
         return res.status(404).json({ "message": "Spot Image couldn't be found" });
     }
 
-    if (!url) {
-        return res.status(400).json({ "message": "No URL provided" });
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ "message": "No images provided" });
     }
 
-    spotImage.url = url;
+    const updatedUrl = await singleFileUpload({ file: req.files[0], public: true });
+
+    spotImage.url = updatedUrl;
 
     try {
         await spotImage.save();

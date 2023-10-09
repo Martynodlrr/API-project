@@ -1,22 +1,27 @@
 import { Switch, Route, useLocation } from "react-router-dom";
-import * as sessionActions from "./redux/session.js";
 import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import ReactGA from 'react-ga';
 
+import RouteChangeTracker from "./components/RouteChangeTracker/index.js";
 import SingleSpotRender from './components/Spots/SingleSpotRender.js';
-import UserSpotsRender from "./components/Spots/UserSpotsRender.js";
 import StackRender from "./components/StackAndTechnologies/index.js";
+import UserSpotsRender from "./components/Spots/UserSpotsRender.js";
 import SpotsRender from './components/Spots/SpotsRender.js';
 import Navigation from "./components/Navagation/index.js";
 import CreateSpot from "./components/Spots/CreateSpot.js";
 import UpdateSpot from "./components/Spots/UpdateSpot.js";
+import * as sessionActions from "./redux/session.js";
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+const TRACKING_ID = "G-EHNGTKG327";
+ReactGA.initialize(TRACKING_ID);
 
 function App() {
   const dispatch = useDispatch();
@@ -27,9 +32,6 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
-  useEffect(() => {
-    ReactGA.pageview(location.pathname + location.search);
-  }, [location]);
 
   const theme = createTheme({
     palette: {
@@ -74,6 +76,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <RouteChangeTracker />
       <div id='content'>
         <Navigation isLoaded={isLoaded} />
         <div className='line-break'></div>

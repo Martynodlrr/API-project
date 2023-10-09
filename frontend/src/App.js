@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ReactGA from 'react-ga';
 
-import RouteChangeTracker from "./components/RouteChangeTracker/index.js";
+import RouteChangeTracker from "./components/RouteChangeTracker/RouteChangeTracker.js";
 import SingleSpotRender from './components/Spots/SingleSpotRender.js';
 import StackRender from "./components/StackAndTechnologies/index.js";
 import UserSpotsRender from "./components/Spots/UserSpotsRender.js";

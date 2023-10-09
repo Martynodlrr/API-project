@@ -18,7 +18,7 @@ import Navigation from "./components/Navagation/index.js";
 import CreateSpot from "./components/Spots/CreateSpot.js";
 import UpdateSpot from "./components/Spots/UpdateSpot.js";
 
-ReactGA.initialize('G-XRK0MCEZZS');
+ReactGA.initialize('G-EHNGTKG327');
 
 function App() {
   const dispatch = useDispatch();

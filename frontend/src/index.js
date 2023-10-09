@@ -13,7 +13,7 @@ import App from "./App";
 import "./index.css";
 
 const store = configureStore();
-ReactGA.initialize('G-XRK0MCEZZS');
+ReactGA.initialize('G-EHNGTKG327');
 
 if (process.env.NODE_ENV !== "production") {
   restoreCSRF();

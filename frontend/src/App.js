@@ -8,6 +8,10 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import ReactGA from 'react-ga';
+
+const TRACKING_ID = "G-XRK0MCEZZS";
+ReactGA.initialize(TRACKING_ID);
 
 import SingleSpotRender from './components/Spots/SingleSpotRender.js';
 import UserSpotsRender from "./components/Spots/UserSpotsRender.js";

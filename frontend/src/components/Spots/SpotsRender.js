@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@mui/material/IconButton';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import ReactGA from 'react-ga';
 
 import { renderAvgRating } from '../../HelperFuncs.js';
 import * as spotActions from '../../redux/spots';
@@ -33,6 +34,10 @@ function SpotsRender() {
     dispatch(spotActions.loadSpots());
     dispatch(spotActions.fetchUserSpots());
   }, [dispatch]);
+
+  useEffect(() => {
+    ReactGA.pageview(`/spots?page=${currentPage}`);
+  }, []);
 
   return (
     <div className='spots-container'>

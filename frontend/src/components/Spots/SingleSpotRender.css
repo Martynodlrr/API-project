@@ -30,6 +30,8 @@
 
 #description {
   max-width: 500px;
+  word-break: break-all;
+  white-space: normal;
 }
 
 #spot-info {

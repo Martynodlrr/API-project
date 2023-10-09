@@ -20,7 +20,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-const TRACKING_ID = "G-EHNGTKG327";
+const TRACKING_ID = "UA-288524155-3";
 ReactGA.initialize(TRACKING_ID);
 
 function App() {

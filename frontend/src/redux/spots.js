@@ -185,7 +185,6 @@ export const createSpot = spot => async dispatch => {
     return { ...response, ok: true };
   };
 
-  console.log(response)
   return response;
 };
 

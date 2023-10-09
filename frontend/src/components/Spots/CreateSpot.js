@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
+import ReactGA from 'react-ga';
 
 import InputFileUpload from '../InputFileUpload/InputFileUpload.js';
 import * as sessionActions from "../../redux/spots.js";
@@ -52,6 +53,11 @@ const CreateSpot = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        ReactGA.event({
+            category: 'User',
+            action: 'Created a Spot'
+        });
 
         const newErrors = validateForm();
         setErrors(newErrors);
@@ -114,6 +120,10 @@ const CreateSpot = () => {
             setErrors(newErrors);
         }
     }, [isSubmitted, address, city, state, country, lat, lng, name, description, price, previewImg]);
+
+    useEffect(() => {
+        ReactGA.pageview(window.location.pathname);
+    }, []);
 
     const updatePreviewImage = e => {
         const file = e.target.files[0];

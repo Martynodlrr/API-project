@@ -1,14 +1,15 @@
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
+import ReactGA from 'react-ga';
 
 import * as sessionActions from "../../redux/reviews.js";
-import * as spotActions from '../../redux/spots.js';
 import { useModal } from "../Modal/context/Modal.js";
+import * as spotActions from '../../redux/spots.js';
 
 const CreateReview = ({ spotId, theme }) => {
     const dispatch = useDispatch();
@@ -28,6 +29,11 @@ const CreateReview = ({ spotId, theme }) => {
 
     const handleSubmit = async e => {
         e.preventDefault();
+
+        ReactGA.event({
+            category: 'Review',
+            action: 'Submitted a review',
+        });
 
         const newErrors = validateForm();
         setErrors(newErrors);

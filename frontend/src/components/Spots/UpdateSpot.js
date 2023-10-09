@@ -4,6 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
+import ReactGA from 'react-ga';
 
 import InputFileUpload from '../InputFileUpload/InputFileUpload.js';
 import { useModal } from '../Modal/context/Modal.js';
@@ -77,6 +78,11 @@ const UpdateSpot = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
+
+        ReactGA.event({
+            category: 'Spot',
+            action: 'Updated a spot'
+        });
 
         // Validate form
         const newErrors = validateForm();

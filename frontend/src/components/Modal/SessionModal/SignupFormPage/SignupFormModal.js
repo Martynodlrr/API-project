@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useDispatch } from "react-redux";
 import { useState } from "react";
+import ReactGa from 'react-ga';
 
 import * as sessionActions from "../../../../redux/session.js";
 
@@ -19,6 +20,12 @@ function SignupFormModal({ theme }) {
 
   const handleSubmit = e => {
     e.preventDefault();
+
+    ReactGa.event({
+      category: 'User',
+      action: 'Signed up',
+    });
+
     setErrors({});
 
     if (password === confirmPassword) {

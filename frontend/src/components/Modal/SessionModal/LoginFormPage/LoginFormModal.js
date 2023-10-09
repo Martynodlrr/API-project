@@ -2,6 +2,7 @@ import TextField from '@mui/material/TextField';
 import { useDispatch } from "react-redux";
 import Button from '@mui/material/Button';
 import { useState } from "react";
+import ReactGa from 'react-ga';
 
 import * as sessionActions from '../../../../redux/session.js';
 import * as spotActions from '../../../../redux/spots.js';
@@ -18,19 +19,30 @@ function LoginFormModal({ theme }) {
 
   const handleSubmit = e => {
     e.preventDefault();
+
+    ReactGa.event({
+      category: 'User',
+      action: 'Logged in',
+    });
+
     setErrors({});
 
     return dispatch(sessionActions.login({ credential, password }))
-      .then(res => {
-        if (res.user) {
-          dispatch(spotActions.fetchUserSpots());
-          closeModal();
-        }
-        setErrors(res);
-      });
+    .then(res => {
+      if (res.user) {
+        dispatch(spotActions.fetchUserSpots());
+        closeModal();
+      }
+      setErrors(res);
+    });
   };
 
   const signInDemo = () => {
+    ReactGa.event({
+      category: 'User',
+      action: 'Logged in as demo user',
+    });
+
     dispatch(sessionActions.login({
       "credential": "demo@user.io",
       "password": "password"

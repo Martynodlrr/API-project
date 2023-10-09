@@ -147,7 +147,7 @@ export const addImagesToSpot = ({ spotId, imageFiles }) => async dispatch => {
   for (const img of newImages) {
       formData.append('image', img.file);
   }
-  
+
   try {
       const response = await csrfFetch(`/api/spots/${spotId}/images`, {
           method: 'POST',
@@ -184,7 +184,8 @@ export const createSpot = spot => async dispatch => {
     dispatch(createSingleSpot(response));
     return { ...response, ok: true };
   };
-
+  console.log(payload)
+  console.log(response)
   return response;
 };
 

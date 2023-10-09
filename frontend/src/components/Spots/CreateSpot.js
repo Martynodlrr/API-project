@@ -55,7 +55,7 @@ const CreateSpot = () => {
         e.preventDefault();
 
         ReactGA.event({
-            category: 'User',
+            category: 'Spot',
             action: 'Created a Spot'
         });
 

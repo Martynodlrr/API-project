@@ -34,7 +34,7 @@ function SingleSpotRender() {
 
     useEffect(() => {
         ReactGA.pageview(`/spots/${spotId}`);
-    }, []);
+    }, [spotId]);
 
     if (spot && spot.id !== parseInt(spotId)) return null;
 

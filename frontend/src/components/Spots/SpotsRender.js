@@ -37,7 +37,7 @@ function SpotsRender() {
 
   useEffect(() => {
     ReactGA.pageview(`/spots?page=${currentPage}`);
-  }, []);
+  }, [currentPage]);
 
   return (
     <div className='spots-container'>

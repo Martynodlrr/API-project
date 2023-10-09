@@ -18,8 +18,7 @@ import Navigation from "./components/Navagation/index.js";
 import CreateSpot from "./components/Spots/CreateSpot.js";
 import UpdateSpot from "./components/Spots/UpdateSpot.js";
 
-const TRACKING_ID = "G-XRK0MCEZZS";
-ReactGA.initialize(TRACKING_ID);
+ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
 
 function App() {
   const dispatch = useDispatch();

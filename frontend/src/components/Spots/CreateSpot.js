@@ -121,10 +121,6 @@ const CreateSpot = () => {
         }
     }, [isSubmitted, address, city, state, country, lat, lng, name, description, price, previewImg]);
 
-    useEffect(() => {
-        ReactGA.pageview(window.location.pathname);
-    }, []);
-
     const updatePreviewImage = e => {
         const file = e.target.files[0];
         if (file) {

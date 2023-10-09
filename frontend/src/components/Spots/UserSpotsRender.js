@@ -5,7 +5,6 @@ import { useTheme } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import React, { useEffect } from 'react';
-import ReactGA from 'react-ga';
 
 import { useModal } from '../Modal/context/Modal.js';
 import ConfirmationDeleteModal from '../Modal/DeletionModal/ConfirmationDeleteModal.js';
@@ -34,10 +33,6 @@ function UserSpotsRender() {
   useEffect(() => {
     dispatch(spotActions.fetchUserSpots());
   }, [dispatch]);
-
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname)
-  }, []);
 
   if (!sessionUser) history.push('/');
 

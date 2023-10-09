@@ -1,7 +1,7 @@
+import { Switch, Route, useLocation } from "react-router-dom";
 import * as sessionActions from "./redux/session.js";
 import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
-import { Switch, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import '@fontsource/roboto/300.css';
@@ -18,15 +18,18 @@ import Navigation from "./components/Navagation/index.js";
 import CreateSpot from "./components/Spots/CreateSpot.js";
 import UpdateSpot from "./components/Spots/UpdateSpot.js";
 
-ReactGA.initialize('G-EHNGTKG327');
-
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
+
+  useEffect(() => {
+    ReactGA.pageview(location.pathname + location.search);
+  }, [location]);
 
   const theme = createTheme({
     palette: {

@@ -8,7 +8,6 @@ import { useTheme } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
-import ReactGA from 'react-ga';
 
 import GoogleMapRender from '../GoogleMapsRender/index.js'
 import { renderAvgRating } from '../../HelperFuncs.js';
@@ -31,10 +30,6 @@ function SingleSpotRender() {
     useEffect(() => {
         dispatch(spotActions.fetchSingleSpot(spotId));
     }, [dispatch, spotId]);
-
-    useEffect(() => {
-        ReactGA.pageview(`/spots/${spotId}`);
-    }, [spotId]);
 
     if (spot && spot.id !== parseInt(spotId)) return null;
 

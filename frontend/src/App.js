@@ -10,9 +10,6 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import ReactGA from 'react-ga';
 
-const TRACKING_ID = "G-XRK0MCEZZS";
-ReactGA.initialize(TRACKING_ID);
-
 import SingleSpotRender from './components/Spots/SingleSpotRender.js';
 import UserSpotsRender from "./components/Spots/UserSpotsRender.js";
 import StackRender from "./components/StackAndTechnologies/index.js";
@@ -20,6 +17,9 @@ import SpotsRender from './components/Spots/SpotsRender.js';
 import Navigation from "./components/Navagation/index.js";
 import CreateSpot from "./components/Spots/CreateSpot.js";
 import UpdateSpot from "./components/Spots/UpdateSpot.js";
+
+const TRACKING_ID = "G-XRK0MCEZZS";
+ReactGA.initialize(TRACKING_ID);
 
 function App() {
   const dispatch = useDispatch();

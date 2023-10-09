@@ -184,6 +184,8 @@ export const createSpot = spot => async dispatch => {
     dispatch(createSingleSpot(response));
     return { ...response, ok: true };
   };
+
+  console.log(response)
   return response;
 };
 

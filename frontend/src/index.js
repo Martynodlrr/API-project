@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
+import ReactGA from 'react-ga';
 import React from "react";
 
 import { ModalProvider, Modal } from './components/Modal/context/Modal.js';
@@ -12,6 +13,7 @@ import App from "./App";
 import "./index.css";
 
 const store = configureStore();
+ReactGA.initialize('G-XRK0MCEZZS');
 
 if (process.env.NODE_ENV !== "production") {
   restoreCSRF();

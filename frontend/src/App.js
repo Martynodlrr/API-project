@@ -8,6 +8,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import ReactGA from 'react-ga';
 
 import SingleSpotRender from './components/Spots/SingleSpotRender.js';
 import UserSpotsRender from "./components/Spots/UserSpotsRender.js";
@@ -16,6 +17,8 @@ import SpotsRender from './components/Spots/SpotsRender.js';
 import Navigation from "./components/Navagation/index.js";
 import CreateSpot from "./components/Spots/CreateSpot.js";
 import UpdateSpot from "./components/Spots/UpdateSpot.js";
+
+ReactGA.initialize('G-XRK0MCEZZS');
 
 function App() {
   const dispatch = useDispatch();
